@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /**
+         * Js的设计模式
+         */
+        // 工厂模式
+        // 发布订阅模式
+        // 单例模式
+        /**
+         * Promise
+         */
+        // class MyPromise {
+        //     constructor () {}
+        //     then () {}
+        //     catch () {}
+        //     finally () {}
+        //     static all () {}
+        //     static race () {}
+        // }
+        // const promise2 = new MyPromise((resovle, reject) => {
+        //     setTimeout(() => {
+        //         resovle(2000)
+        //     }, 1000);
+        // })
+        // const promise1 = new MyPromise((resovle, reject) => {
+        //     setTimeout(() => {
+        //         resovle(1000)
+        //     }, 1000);
+        // })
+        // MyPromise.all(promise2, promise1).then(res => {
+        //     console.log(res)
+        // })
+        // MyPromise.race(promise2, promise1).then(res => {
+        //     console.log(res)
+        // })
+        /**
+         * 节流
+         */
+        // function throttle (fn, wait = 0) {}
+        /**
+         * 防抖
+         */
+        var timeId = null
+        function debounce (fn, wait = 0) {
+            if (timeId) {
+                clearTimeout(timeId)
+            }
+            timeId = setTimeout(() => {
+                return fn
+            }, wait)
+        }
+        const doSomething = debounce(() => {
+            console.log('执行了')
+        }, 5000)
+        const id = setInterval(() => {
+            doSomething()
+        }, 1000)
+    </script>
+</body>
+</html>
