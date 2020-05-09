@@ -6,10 +6,59 @@
     <title>Document</title>
 </head>
 <body>
-    <script src="./js/class.js"></script>
+    <!-- <script src="./js/class.js"></script>
     <script src="./js/promise.js"></script>
-    <script src="./js/util.js"></script>
+    <script src="./js/util.js"></script> -->
+    <script src="./js/leetCode.js"></script>
     <script>
+        // 洗牌算法
+        // function getTarget (arr, target) {
+        //     for (let i = 0; i < arr.length; i++) {
+        //         for (let j = i; j < arr.length; j++) {
+        //             if ((arr[i] + arr[j]) === target) {
+        //                 return [i, j]
+        //             }
+        //         }
+        //     }
+        // }
+        // console.log(getTarget([2,7,13,15], 9))
+        // function sortFn (arr, k) {
+        //     const res = arr.sort((a,b) => {
+        //         return b - a
+        //     })
+        //     return res[k-1]
+        // }
+        // console.log(sortFn([3,2,3,1,2,4,5,5,6], 4))
+        // 现给定任意正整数 n，请寻找并输出最小的正整数 m（m>9），
+        // 使得 m 的各位（个位、十位、百位 ... ...）之乘积等于n，若不存在则输出 -1。
+        function solution( n ) {
+            // for (let i = 9; i <= 10 ** `${n}`.length; i++ ){
+            //     if (getSum(i) === n) {
+            //         return i
+            //     }
+            // } 
+            // function getSum (x) {
+            //     let res = 1
+            //     var arr = `${x}`.split('')
+            //     for(let i = 0; i < arr.length; i++ ) {
+            //         res *= arr[i]
+            //     }
+            //     return res
+            // }
+            // return -1
+            // 求所有积为n的数组
+            // for (let i = 1; i < n; i++) {
+            //     if (n % i)
+            // }
+            // function getAllChild (x) {
+            //     const arr = []
+            //     for (let i = 2; i < x; i++) {
+            //         if (x % i === 0) {
+            //             arr.push(i)
+            //         }
+            //     }
+            // }
+        }
     </script>
 </body>
 </html>
