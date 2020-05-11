@@ -21,15 +21,21 @@ var twoSum = function(nums, target) {
             }
         }
     }
+    // let res = {}
+    // for (let i = 0; i < nums.length; i++) { // 每个人登记自己想要配对的人，让主持人记住
+    //     res[target - nums[i]] = nums[i]
+    // }
+    // for (let j = 0; j < nums.length; j++) { // 每个人再次报数的时候，主持人看一下名单里有没有他
+    //     if (res[nums[j]] !== undefined) {
+    //         return [nums[j], res[nums[j]]]
+    //     }
+    // }
 };
-
-// 给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。
-
+twoSum([2,7,11,15], 9)
+// 给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，
+// 并且它们的每个节点只能存储 一位 数字。
 // 如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。
-
 // 您可以假设除了数字 0 之外，这两个数都不会以 0 开头。
-
-// 示例：
 
 // 输入：(2 -> 4 -> 3) + (5 -> 6 -> 4)
 // 输出：7 -> 0 -> 8
@@ -250,3 +256,47 @@ var longestCommonPrefix = function(strs) {
 //   [-1, 0, 1],
 //   [-1, -1, 2]
 // ]
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var threeSum = function(nums) {
+    if (nums.length < 3) return []
+    if (nums.length === 3 ) {
+        const res = nums.reduce((total, cur) => {
+            return total + cur
+        }, 0)
+        if (res === 0) {
+            return [nums]
+        } else {
+            return []
+        }
+    }
+    const res = []
+    for (let i = 0; i < nums.length; i++) {
+        for (let j = i + 1; j < nums.length; j++) {
+            for (let z = i + 2; z < nums.length; z++ ) {
+                if ((nums[i] + nums[j] + nums[z]) === 0) {
+                    res.push([nums[i], nums[j], nums[z]])
+                }
+            }
+        }
+    }
+    for (let i = 0; i < res.length; i++) {}
+    return res
+};
+
+console.log(threeSum([-1, 0, 1, 2, -1, -4]))
+// 给定一个包括 n 个整数的数组 nums 和 一个目标值 target。找出 nums 中的三个整数，使得它们的和与 target 最接近。返回这三个数的和。假定每组输入只存在唯一答案。
+
+// 例如，给定数组 nums = [-1，2，1，-4], 和 target = 1.
+
+// 与 target 最接近的三个数的和为 2. (-1 + 2 + 1 = 2).
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+var threeSumClosest = function(nums, target) {
+
+};
