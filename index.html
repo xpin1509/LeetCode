@@ -67,8 +67,14 @@
         // 1 块钱可以买 3 个桃子吃，吃完后 3 个桃核可以换 1 个桃子，请问 135142857 元可以最多吃到多少个桃子。
         function getpeach (m) {
             let peach = m * 3
-            let peachCore = 0
-            return null
+            let peachCore = m * 3
+            while (peachCore > 2) {
+                const newpeach = parseInt(peachCore/3)
+                peach += newpeach
+                peachCore -= newpeach * 3
+                peachCore += newpeach
+            }
+            return peach
         }
         // getpeach(1) === 4
         // getpeach(2) === 3 + 3 + 2 === 8
