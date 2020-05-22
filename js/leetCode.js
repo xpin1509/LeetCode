@@ -740,3 +740,231 @@ var countAndSay = function(n) {
     }
     return arr[n - 1]
 };
+
+// 67. 二进制求和
+// 给你两个二进制字符串，返回它们的和（用二进制表示）。
+// 输入为 非空 字符串且只包含数字 1 和 0。
+
+// 输入: a = "11", b = "1"
+// 输出: "100"
+
+// 输入: a = "1010", b = "1011"
+// 输出: "10101"
+//  
+
+// 每个字符串仅由字符 '0' 或 '1' 组成。
+// 1 <= a.length, b.length <= 10^4
+// 字符串如果不是 "0" ，就都不含前导零。
+/**
+ * @param {string} a
+ * @param {string} b
+ * @return {string}
+ */
+var addBinary = function(a, b) {
+    /**
+     * 小数据可相加
+     */
+    // a = parseInt(a, 2)
+    // b = parseInt(b, 2)
+    // const res = a + b
+    // return res.toString(2)
+    if (a == '0' && b == '0') return '0'
+    const aList = a.split('')
+    const bList = b.split('')
+    let temp = ''
+    const resList = []
+    while(aList.length || bList.length) {
+        const res = add(aList.pop(), bList.pop(), temp)
+        temp = res.split(',')[1]
+        resList.unshift(res.split(',')[0])
+    }
+    if (temp == '1') {
+        resList.unshift(temp)
+    }
+    return resList.join('')
+    /**
+     * 二进制相加
+     * @param {*} str1 numStr
+     * @param {*} str2 numStr
+     * @return {String} res, isUp
+     */
+    function add (str1, str2, str3) {
+        const temp = parseInt(str1||0) + parseInt(str2||0) + parseInt(str3||0)
+        let res = ''
+        switch(temp){
+            case 0:
+                res = '0,0'
+                break
+            case 1:
+                res = '1,0'
+                break
+            case 2:
+                res = '0,1'
+                break
+            case 3:
+                res = '1,1'
+                break
+        }
+        return res
+    }
+};
+// 69.实现 int sqrt(int x) 函数。
+
+// 计算并返回 x 的平方根，其中 x 是非负整数。
+
+// 由于返回类型是整数，结果只保留整数的部分，小数部分将被舍去。
+
+// 输入: 4
+// 输出: 2
+
+// 输入: 8
+// 输出: 2
+// 说明: 8 的平方根是 2.82842..., 
+//      由于返回类型是整数，小数部分将被舍去。
+/**
+ * @param {number} x
+ * @return {number}
+ */
+var mySqrt = function(x) {
+    let temp = 0
+    for (let i = 1; i <= x; i++) {
+        if (i * i < x) {
+            temp = i
+        } else if ( i * i == x) {
+            return i
+        } else {
+            break
+        }
+    }
+    return temp
+};
+// 70假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
+// 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？
+// 注意：给定 n 是一个正整数。
+
+// 输入： 2
+// 输出： 2
+// 解释： 有两种方法可以爬到楼顶。
+// 1.  1 阶 + 1 阶
+// 2.  2 阶
+
+// 输入： 3
+// 输出： 3
+// 解释： 有三种方法可以爬到楼顶。
+// 1.  1 阶 + 1 阶 + 1 阶
+// 2.  1 阶 + 2 阶
+// 3.  2 阶 + 1 阶
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var climbStairs = function(n) {
+    climbStairs(n-1)
+};
+
+// 83. 删除排序链表中的重复元素
+// 给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次。
+
+// 示例 1:
+
+// 输入: 1->1->2
+// 输出: 1->2
+// 示例 2:
+
+// 输入: 1->1->2->3->3
+// 输出: 1->2->3
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var deleteDuplicates = function(head) {
+
+};
+// 88. 合并两个有序数组
+// 给你两个有序整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。
+
+// 说明:
+// 初始化 nums1 和 nums2 的元素数量分别为 m 和 n 。
+// 你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。
+
+// 输入:
+// nums1 = [1,2,3,0,0,0], m = 3
+// nums2 = [2,5,6],       n = 3
+
+// 输出: [1,2,2,3,5,6]
+/**
+ * @param {number[]} nums1
+ * @param {number} m
+ * @param {number[]} nums2
+ * @param {number} n
+ * @return {void} Do not return anything, modify nums1 in-place instead.
+ */
+var merge = function(nums1, m, nums2, n) {
+    nums1.splice(m, nums1.length - m)
+    nums2.slice(0, n).forEach(el => {
+        nums1.push(el)
+    })
+    for (let i = 0; i < nums1.length; i ++) {
+        for (let j = i + 1; j < nums1.length; j ++) {
+            if (nums1[j] < nums1[i]) {
+                let temp = nums1[i] 
+                nums1[i] = nums1[j]
+                nums1[j] = temp
+            }
+        }
+    }
+};
+// 100. 相同的树
+// 给定两个二叉树，编写一个函数来检验它们是否相同。
+
+// 如果两个树在结构上相同，并且节点具有相同的值，则认为它们是相同的。
+
+// 示例 1:
+
+// 输入:       1         1
+//           / \       / \
+//          2   3     2   3
+
+//         [1,2,3],   [1,2,3]
+
+// 输出: true
+// 示例 2:
+
+// 输入:      1          1
+//           /           \
+//          2             2
+
+//         [1,2],     [1,null,2]
+
+// 输出: false
+// 示例 3:
+
+// 输入:       1         1
+//           / \       / \
+//          2   1     1   2
+
+//         [1,2,1],   [1,1,2]
+
+// 输出: false
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} p
+ * @param {TreeNode} q
+ * @return {boolean}
+ */
+var isSameTree = function(p, q) {
+
+};
