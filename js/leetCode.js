@@ -859,8 +859,15 @@ var mySqrt = function(x) {
  * @return {number}
  */
 var climbStairs = function(n) {
-    climbStairs(n-1)
+    // if (n < 3) return n
+    // return climbStairs(n-1) + climbStairs(n - 2)
+    const arr = [1, 2]
+    for (let i = 3; i <= n; i++) {
+        arr.push(arr[i-2] + arr[i-3])
+    }
+    return arr[n-1]
 };
+
 
 // 83. 删除排序链表中的重复元素
 // 给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次。
@@ -967,4 +974,92 @@ var merge = function(nums1, m, nums2, n) {
  */
 var isSameTree = function(p, q) {
 
+};
+// 给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+
+// 示例:
+// 输入: [-2,1,-3,4,-1,2,1,-5,4],
+// 输出: 6
+// 解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maxSubArray = function(nums) {
+    let maxofAll = nums[0]
+    if (nums.length < 2) return maxofAll
+    for (let i = 0; i < nums.length; i++) {
+        let linemaxNum = nums[i]
+        let total = 0
+        for (let j = i; j < nums.length; j++) {
+            total += nums[j]
+            // if (nums[j] < 0) continue
+            linemaxNum = total > linemaxNum ? total : linemaxNum
+        }
+        maxofAll = maxofAll > linemaxNum ? maxofAll : linemaxNum
+    }
+    return maxofAll
+};
+
+// 给定一个仅包含大小写字母和空格 ' ' 的字符串 s，返回其最后一个单词的长度。
+// 如果字符串从左向右滚动显示，那么最后一个单词就是最后出现的单词。
+// 如果不存在最后一个单词，请返回 0 。
+// 说明：一个单词是指仅由字母组成、不包含任何空格字符的 最大子字符串。
+
+// 输入: "Hello World"
+// 输出: 5
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var lengthOfLastWord = function(s) {
+    let arr = s.split(' ')
+    arr = arr.filter(el => !!el)
+    if (!arr.length) return 0
+    return arr.pop().length
+};
+
+// 给定一个由整数组成的非空数组所表示的非负整数，在该数的基础上加一。
+
+// 最高位数字存放在数组的首位， 数组中每个元素只存储单个数字。
+
+// 你可以假设除了整数 0 之外，这个整数不会以零开头。
+
+// 输入: [1,2,3]
+// 输出: [1,2,4]
+// 解释: 输入数组表示数字 123。
+
+// 输入: [4,3,2,1]
+// 输出: [4,3,2,2]
+// 解释: 输入数组表示数字 4321。
+/**
+ * @param {number[]} digits
+ * @return {number[]}
+ */
+var plusOne = function(digits) {
+    // 超长数据失真
+    // const dig = parseInt(digits.join('')) + 1
+    // debugger
+    // return `${dig}`.split('').map(el => {
+    //     return parseInt(el)
+    // })
+    const res = []
+    let temp = 1
+    while(digits.length) {
+        const cur = digits.pop()
+        let newval = 0
+        if (cur + temp >= 10) {
+            newval = cur + temp - 10
+            temp = 1
+        } else {
+            
+            newval = cur + temp
+            temp = 0
+        }
+        res.unshift(newval)
+    }
+    if (temp) {
+        res.unshift(temp)
+    }
+    return res
 };
