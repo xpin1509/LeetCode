@@ -892,7 +892,7 @@ var climbStairs = function(n) {
  * @return {ListNode}
  */
 var deleteDuplicates = function(head) {
-    const cur = head
+    let cur = head
     while (cur && cur.next) {
         if (cur.next.val === cur.val) {
             cur.next = cur.next.next
