@@ -161,6 +161,11 @@ var maxArea = function(height) {
  * @return {string}
  */
 var intToRoman = function(num) {
+    /**
+     * 解题思路
+     * 先特殊
+     * 否则用常规数据表示，最大数开始匹配
+     */
     const arr = `${num}`.split('').reverse()
     const res = []
     const nomallMap = {
@@ -181,11 +186,12 @@ var intToRoman = function(num) {
         900: 'CM'
     }
     const level = ['I', 'X', 'C', 'M']
+    const five = ['V', 'L', 'D']
     for (let i = 0; i < arr.length; i++) {
         const temp = parseInt(arr[i])
         const left = 10 ** i
-        if (specialMap[temp * left] || nomallMap[temp * left]) {
-            res.unshift(specialMap[temp * left] || nomallMap[temp * left])
+        if (specialMap[temp * left]) {
+            res.unshift(specialMap[temp * left])
         }
         if (temp > 1 && temp < 4) {
             let newTemp = temp
@@ -195,7 +201,16 @@ var intToRoman = function(num) {
             }
         }
         if (temp > 5 && temp < 9) {
-            let number = 'V'
+            let number = five[left]
+            if (temp * left > 5) {
+                number = 'V'
+            }
+            if (temp * left > 50) {
+                number = 'L'
+            }
+            if (temp * left > 500) {
+                number = 'D'
+            }
             let newTemp = temp
             while (newTemp > 5) {
                 number += level[i]
@@ -206,4 +221,3 @@ var intToRoman = function(num) {
     }
     return res.join('')
 };
-console.log(intToRoman(1994))
