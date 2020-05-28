@@ -321,5 +321,31 @@ var letterCombinations = function(digits) {
  * @return {number[][]}
  */
 var fourSum = function(nums, target) {
-
+    const res = []
+    nums = nums.sort((a,b) => a - b)
+    for (let i = 0; i < nums.length; i++) {
+        for (let j = i + 1; j < nums.length - 2; j++) {
+            let L = j + 1
+            let R = nums.length - 1
+            if ((nums[i] + nums[j]) > 0) break
+            while (L < R) {
+                const sum =  (nums[i] + nums[j] + nums[L] + nums[R]) - target
+                if (sum === 0) {
+                    res.push([nums[i], nums[j], nums[L], nums[R]])
+                    R --
+                    L ++
+                }
+                if ((L + 1) < R && nums[L] === nums[L + 1]) L ++
+                if ((R - 1) > L && nums[R] === nums[R - 1]) R --
+                if (sum > 0) {
+                    R --
+                }
+                if (sum < 0) {
+                    L ++
+                }
+            }
+        }
+    }
+    return res
 };
+console.log(fourSum([-3,-2,-1,0,0,1,2,3], 0))
