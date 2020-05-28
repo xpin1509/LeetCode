@@ -221,3 +221,105 @@ var intToRoman = function(num) {
     }
     return res.join('')
 };
+
+// 给定一个包括 n 个整数的数组 nums 和 一个目标值 target。找出 nums 中的三个整数，使得它们的和与 target 最接近。
+// 返回这三个数的和。假定每组输入只存在唯一答案。
+
+// 例如，给定数组 nums = [-1，2，1，-4], 和 target = 1.
+
+// 与 target 最接近的三个数的和为 2. (-1 + 2 + 1 = 2).
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+var threeSumClosest = function(nums, target) {
+    if (nums.length < 4) return nums.reduce((total, cur) => total + cur, 0)
+    nums = nums.sort((a, b) => a - b)
+    let minTotal = nums.slice(0, 3).reduce((total, cur) => total + cur, 0)
+    let min = Math.abs(target - minTotal)
+    for (let i = 0; i < nums.length; i++) {
+        let R = nums.length - 1
+        let L = i + 1
+        while(L < R) {
+            const total = (nums[i] + nums[L] + nums[R])
+            // Math.abs(target - total)
+            if (total > target) {
+                if (min > Math.abs(total - target)) {
+                    min = Math.abs(total - target)
+                    minTotal = total
+                }
+                R--
+            } else if (total < target) {
+                if (min > Math.abs(total - target)) {
+                    min = Math.abs(total - target)
+                    minTotal = total
+                }
+                L++
+            } else {
+                return total
+            }
+        }
+    }
+    return minTotal
+};
+// 给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。
+
+// 给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。
+
+// 输入："23"
+// 输出：["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
+/**
+ * @param {string} digits
+ * @return {string[]}
+ */
+var letterCombinations = function(digits) {
+    if (!digits) return []
+    const numberMap = {
+        2: 'abc',
+        3: 'def',
+        4: 'ghi',
+        5: 'jkl',
+        6: 'mno',
+        7: 'pqrs',
+        8: 'tuv',
+        9: 'wxyz'
+    }
+    const arr = digits.split('')
+    let res = numberMap[arr[0]].split('')
+    for (let i = 1; i < arr.length; i ++) {
+        const cur =  numberMap[arr[i]].split('')
+        const temp = []
+        while(cur.length) {
+            const char = cur.pop()
+            for (let j = 0; j < res.length; j++) {
+                const lastChar = res[j]
+                temp.push(lastChar+char)
+            }
+        }
+        res = temp
+    }
+    return res
+};
+
+// 给定一个包含 n 个整数的数组 nums 和一个目标值 target，
+// 判断 nums 中是否存在四个元素 a，b，c 和 d ，使得 a + b + c + d 的值与 target 相等？找出所有满足条件且不重复的四元组。
+
+// 答案中不可以包含重复的四元组。
+
+// 给定数组 nums = [1, 0, -1, 0, -2, 2]，和 target = 0。
+
+// 满足要求的四元组集合为：
+// [
+//   [-1,  0, 0, 1],
+//   [-2, -1, 1, 2],
+//   [-2,  0, 0, 2]
+// ]
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[][]}
+ */
+var fourSum = function(nums, target) {
+
+};
