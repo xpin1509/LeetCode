@@ -329,8 +329,30 @@ var threeSum = function(nums) {
         }
     }
     return res
+    // if (nums.length < 3) return []
+    // if (nums.length === 3 ) {
+    //     const res = nums.reduce((total, cur) => {
+    //         return total + cur
+    //     }, 0)
+    //     if (res === 0) {
+    //         return [nums]
+    //     } else {
+    //         return []
+    //     }
+    // }
+    // const res = []
+    // for (let i = 0; i < nums.length; i++) {
+    //     for (let j = i + 1; j < nums.length; j++) {
+    //         for (let z = i + 2; z < nums.length; z++ ) {
+    //             if ((nums[i] + nums[j] + nums[z]) === 0) {
+    //                 res.push([nums[i], nums[j], nums[z]])
+    //             }
+    //         }
+    //     }
+    // }
+    // for (let i = 0; i < res.length; i++) {}
+    // return res
 };
-console.log(threeSum([-1, 0, 1, 2, -1, -4]))
 
 // 给定一个包括 n 个整数的数组 nums 和 一个目标值 target。找出 nums 中的三个整数，使得它们的和与 target 最接近。返回这三个数的和。假定每组输入只存在唯一答案。
 
