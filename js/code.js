@@ -280,7 +280,6 @@ var longestCommonPrefix = function(strs) {
 
 // 注意：答案中不可以包含重复的三元组。
 
-//  
 // 给定数组 nums = [-1, 0, 1, 2, -1, -4]，
 
 // 满足要求的三元组集合为：
@@ -304,19 +303,34 @@ var threeSum = function(nums) {
             return []
         }
     }
+    nums = nums.sort((a, b) => a - b)
+    // 三重循环必定超时，以后不要想了
+    // 顶多O(n^2)
     const res = []
-    for (let i = 0; i < nums.length; i++) {
-        for (let j = i + 1; j < nums.length; j++) {
-            for (let z = i + 2; z < nums.length; z++ ) {
-                if ((nums[i] + nums[j] + nums[z]) === 0) {
-                    res.push([nums[i], nums[j], nums[z]])
-                }
+    const len = nums.length
+    for (let i = 0; i < len; i++) {
+        if (nums[i] > 0) break
+        if (i > 0 && nums[i] == nums[i-1]) continue
+        let L = i + 1
+        let R = len - 1
+        while(L < R) {
+            const sum = nums[i] + nums[L] + nums[R]
+            if (sum === 0) {
+                res.push([nums[i], nums[L], nums[R]])
+                while(nums[L] == nums[L+1]) L++
+                while(nums[R] == nums[R-1]) R--
+                L ++
+                R --
+            } else if (sum > 0) {
+                R --
+            } else if (sum < 0) {
+                L ++
             }
         }
     }
-    for (let i = 0; i < res.length; i++) {}
     return res
 };
+console.log(threeSum([-1, 0, 1, 2, -1, -4]))
 
 // 给定一个包括 n 个整数的数组 nums 和 一个目标值 target。找出 nums 中的三个整数，使得它们的和与 target 最接近。返回这三个数的和。假定每组输入只存在唯一答案。
 
