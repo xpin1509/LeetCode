@@ -323,20 +323,21 @@ var letterCombinations = function(digits) {
 var fourSum = function(nums, target) {
     const res = []
     nums = nums.sort((a,b) => a - b)
+    const obj = {}
     for (let i = 0; i < nums.length; i++) {
         for (let j = i + 1; j < nums.length - 2; j++) {
             let L = j + 1
             let R = nums.length - 1
-            if ((nums[i] + nums[j]) > 0) break
             while (L < R) {
                 const sum =  (nums[i] + nums[j] + nums[L] + nums[R]) - target
                 if (sum === 0) {
-                    res.push([nums[i], nums[j], nums[L], nums[R]])
+                    if (!obj[`${nums[i]}+${nums[j]}+${nums[L]}+${nums[R]}`]) {
+                        res.push([nums[i], nums[j], nums[L], nums[R]])
+                        obj[`${nums[i]}+${nums[j]}+${nums[L]}+${nums[R]}`] = 1
+                    }
                     R --
                     L ++
                 }
-                if ((L + 1) < R && nums[L] === nums[L + 1]) L ++
-                if ((R - 1) > L && nums[R] === nums[R - 1]) R --
                 if (sum > 0) {
                     R --
                 }
@@ -348,4 +349,116 @@ var fourSum = function(nums, target) {
     }
     return res
 };
-console.log(fourSum([-3,-2,-1,0,0,1,2,3], 0))
+
+// 数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
+
+// 输入：n = 3
+// 输出：[
+//        "((()))",
+//        "(()())",
+//        "(())()",
+//        "()(())",
+//        "()()()"
+//      ]
+/**
+ * @param {number} n
+ * @return {string[]}
+ */
+var generateParenthesis = function(n) {
+
+};
+
+// 给定两个整数，被除数 dividend 和除数 divisor。将两数相除，要求不使用乘法、除法和 mod 运算符。
+
+// 返回被除数 dividend 除以除数 divisor 得到的商。
+
+// 整数除法的结果应当截去（truncate）其小数部分，例如：truncate(8.345) = 8 以及 truncate(-2.7335) = -2
+//  
+// 输入: dividend = 10, divisor = 3
+// 输出: 3
+// 解释: 10/3 = truncate(3.33333..) = truncate(3) = 3
+
+// 输入: dividend = 7, divisor = -3
+// 输出: -2
+// 解释: 7/-3 = truncate(-2.33333..) = -2
+//  
+
+// 被除数和除数均为 32 位有符号整数。
+// 除数不为 0。
+// 假设我们的环境只能存储 32 位有符号整数，其数值范围是 [−231,  231 − 1]。本题中，如果除法结果溢出，则返回 231 − 1。
+/**
+ * @param {number} dividend
+ * @param {number} divisor
+ * @return {number}
+ */
+var divide = function(dividend, divisor) {
+
+};
+
+// 给定一个字符串 s 和一些长度相同的单词 words。找出 s 中恰好可以由 words 中所有单词串联形成的子串的起始位置。
+
+// 注意子串要与 words 中的单词完全匹配，中间不能有其他字符，但不需要考虑 words 中单词串联的顺序。
+
+
+// 输入：
+//   s = "barfoothefoobarman",
+//   words = ["foo","bar"]
+// 输出：[0,9]
+// 解释：
+// 从索引 0 和 9 开始的子串分别是 "barfoo" 和 "foobar" 。
+// 输出的顺序不重要, [9,0] 也是有效答案。
+// 示例 2：
+
+// 输入：
+//   s = "wordgoodgoodgoodbestword",
+//   words = ["word","good","best","word"]
+// 输出：[]
+/**
+ * @param {string} s
+ * @param {string[]} words
+ * @return {number[]}
+ */
+var findSubstring = function(s, words) {
+
+};
+
+// 编写一个程序，通过已填充的空格来解决数独问题。
+
+// 一个数独的解法需遵循如下规则：
+
+// 数字 1-9 在每一行只能出现一次。
+// 数字 1-9 在每一列只能出现一次。
+// 数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。
+// 空白格用 '.' 表示。
+
+
+// 给定的数独序列只包含数字 1-9 和字符 '.' 。
+// 你可以假设给定的数独只有唯一解。
+// 给定数独永远是 9x9 形式的。
+/**
+ * @param {character[][]} board
+ * @return {void} Do not return anything, modify board in-place instead.
+ */
+var solveSudoku = function(board) {
+
+};
+
+// 给定一个 没有重复 数字的序列，返回其所有可能的全排列。
+
+// 输入: [1,2,3]
+// 输出:
+// [
+//   [1,2,3],
+//   [1,3,2],
+//   [2,1,3],
+//   [2,3,1],
+//   [3,1,2],
+//   [3,2,1]
+// ]
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var permute = function(nums) {
+
+};
