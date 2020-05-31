@@ -365,8 +365,23 @@ var fourSum = function(nums, target) {
  * @return {string[]}
  */
 var generateParenthesis = function(n) {
-
+    let res = [];
+    function gen (cur, left, right) {
+        if (left == n && right == n) {
+            res.push(cur)
+            return
+        }
+        if (left < n) {
+            gen(cur + '(', left + 1, right)
+        }
+        if (right < left) {
+            gen(cur + ')', left, right + 1)
+        }
+    }
+    gen('', 0, 0)
+    return res
 };
+console.log(generateParenthesis(2))
 
 // 给定两个整数，被除数 dividend 和除数 divisor。将两数相除，要求不使用乘法、除法和 mod 运算符。
 
@@ -399,7 +414,6 @@ var divide = function(dividend, divisor) {
 
 // 注意子串要与 words 中的单词完全匹配，中间不能有其他字符，但不需要考虑 words 中单词串联的顺序。
 
-
 // 输入：
 //   s = "barfoothefoobarman",
 //   words = ["foo","bar"]
@@ -419,11 +433,66 @@ var divide = function(dividend, divisor) {
  * @return {number[]}
  */
 var findSubstring = function(s, words) {
-
+    if (!words.length) return []
+    const wordLen = words[0].length
+    const worldTotalLen = wordLen * words.length
+    const res = []
+    for (let i = 0; i < s.length - worldTotalLen + 1; i++) {
+        const tempChar = s.slice(i, worldTotalLen + i)
+        if(isChild(tempChar)) {
+            res.push(i)
+        }
+    }
+    return res
+    function isChild (tempChar) {
+        let wordBack = words.slice()
+        for (let i = 0; i < tempChar.length - wordLen + 1; i = i + wordLen) {
+            const char = tempChar.slice(i, i + wordLen)
+            if (wordBack.indexOf(char) > -1) {
+                wordBack.splice(wordBack.indexOf(char), 1)
+            }
+        }
+        return !wordBack.length
+    }
+    // 数组全排列
+    // 去重返回indexof的值
+    // const wordsBack = [...words]
+    // var arr = []
+    // while(words.length) {
+    //     let word = words.pop()
+    //     if (!arr.length) {
+    //         arr.push([word])
+    //     } else {
+    //         let tempArr = []
+    //         for (let i = 0; i < arr.length; i++) {
+    //             for (let j = 0; j < arr[i].length + 1; j++) {
+    //                 const res = [...arr[i]]
+    //                 res.splice(j, 0, word)
+    //                 tempArr.push(res)
+    //             }
+    //         }
+    //         arr = tempArr
+    //     }
+    // }
+    // const tempArr = []
+    // for (let i = 0; i < arr.length; i++) {
+    //     tempArr.push(arr[i].join(''))
+    // }
+    // const res = []
+    // arr = [...new Set(tempArr)]
+    // const strLen = wordsBack.join('').length
+    // for (let i = 0; i < s.length - strLen + 1; i++) {
+    //     const strTemp = s.slice(i, i + strLen)
+    //     const index = arr.indexOf(strTemp)
+    //     if (index > -1) {
+    //         res.push(i)
+    //     }
+    // }
+    // return res
 };
-
+// console.log(findSubstring('barfoothefoobarman', ["foo","bar"]))
+// console.log(findSubstring([["5","3",".",".","7",".",".",".","."],["6",".",".","1","9","5",".",".","."],[".","9","8",".",".",".",".","6","."],["8",".",".",".","6",".",".",".","3"],["4",".",".","8",".","3",".",".","1"],["7",".",".",".","2",".",".",".","6"],[".","6",".",".",".",".","2","8","."],[".",".",".","4","1","9",".",".","5"],[".",".",".",".","8",".",".","7","9"]]))
 // 编写一个程序，通过已填充的空格来解决数独问题。
-
 // 一个数独的解法需遵循如下规则：
 
 // 数字 1-9 在每一行只能出现一次。
@@ -440,11 +509,9 @@ var findSubstring = function(s, words) {
  * @return {void} Do not return anything, modify board in-place instead.
  */
 var solveSudoku = function(board) {
-
 };
-
+// 46. 全排列
 // 给定一个 没有重复 数字的序列，返回其所有可能的全排列。
-
 // 输入: [1,2,3]
 // 输出:
 // [
@@ -460,5 +527,49 @@ var solveSudoku = function(board) {
  * @return {number[][]}
  */
 var permute = function(nums) {
+    let arr = []
+    while(nums.length) {
+        let num = nums.pop()
+        if (!arr.length) {
+            arr.push([num])
+        } else {
+            let tempArr = []
+            for (let i = 0; i < arr.length; i++) {
+                for (let j = 0; j < arr[i].length + 1; j++) {
+                    const res = [...arr[i]]
+                    res.splice(j, 0, num)
+                    tempArr.push(res)
+                }
+            }
+            arr = tempArr
+        }
+    }
+    return arr
+};
 
+// 假设按照升序排序的数组在预先未知的某个点上进行了旋转。
+
+// ( 例如，数组 [0,1,2,4,5,6,7] 可能变为 [4,5,6,7,0,1,2] )。
+
+// 搜索一个给定的目标值，如果数组中存在这个目标值，则返回它的索引，否则返回 -1 。
+
+// 你可以假设数组中不存在重复的元素。
+
+// 你的算法时间复杂度必须是 O(log n) 级别。
+
+// 示例 1:
+
+// 输入: nums = [4,5,6,7,0,1,2], target = 0
+// 输出: 4
+// 示例 2:
+
+// 输入: nums = [4,5,6,7,0,1,2], target = 3
+// 输出: -1
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+var search = function(nums, target) {
+    return nums.indexOf(target)
 };
