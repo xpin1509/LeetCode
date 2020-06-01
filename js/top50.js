@@ -381,7 +381,6 @@ var generateParenthesis = function(n) {
     gen('', 0, 0)
     return res
 };
-console.log(generateParenthesis(2))
 
 // 给定两个整数，被除数 dividend 和除数 divisor。将两数相除，要求不使用乘法、除法和 mod 运算符。
 
@@ -407,9 +406,12 @@ console.log(generateParenthesis(2))
  * @return {number}
  */
 var divide = function(dividend, divisor) {
-
+    const res = dividend/divisor
+    if (res > (2 ** 31  - 1) || res < -(2 ** 31)) {
+        return 2 ** 31 - 1
+    }
+    return parseInt(res)
 };
-
 // 给定一个字符串 s 和一些长度相同的单词 words。找出 s 中恰好可以由 words 中所有单词串联形成的子串的起始位置。
 
 // 注意子串要与 words 中的单词完全匹配，中间不能有其他字符，但不需要考虑 words 中单词串联的顺序。
@@ -490,8 +492,6 @@ var findSubstring = function(s, words) {
     // }
     // return res
 };
-// console.log(findSubstring('barfoothefoobarman', ["foo","bar"]))
-// console.log(findSubstring([["5","3",".",".","7",".",".",".","."],["6",".",".","1","9","5",".",".","."],[".","9","8",".",".",".",".","6","."],["8",".",".",".","6",".",".",".","3"],["4",".",".","8",".","3",".",".","1"],["7",".",".",".","2",".",".",".","6"],[".","6",".",".",".",".","2","8","."],[".",".",".","4","1","9",".",".","5"],[".",".",".",".","8",".",".","7","9"]]))
 // 编写一个程序，通过已填充的空格来解决数独问题。
 // 一个数独的解法需遵循如下规则：
 
@@ -572,4 +572,65 @@ var permute = function(nums) {
  */
 var search = function(nums, target) {
     return nums.indexOf(target)
+};
+
+// 给定一个只包含 '(' 和 ')' 的字符串，找出最长的包含有效括号的子串的长度。
+
+// 输入: "(()"
+// 输出: 2
+// 解释: 最长有效括号子串为 "()"
+
+// 输入: ")()())"
+// 输出: 4
+// 解释: 最长有效括号子串为 "()()"
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var longestValidParentheses = function(s) {
+    let maxans = 0;
+    let dp = new Array(s.length).fill(0)
+    for (let i = 1; i < s.length; i++) {
+        if (s[i] == ')') {
+            if (s[i - 1] == '(') {
+                dp[i] = (i >= 2 ? dp[i - 2] : 0) + 2;
+            } else if (i - dp[i - 1] > 0 && s[i - dp[i - 1] - 1] == '(') {
+                dp[i] = dp[i - 1] + ((i - dp[i - 1]) >= 2 ? dp[i - dp[i - 1] - 2] : 0) + 2;
+            }
+            maxans = Math.max(maxans, dp[i]);
+        }
+    }
+    return maxans;
+    // 超时间限制
+    // let max = 0
+    // for (let i = 0; i < s.length; i++) {
+    //     if (s[i] == ')') continue
+    //     for (let j = i + 1; j <= s.length; j++) {
+    //         if (s[j] == '(') continue
+    //         if (s[i] == '(' && s[j] == ')') {
+    //             const isTrue = isTrueStr(s.slice(i, j + 1))
+    //             max = isTrue ? Math.max(j + 1 - i, max) : max
+    //         }
+    //     }
+    // }
+    // return max
+    // function isTrueStr (str) {
+    //     const charlist = str.split('')
+    //     const arr = []
+    //     while(charlist.length) {
+    //         const child = charlist.shift()
+    //         if (child == '(') {
+    //             arr.push(child)
+    //         } else if (child == ')') {
+    //             if (arr.pop() != '(') {
+    //                 return false
+    //             }
+    //         }
+    //     }
+    //     if (!arr.length) {
+    //         return true
+    //     } else {
+    //         return false
+    //     }
+    // }
 };
