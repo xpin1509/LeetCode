@@ -677,3 +677,74 @@ var permuteUnique = function(nums) {
     }
     return Object.keys(obj).map(el => el.split(','))
 };
+// 39.组合总数
+// 给定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。
+
+// candidates 中的数字可以无限制重复被选取。
+
+// 所有数字（包括 target）都是正整数。
+// 解集不能包含重复的组合。 
+
+// 输入: candidates = [2,3,6,7], target = 7,
+// 所求解集为:
+// [
+//   [7],
+//   [2,2,3]
+// ]
+
+// 输入: candidates = [2,3,5], target = 8,
+// 所求解集为:
+// [
+//   [2,2,2,2],
+//   [2,3,3],
+//   [3,5]
+// ]
+/**
+ * 回溯加剪枝
+ * @param {number[]} candidates
+ * @param {number} target
+ * @return {number[][]}
+ */
+var combinationSum = function(candidates, target) {
+    var resultList = []
+    const combin = function (candidates, tar, begin, path) {
+        if (tar < 0) {
+            return
+        }
+        if (tar === 0) {
+            return resultList.push(path.slice())
+        }
+        for (let i = begin; i < candidates.length; i++) {
+            path.push(candidates[i])
+            combin(candidates, tar - candidates[i], i, path)
+            path.pop()
+        }
+    }
+    combin(candidates, target, 0, [])
+    return resultList
+};
+// 设计一种算法，打印 N 皇后在 N × N 棋盘上的各种摆法，其中每个皇后都不同行、不同列，也不在对角线上。这里的“对角线”指的是所有的对角线，不只是平分整个棋盘的那两条对角线。
+
+// 注意：本题相对原题做了扩展
+
+//  输入：4
+//  输出：[[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
+//  解释: 4 皇后问题存在如下两个不同的解法。
+// [
+//  [".Q..",  // 解法 1
+//   "...Q",
+//   "Q...",
+//   "..Q."],
+
+//  ["..Q.",  // 解法 2
+//   "Q...",
+//   "...Q",
+//   ".Q.."]
+// ]
+/**
+ * @param {number} n
+ * @return {string[][]}
+ */
+var solveNQueens = function(n) {
+};
+console.log(solveNQueens(4))
