@@ -634,3 +634,46 @@ var longestValidParentheses = function(s) {
     //     }
     // }
 };
+// 47. 全排列 II
+// 给定一个可包含重复数字的序列，返回所有不重复的全排列。
+
+// 输入: [1,1,2]
+// 输出:
+// [
+//   [1,1,2],
+//   [1,2,1],
+//   [2,1,1]
+// ]
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var permuteUnique = function(nums) {
+    let obj = {}
+    while(nums.length) {
+        const num = nums.pop()
+        const oldArr = Object.keys(obj)
+        if (!oldArr.length) {
+            obj[num] = num
+        } else {
+            const map = {}
+            oldArr.forEach(el => {
+                const arr = el.split(',')
+                for (let i = 0; i < arr.length; i++) {
+                    const temp = [...arr]
+                    temp.splice(i, 0, num)
+                    const str = temp.join(',')
+                    if (!map[str]) {
+                        map[str] = 1
+                    }
+                }
+                const lastPushStr = [...arr, num].join(',')
+                if (!map[lastPushStr]) {
+                    map[lastPushStr] = 1
+                }
+            })
+            obj = map
+        }
+    }
+    return Object.keys(obj).map(el => el.split(','))
+};
