@@ -768,6 +768,140 @@ var solveNQueens = function(n) {
  * @return {string}
  */
 var multiply = function(num1, num2) {
-    return parseInt(num1) * parseInt(num2) + ''
+    const num2List = num2.split('').reverse()
+    const arr = []
+    for (let i = 0; i < num2List.length; i++) {
+        arr.push(num1 * num2List[i] + '' + renderZero(i))
+    }
+    console.log(arr)
+    function renderZero (num) {
+        return new Array(num).fill('0').join('')
+    }
+    
+    return arr.reduce((total, cur) => add(cur, total), '')
 };
-console.log(multiply('2', '3'))
+function add(num1, num2) {
+    if (!num1 || !num2) return num1 || num2
+    const numStr1 = (num1 + '').split('')
+    const numStr2 = (num2 + '').split('')
+    let temp = 0
+    const res = []
+    while(numStr2.length || numStr1.length) {
+        const str1 = parseInt(numStr1.pop() || 0)
+        const str2 = parseInt(numStr2.pop() || 0)
+        if ((str1 + str2 + temp) >= 10) {
+            res.push((str1 + str2 + temp) % 10)
+            temp = 1
+        } else {
+            res.push((str1 + str2 + temp))
+            temp = 0
+        }
+    }
+    return res.reverse().join('')
+}
+console.log(add("123456789", "111111110100000000"))
+// 42. 接雨水
+// 给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
+// 上面是由数组 [0,1,0,2,1,0,1,3,2,1,2,1] 表示的高度图，在这种情况下，可以接 6 个单位的雨水（蓝色部分表示雨水）。 感谢 Marcos 贡献此图。
+
+// 示例:
+
+// 输入: [0,1,0,2,1,0,1,3,2,1,2,1]
+// 输出: 6
+/**
+ * @param {number[]} height
+ * @return {number}
+ */
+var trap = function(height) {
+
+};
+// console.log(trap([0,1,0,2,1,0,1,3,2,1,2,1]))
+
+// 给定一个 n × n 的二维矩阵表示一个图像。
+
+// 将图像顺时针旋转 90 度。
+
+// 你必须在原地旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要使用另一个矩阵来旋转图像。
+
+// 给定 matrix = 
+// [
+//   [1,2,3],
+//   [4,5,6],
+//   [7,8,9]
+// ],
+
+// 原地旋转输入矩阵，使其变为:
+// [
+//   [7,4,1],
+//   [8,5,2],
+//   [9,6,3]
+// ]
+// 示例 2:
+
+// 给定 matrix =
+// [
+//   [ 5, 1, 9,11],
+//   [ 2, 4, 8,10],
+//   [13, 3, 6, 7],
+//   [15,14,12,16]
+// ], 
+
+// 原地旋转输入矩阵，使其变为:
+// [
+//   [15,13, 2, 5],
+//   [14, 3, 4, 1],
+//   [12, 6, 8, 9],
+//   [16, 7,10,11]
+// ]
+/**
+ * @param {number[][]} matrix
+ * @return {void} Do not return anything, modify matrix in-place instead.
+ */
+var rotate = function(matrix) {
+    const n = matrix.length - 1
+    for (let i = 0; i < matrix.length / 2; i++) {
+        if (i === (matrix.length - 1) / 2) break
+        for (let j = 0; j < matrix.length / 2; j++) {
+            const temp = matrix[i][j]
+            matrix[i][j] = matrix[n - j][i]
+            matrix[n - j][i] = matrix[n - i][n - j]
+            matrix[n - i][n - j] = matrix[j][n - i]
+            matrix[j][n - i] = temp
+        }
+    }
+};
+// 给定一个字符串数组，将字母异位词组合在一起。字母异位词指字母相同，但排列不同的字符串。
+
+// 输入: ["eat", "tea", "tan", "ate", "nat", "bat"]
+// 输出:
+// [
+//   ["ate","eat","tea"],
+//   ["nat","tan"],
+//   ["bat"]
+// ]
+// 说明：
+
+// 所有输入均为小写字母。
+// 不考虑答案输出的顺序。
+/**
+ * @param {string[]} strs
+ * @return {string[][]}
+ */
+var groupAnagrams = function(strs) {
+    const obj = {}
+    const alpha = 'abcdefghijklmnopqrstuvwxyz'
+    while(strs.length) {
+        const str = strs.pop()
+        const indexList = []
+        for (let i = 0; i < str.length; i++) {
+            indexList.push(alpha.indexOf(str.charAt(i)))
+        }
+        const key = indexList.sort((a,b) => a - b).join(',')
+        if (obj[key]) {
+            obj[key] = [...obj[key], str]
+        } else {
+            obj[key] = [str]
+        }
+    }
+    return Object.keys(obj).map(key => obj[key])
+};
