@@ -781,7 +781,6 @@ var solveNQueens = function(n) {
     backtrack(board, 0)
     return res
 };
-console.log(solveNQueens(4))
 
 // 给定两个以字符串形式表示的非负整数 num1 和 num2，返回 num1 和 num2 的乘积，它们的乘积也表示为字符串形式。
 
@@ -811,7 +810,6 @@ var multiply = function(num1, num2) {
     function renderZero (num) {
         return new Array(num).fill('0').join('')
     }
-    
     return arr.reduce((total, cur) => add(cur, total), '')
 };
 function add(num1, num2) {
@@ -831,8 +829,14 @@ function add(num1, num2) {
             temp = 0
         }
     }
-    return res.reverse().join('')
+    const resTemp = res.reverse().join('')
+    const r = parseInt(num1) + parseInt(num2)
+    if (resTemp != (r + '')) {
+        debugger
+    }
+    return resTemp
 }
+console.log(multiply("123456789","987654321"))
 // 42. 接雨水
 // 给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
 // 上面是由数组 [0,1,0,2,1,0,1,3,2,1,2,1] 表示的高度图，在这种情况下，可以接 6 个单位的雨水（蓝色部分表示雨水）。 感谢 Marcos 贡献此图。
