@@ -745,8 +745,43 @@ var combinationSum = function(candidates, target) {
  * @return {string[][]}
  */
 var solveNQueens = function(n) {
+    const res = []
+    const board = Array(n).fill('.').map(() => {
+        return new Array(n).fill('.')
+    })
+    function backtrack (board, row) {
+        // 触发结束
+        if (board.length === row) {
+            res.push(board.map(el => el.join('')))
+            return
+        }
+        const n = board[row].length
+        for (let col = 0; col < n; col++) {
+            if (!isValid(board, row, col)) continue
+            board[row][col] = 'Q'
+            backtrack(board, row + 1)
+            board[row][col] = '.'
+        }
+    }
+    function isValid (board, row, col) {
+        // 检查列
+        for (let i = 0; i < row; i++) {
+            if (board[i][col] === 'Q') return false
+        }
+        // 检查左上方
+        for (let i = col - 1, j = row - 1; i >= 0 && j >= 0; i--, j--) {
+            if (board[j][i] === 'Q') return false
+        }
+        // 检查右上方
+        for (let i = col + 1, j = row - 1 ; i < n && j >= 0; i++, j--) {
+            if (board[j][i] === 'Q') return false
+        }
+        return true
+    }
+    backtrack(board, 0)
+    return res
 };
-// console.log(solveNQueens(4))
+console.log(solveNQueens(4))
 
 // 给定两个以字符串形式表示的非负整数 num1 和 num2，返回 num1 和 num2 的乘积，它们的乘积也表示为字符串形式。
 
