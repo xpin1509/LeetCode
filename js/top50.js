@@ -926,16 +926,21 @@ var solveNQueens = function(n) {
  * @return {string}
  */
 var multiply = function(num1, num2) {
-    const num2List = num2.split('').reverse()
-    const arr = []
-    for (let i = 0; i < num2List.length; i++) {
-        arr.push(num1 * num2List[i] + '' + renderZero(i))
+    const N = new Array(num1.length + num2.length).fill(0);    //初始化数组
+    for (let i = 0, last1 = num1.length - 1; i <= last1; i++) {
+        const n1 = Number(num1[last1 - i]);
+        for (let j = 0, last2 = num2.length - 1; j <= last2; j++) {
+            const n2 = Number(num2[last2 - j]);
+            const x = N[i + j] + n1 * n2;           //累加对应位置数值
+            N[i + j] = x % 10;                      //只保留一位数
+            N[i + j + 1] += Math.floor(x / 10);     //进位
+        }
     }
-    console.log(arr)
-    function renderZero (num) {
-        return new Array(num).fill('0').join('')
-    }
-    return arr.reduce((total, cur) => add(cur, total), '')
+    return N.reverse().join("").replace(/^0*/, "") || "0";     //翻转拼接，清理多余的 0
+    // 作者：zoffer
+    // 链接：https://leetcode-cn.com/problems/multiply-strings/solution/ji-jian-zi-fu-chuan-xiang-cheng-by-zoffer/
+    // 来源：力扣（LeetCode）
+    // 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 };
 function add(num1, num2) {
     if (!num1 || !num2) return num1 || num2
@@ -954,14 +959,11 @@ function add(num1, num2) {
             temp = 0
         }
     }
+    if (temp) res.push(temp)
     const resTemp = res.reverse().join('')
-    const r = parseInt(num1) + parseInt(num2)
-    if (resTemp != (r + '')) {
-        debugger
-    }
     return resTemp
 }
-console.log(multiply("123456789","987654321"))
+console.log(multiply("9333852702227987","85731737104263"))
 // 42. 接雨水
 // 给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
 // 上面是由数组 [0,1,0,2,1,0,1,3,2,1,2,1] 表示的高度图，在这种情况下，可以接 6 个单位的雨水（蓝色部分表示雨水）。 感谢 Marcos 贡献此图。
