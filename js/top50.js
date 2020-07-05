@@ -634,3 +634,128 @@ var longestValidParentheses = function(s) {
     //     }
     // }
 };
+// 给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置。
+
+// 你的算法时间复杂度必须是 O(log n) 级别。
+
+// 如果数组中不存在目标值，返回 [-1, -1]。
+
+// 输入: nums = [5,7,7,8,8,10], target = 8
+// 输出: [3,4]
+
+// 输入: nums = [5,7,7,8,8,10], target = 6
+// 输出: [-1,-1]
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+var searchRange = function(nums, target) {
+    const L = nums.indexOf(target)
+    if (L === -1) {
+        return [-1, -1]
+    }
+    let R = nums.length - 1
+    while(L <= R) {
+        const mid = Math.ceil((R + L) / 2)
+        if (nums[mid] > target) {
+            R = Math.floor((R + (R + L) / 2) / 2)
+        }
+        if (nums[mid] < target) {
+            R = Math.floor((L + (R + L) / 2) / 2)
+        }
+        if (nums[mid] == target && nums[mid + 1] === target) {
+            R++
+        }
+        if (nums[mid] == target && nums[mid + 1] !== target) {
+            return [L , mid]
+        }
+        if (nums[mid] == target && nums[mid + 1] == null) {
+            return [L , mid]
+        }
+    }
+    return [L, R]
+};
+
+// 给你一个未排序的整数数组，请你找出其中没有出现的最小的正整数。
+
+// 示例 1:
+
+// 输入: [1,2,0]
+// 输出: 3
+// 示例 2:
+
+// 输入: [3,4,-1,1]
+// 输出: 2
+// 示例 3:
+
+// 输入: [7,8,9,11,12]
+// 输出: 1
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var firstMissingPositive = function(nums) {
+    const max = nums.sort((a, b) => a - b)[nums.length - 1]
+    if (!max) return 1
+    for (let i = 1; i < max; i++) {
+        if (nums.indexOf(i) == -1) {
+            return i
+        }
+    }
+    return Math.max(max + 1, 1) 
+};
+
+// 给定一个字符串 (s) 和一个字符模式 (p) ，实现一个支持 '?' 和 '*' 的通配符匹配。
+
+// '?' 可以匹配任何单个字符。
+// '*' 可以匹配任意字符串（包括空字符串）。
+// 两个字符串完全匹配才算匹配成功。
+
+// 说明:
+
+// s 可能为空，且只包含从 a-z 的小写字母。
+// p 可能为空，且只包含从 a-z 的小写字母，以及字符 ? 和 *。
+
+// 输入:
+// s = "aa"
+// p = "a"
+// 输出: false
+// 解释: "a" 无法匹配 "aa" 整个字符串。
+
+// 输入:
+// s = "aa"
+// p = "*"
+// 输出: true
+// 解释: '*' 可以匹配任意字符串。
+// 示例 3:
+
+// 输入:
+// s = "cb"
+// p = "?a"
+// 输出: false
+// 解释: '?' 可以匹配 'c', 但第二个 'a' 无法匹配 'b'。
+
+// 输入:
+// s = "adceb"
+// p = "*a*b"
+// 输出: true
+// 解释: 第一个 '*' 可以匹配空字符串, 第二个 '*' 可以匹配字符串 "dce".
+
+// 输入:
+// s = "acdcb"
+// p = "a*c?b"
+// 输出: false
+/**
+ * @param {string} s
+ * @param {string} p
+ * @return {boolean}
+ */
+var isMatch = function(s, p) {
+    if (p === '*') return true
+    const str = s.split('')
+    const pStr = p.split('')
+    while(str.length && pStr.length) {
+        const pChar = pStr
+    }
+};
