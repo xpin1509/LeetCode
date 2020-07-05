@@ -634,7 +634,6 @@ var longestValidParentheses = function(s) {
     //     }
     // }
 };
-<<<<<<< HEAD
 // 给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置。
 
 // 你的算法时间复杂度必须是 O(log n) 级别。
@@ -759,7 +758,7 @@ var isMatch = function(s, p) {
     while(str.length && pStr.length) {
         const pChar = pStr
     }
-=======
+}
 // 47. 全排列 II
 // 给定一个可包含重复数字的序列，返回所有不重复的全排列。
 
@@ -1067,5 +1066,4 @@ var groupAnagrams = function(strs) {
         }
     }
     return Object.keys(obj).map(key => obj[key])
->>>>>>> 64968639f4d97792464c8d25db7890664c1d0ee7
 };
