@@ -634,6 +634,7 @@ var longestValidParentheses = function(s) {
     //     }
     // }
 };
+<<<<<<< HEAD
 // 给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置。
 
 // 你的算法时间复杂度必须是 O(log n) 级别。
@@ -758,4 +759,313 @@ var isMatch = function(s, p) {
     while(str.length && pStr.length) {
         const pChar = pStr
     }
+=======
+// 47. 全排列 II
+// 给定一个可包含重复数字的序列，返回所有不重复的全排列。
+
+// 输入: [1,1,2]
+// 输出:
+// [
+//   [1,1,2],
+//   [1,2,1],
+//   [2,1,1]
+// ]
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var permuteUnique = function(nums) {
+    let obj = {}
+    while(nums.length) {
+        const num = nums.pop()
+        const oldArr = Object.keys(obj)
+        if (!oldArr.length) {
+            obj[num] = num
+        } else {
+            const map = {}
+            oldArr.forEach(el => {
+                const arr = el.split(',')
+                for (let i = 0; i < arr.length; i++) {
+                    const temp = [...arr]
+                    temp.splice(i, 0, num)
+                    const str = temp.join(',')
+                    if (!map[str]) {
+                        map[str] = 1
+                    }
+                }
+                const lastPushStr = [...arr, num].join(',')
+                if (!map[lastPushStr]) {
+                    map[lastPushStr] = 1
+                }
+            })
+            obj = map
+        }
+    }
+    return Object.keys(obj).map(el => el.split(','))
+};
+// 39.组合总数
+// 给定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。
+
+// candidates 中的数字可以无限制重复被选取。
+
+// 所有数字（包括 target）都是正整数。
+// 解集不能包含重复的组合。 
+
+// 输入: candidates = [2,3,6,7], target = 7,
+// 所求解集为:
+// [
+//   [7],
+//   [2,2,3]
+// ]
+
+// 输入: candidates = [2,3,5], target = 8,
+// 所求解集为:
+// [
+//   [2,2,2,2],
+//   [2,3,3],
+//   [3,5]
+// ]
+/**
+ * 回溯加剪枝
+ * @param {number[]} candidates
+ * @param {number} target
+ * @return {number[][]}
+ */
+var combinationSum = function(candidates, target) {
+    var resultList = []
+    const combin = function (candidates, tar, begin, path) {
+        if (tar < 0) {
+            return
+        }
+        if (tar === 0) {
+            return resultList.push(path.slice())
+        }
+        for (let i = begin; i < candidates.length; i++) {
+            path.push(candidates[i])
+            combin(candidates, tar - candidates[i], i, path)
+            path.pop()
+        }
+    }
+    combin(candidates, target, 0, [])
+    return resultList
+};
+// 设计一种算法，打印 N 皇后在 N × N 棋盘上的各种摆法，
+// 其中每个皇后都不同行、不同列，也不在对角线上。这里的“对角线”指的是所有的对角线，不只是平分整个棋盘的那两条对角线。
+
+//  输入：4
+//  输出：[[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
+//  解释: 4 皇后问题存在如下两个不同的解法。
+// [
+//  [".Q..",  // 解法 1
+//   "...Q",
+//   "Q...",
+//   "..Q."],
+
+//  ["..Q.",  // 解法 2
+//   "Q...",
+//   "...Q",
+//   ".Q.."]
+// ]
+/**
+ * @param {number} n
+ * @return {string[][]}
+ */
+var solveNQueens = function(n) {
+    const res = []
+    const board = Array(n).fill('.').map(() => {
+        return new Array(n).fill('.')
+    })
+    function backtrack (board, row) {
+        // 触发结束
+        if (board.length === row) {
+            res.push(board.map(el => el.join('')))
+            return
+        }
+        const n = board[row].length
+        for (let col = 0; col < n; col++) {
+            if (!isValid(board, row, col)) continue
+            board[row][col] = 'Q'
+            backtrack(board, row + 1)
+            board[row][col] = '.'
+        }
+    }
+    function isValid (board, row, col) {
+        // 检查列
+        for (let i = 0; i < row; i++) {
+            if (board[i][col] === 'Q') return false
+        }
+        // 检查左上方
+        for (let i = col - 1, j = row - 1; i >= 0 && j >= 0; i--, j--) {
+            if (board[j][i] === 'Q') return false
+        }
+        // 检查右上方
+        for (let i = col + 1, j = row - 1 ; i < n && j >= 0; i++, j--) {
+            if (board[j][i] === 'Q') return false
+        }
+        return true
+    }
+    backtrack(board, 0)
+    return res
+};
+
+// 给定两个以字符串形式表示的非负整数 num1 和 num2，返回 num1 和 num2 的乘积，它们的乘积也表示为字符串形式。
+
+// 输入: num1 = "2", num2 = "3"
+// 输出: "6"
+
+// 输入: num1 = "123", num2 = "456"
+// 输出: "56088"
+// 说明：
+
+// num1 和 num2 的长度小于110。
+// num1 和 num2 只包含数字 0-9。
+// num1 和 num2 均不以零开头，除非是数字 0 本身。
+// 不能使用任何标准库的大数类型（比如 BigInteger）或直接将输入转换为整数来处理。
+/**
+ * @param {string} num1
+ * @param {string} num2
+ * @return {string}
+ */
+var multiply = function(num1, num2) {
+    const num2List = num2.split('').reverse()
+    const arr = []
+    for (let i = 0; i < num2List.length; i++) {
+        arr.push(num1 * num2List[i] + '' + renderZero(i))
+    }
+    console.log(arr)
+    function renderZero (num) {
+        return new Array(num).fill('0').join('')
+    }
+    return arr.reduce((total, cur) => add(cur, total), '')
+};
+function add(num1, num2) {
+    if (!num1 || !num2) return num1 || num2
+    const numStr1 = (num1 + '').split('')
+    const numStr2 = (num2 + '').split('')
+    let temp = 0
+    const res = []
+    while(numStr2.length || numStr1.length) {
+        const str1 = parseInt(numStr1.pop() || 0)
+        const str2 = parseInt(numStr2.pop() || 0)
+        if ((str1 + str2 + temp) >= 10) {
+            res.push((str1 + str2 + temp) % 10)
+            temp = 1
+        } else {
+            res.push((str1 + str2 + temp))
+            temp = 0
+        }
+    }
+    const resTemp = res.reverse().join('')
+    const r = parseInt(num1) + parseInt(num2)
+    if (resTemp != (r + '')) {
+        debugger
+    }
+    return resTemp
+}
+console.log(multiply("123456789","987654321"))
+// 42. 接雨水
+// 给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
+// 上面是由数组 [0,1,0,2,1,0,1,3,2,1,2,1] 表示的高度图，在这种情况下，可以接 6 个单位的雨水（蓝色部分表示雨水）。 感谢 Marcos 贡献此图。
+
+// 示例:
+
+// 输入: [0,1,0,2,1,0,1,3,2,1,2,1]
+// 输出: 6
+/**
+ * @param {number[]} height
+ * @return {number}
+ */
+var trap = function(height) {
+
+};
+// console.log(trap([0,1,0,2,1,0,1,3,2,1,2,1]))
+
+// 给定一个 n × n 的二维矩阵表示一个图像。
+
+// 将图像顺时针旋转 90 度。
+
+// 你必须在原地旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要使用另一个矩阵来旋转图像。
+
+// 给定 matrix = 
+// [
+//   [1,2,3],
+//   [4,5,6],
+//   [7,8,9]
+// ],
+
+// 原地旋转输入矩阵，使其变为:
+// [
+//   [7,4,1],
+//   [8,5,2],
+//   [9,6,3]
+// ]
+// 示例 2:
+
+// 给定 matrix =
+// [
+//   [ 5, 1, 9,11],
+//   [ 2, 4, 8,10],
+//   [13, 3, 6, 7],
+//   [15,14,12,16]
+// ], 
+
+// 原地旋转输入矩阵，使其变为:
+// [
+//   [15,13, 2, 5],
+//   [14, 3, 4, 1],
+//   [12, 6, 8, 9],
+//   [16, 7,10,11]
+// ]
+/**
+ * @param {number[][]} matrix
+ * @return {void} Do not return anything, modify matrix in-place instead.
+ */
+var rotate = function(matrix) {
+    const n = matrix.length - 1
+    for (let i = 0; i < matrix.length / 2; i++) {
+        if (i === (matrix.length - 1) / 2) break
+        for (let j = 0; j < matrix.length / 2; j++) {
+            const temp = matrix[i][j]
+            matrix[i][j] = matrix[n - j][i]
+            matrix[n - j][i] = matrix[n - i][n - j]
+            matrix[n - i][n - j] = matrix[j][n - i]
+            matrix[j][n - i] = temp
+        }
+    }
+};
+// 给定一个字符串数组，将字母异位词组合在一起。字母异位词指字母相同，但排列不同的字符串。
+
+// 输入: ["eat", "tea", "tan", "ate", "nat", "bat"]
+// 输出:
+// [
+//   ["ate","eat","tea"],
+//   ["nat","tan"],
+//   ["bat"]
+// ]
+// 说明：
+
+// 所有输入均为小写字母。
+// 不考虑答案输出的顺序。
+/**
+ * @param {string[]} strs
+ * @return {string[][]}
+ */
+var groupAnagrams = function(strs) {
+    const obj = {}
+    const alpha = 'abcdefghijklmnopqrstuvwxyz'
+    while(strs.length) {
+        const str = strs.pop()
+        const indexList = []
+        for (let i = 0; i < str.length; i++) {
+            indexList.push(alpha.indexOf(str.charAt(i)))
+        }
+        const key = indexList.sort((a,b) => a - b).join(',')
+        if (obj[key]) {
+            obj[key] = [...obj[key], str]
+        } else {
+            obj[key] = [str]
+        }
+    }
+    return Object.keys(obj).map(key => obj[key])
+>>>>>>> 64968639f4d97792464c8d25db7890664c1d0ee7
 };
