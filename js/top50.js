@@ -1,28 +1,3 @@
-// 给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。
-
-// 如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。
-
-// 您可以假设除了数字 0 之外，这两个数都不会以 0 开头。
-
-// 输入：(2 -> 4 -> 3) + (5 -> 6 -> 4)
-// 输出：7 -> 0 -> 8
-// 原因：342 + 465 = 807
-/**
- * Definition for singly-linked list.
- * function ListNode(val) {
- *     this.val = val;
- *     this.next = null;
- * }
- */
-/**
- * @param {ListNode} l1
- * @param {ListNode} l2
- * @return {ListNode}
- */
-var addTwoNumbers = function(l1, l2) {
-
-};
-
 // 给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。
 
 // 注意：答案中不可以包含重复的三元组。
@@ -491,24 +466,6 @@ var findSubstring = function(s, words) {
     //     }
     // }
     // return res
-};
-// 编写一个程序，通过已填充的空格来解决数独问题。
-// 一个数独的解法需遵循如下规则：
-
-// 数字 1-9 在每一行只能出现一次。
-// 数字 1-9 在每一列只能出现一次。
-// 数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。
-// 空白格用 '.' 表示。
-
-
-// 给定的数独序列只包含数字 1-9 和字符 '.' 。
-// 你可以假设给定的数独只有唯一解。
-// 给定数独永远是 9x9 形式的。
-/**
- * @param {character[][]} board
- * @return {void} Do not return anything, modify board in-place instead.
- */
-var solveSudoku = function(board) {
 };
 // 46. 全排列
 // 给定一个 没有重复 数字的序列，返回其所有可能的全排列。
@@ -1086,3 +1043,106 @@ var groupAnagrams = function(strs) {
     }
     return Object.keys(obj).map(key => obj[key])
 };
+// 2.两数相加
+// 给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。
+// 如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。
+// 您可以假设除了数字 0 之外，这两个数都不会以 0 开头。
+
+// 输入：(2 -> 4 -> 3) + (5 -> 6 -> 4)
+// 输出：7 -> 0 -> 8
+// 原因：342 + 465 = 807
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+var addTwoNumbers = function(l1, l2) {
+    let node = new ListNode('head')
+    let temp = node , sum , n = 0
+    while( l1 || l2 ){
+        const n1 = l1 ? l1.val : 0
+        const n2 = l2 ? l2.val : 0
+        sum = n1 + n2 + n
+        temp.next = new ListNode( sum % 10 )
+        temp = temp.next
+        n = parseInt( sum / 10 )
+        if(l1) l1 = l1.next
+        if(l2) l2 = l2.next
+    }
+    if( n > 0 ) temp.next = new ListNode(n)
+    return node.next
+};
+// 编写一个程序，通过已填充的空格来解决数独问题。
+// 一个数独的解法需遵循如下规则：
+
+// 数字 1-9 在每一行只能出现一次。
+// 数字 1-9 在每一列只能出现一次。
+// 数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。
+// 空白格用 '.' 表示。
+
+
+// 给定的数独序列只包含数字 1-9 和字符 '.' 。
+// 你可以假设给定的数独只有唯一解。
+// 给定数独永远是 9x9 形式的。
+/**
+ * @param {character[][]} board
+ * @return {void} Do not return anything, modify board in-place instead.
+ */
+var solveSudoku = function(board) {
+    function combin (rows, index) {
+        if (rows.length == 9 && rows[index].length == 9) {
+            return
+        }
+        for (let i = 0; i < len; i++) {
+            for (let j = 0; j < rows.length; j++) {
+                if (rows[i][j] === '.') {
+                    for (let z = 1; z < 10; z++) {
+                        rows[i][j] = z
+                        if ()
+                        combin(rows, i)
+                    } 
+                }
+            }
+            // if (board[index][i] === '.') {
+            //     for (let j = 1; j < 10; j++) {
+            //         if (board[index].indexOf(j) === -1) {
+            //             board[index][i] = j
+            //             combin()
+            //         }
+            //     }
+            // }
+            // const item = board[index][i]
+            // if (board[index].indexOf(item) > -1) {
+            //     continue
+            // }
+            // if 
+        }
+    }
+    combin([[]], 0)
+    function isValid (row, col) {
+        // 竖排没有重复的数
+        // 横向没有重复的值
+        // 小框里没有重复的数
+        return true
+    } 
+};
+const arr = [
+    [5, 3, '.', '.', 7, '.', '.','.','.'],
+    [6, '.', '.', 1, 9, 5, '.','.','.'],
+    ['.', 9, 8, '.', '.', '.', '.',6,'.'],
+    [8, '.', '.', '.', 6, '.', '.','.', 3],
+    [4, '.', '.', 8, '.', 3, '.','.', 1],
+    [7, '.', '.', '.', 2, '.', '.','.', 6],
+    ['.', 6, '.', '.', '.', '.', 2, 8,'.'],
+    ['.', '.', '.', 4, 1, 9, '.','.', 5],
+    ['.', '.', '.', '.', 8, '.', '.',7,9]
+]
+solveSudoku(arr)
+console.log(arr)
