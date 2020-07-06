@@ -963,7 +963,6 @@ function add(num1, num2) {
     const resTemp = res.reverse().join('')
     return resTemp
 }
-console.log(multiply("9333852702227987","85731737104263"))
 // 42. 接雨水
 // 给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
 // 上面是由数组 [0,1,0,2,1,0,1,3,2,1,2,1] 表示的高度图，在这种情况下，可以接 6 个单位的雨水（蓝色部分表示雨水）。 感谢 Marcos 贡献此图。
@@ -977,9 +976,27 @@ console.log(multiply("9333852702227987","85731737104263"))
  * @return {number}
  */
 var trap = function(height) {
-
+    let sum = 0
+    for (let i = 1; i < height.length - 1; i++) {
+        let max_left = 0, max_right = 0
+        // 左侧最高的墙
+        for (let j = i - 1; j >= 0; j--) {
+            if (height[j] > max_left) {
+                max_left = height[j]
+            }
+        }
+        for (let j = i + 1; j < height.length; j++) {
+            if (height[j] > max_right) {
+                max_right = height[j]
+            }
+        }
+        let min = Math.min(max_right, max_left)
+        if (min > height[i]) {
+            sum += (min - height[i])
+        }
+    }
+    return sum
 };
-// console.log(trap([0,1,0,2,1,0,1,3,2,1,2,1]))
 
 // 给定一个 n × n 的二维矩阵表示一个图像。
 
