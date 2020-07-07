@@ -484,24 +484,46 @@ var findSubstring = function(s, words) {
  * @return {number[][]}
  */
 var permute = function(nums) {
-    let arr = []
-    while(nums.length) {
-        let num = nums.pop()
-        if (!arr.length) {
-            arr.push([num])
-        } else {
-            let tempArr = []
-            for (let i = 0; i < arr.length; i++) {
-                for (let j = 0; j < arr[i].length + 1; j++) {
-                    const res = [...arr[i]]
-                    res.splice(j, 0, num)
-                    tempArr.push(res)
-                }
+    // let arr = []
+    // while(nums.length) {
+    //     let num = nums.pop()
+    //     if (!arr.length) {
+    //         arr.push([num])
+    //     } else {
+    //         let tempArr = []
+    //         for (let i = 0; i < arr.length; i++) {
+    //             for (let j = 0; j < arr[i].length + 1; j++) {
+    //                 const res = [...arr[i]]
+    //                 res.splice(j, 0, num)
+    //                 tempArr.push(res)
+    //             }
+    //         }
+    //         arr = tempArr
+    //     }
+    // }
+    // return arr
+    const sum = []
+    const obj = {}
+    function combin (arr) {
+        const str = arr.join('')
+        if (arr.length === nums.length && str && !obj[str]) {
+            obj[str] = 1
+            sum.push(arr)
+        }
+        for (let i = 0; i < nums.length; i++) {
+            if (isValid(arr, nums[i])) {
+                combin([...arr, nums[i]])
+            } else {
+                continue
             }
-            arr = tempArr
+            
         }
     }
-    return arr
+    function isValid (arr, i) {
+        return arr.indexOf(i) === -1
+    }
+    combin([])
+    return sum
 };
 
 // 假设按照升序排序的数组在预先未知的某个点上进行了旋转。
@@ -1092,57 +1114,60 @@ var addTwoNumbers = function(l1, l2) {
 // 你可以假设给定的数独只有唯一解。
 // 给定数独永远是 9x9 形式的。
 /**
+ * TODO
  * @param {character[][]} board
  * @return {void} Do not return anything, modify board in-place instead.
  */
 var solveSudoku = function(board) {
-    function combin (rows, index) {
-        if (rows.length == 9 && rows[index].length == 9) {
+    function combin (row) {
+        if (row === (board.length - 1) && board[row].indexOf('.') === -1) {
+            debugger
             return
         }
-        for (let i = 0; i < len; i++) {
-            for (let j = 0; j < rows.length; j++) {
-                if (rows[i][j] === '.') {
-                    for (let z = 1; z < 10; z++) {
-                        rows[i][j] = z
-                        if ()
-                        combin(rows, i)
-                    } 
-                }
+        for (let i = 0; i < 9; i++) {
+            if (board[row][i] === '.') {
+                const left = [1,2,3,4,5,6,7,8,9].filter(el => board[row].indexOf(el) === -1)
+                // for (let j = 0; j < left.length; j++) {
+                const item = left.unshift()
+                board[row][i] = item
+                if (!isValid(row, i, left[j])) continue
+                combin(i == (board.length - 1) ? row + 1 : row)
+                board[row][i] = '.'
+                left.push(item)
+            } else {
+                continue
             }
-            // if (board[index][i] === '.') {
-            //     for (let j = 1; j < 10; j++) {
-            //         if (board[index].indexOf(j) === -1) {
-            //             board[index][i] = j
-            //             combin()
-            //         }
-            //     }
-            // }
-            // const item = board[index][i]
-            // if (board[index].indexOf(item) > -1) {
-            //     continue
-            // }
-            // if 
         }
     }
-    combin([[]], 0)
-    function isValid (row, col) {
+    combin(0)
+    function isValid (row, col, val) {
         // 竖排没有重复的数
-        // 横向没有重复的值
+        for (let i = 0; i < board.length; i++) {
+            if (board[i][col] === val && row !== i) {
+                return false
+            }
+        }
         // 小框里没有重复的数
+        for (let i = parseInt(row/3) * 3; i < (parseInt(row/3) * 3 + 3); i++) {
+            for (let j = parseInt(col/3) * 3; j < (parseInt(col/3) * 3 + 3); j++) {
+                if (board[i][j] === val && (i !== row && j !== col)) {
+                    return false
+                }
+            }
+        }
         return true
     } 
 };
-const arr = [
-    [5, 3, '.', '.', 7, '.', '.','.','.'],
-    [6, '.', '.', 1, 9, 5, '.','.','.'],
-    ['.', 9, 8, '.', '.', '.', '.',6,'.'],
-    [8, '.', '.', '.', 6, '.', '.','.', 3],
-    [4, '.', '.', 8, '.', 3, '.','.', 1],
-    [7, '.', '.', '.', 2, '.', '.','.', 6],
-    ['.', 6, '.', '.', '.', '.', 2, 8,'.'],
-    ['.', '.', '.', 4, 1, 9, '.','.', 5],
-    ['.', '.', '.', '.', 8, '.', '.',7,9]
-]
-solveSudoku(arr)
-console.log(arr)
+// const arr = [
+//     [5, 3, '.', '.', 7, '.', '.','.','.'],
+//     [6, '.', '.', 1, 9, 5, '.','.','.'],
+//     ['.', 9, 8, '.', '.', '.', '.',6,'.'],
+//     [8, '.', '.', '.', 6, '.', '.','.', 3],
+//     [4, '.', '.', 8, '.', 3, '.','.', 1],
+//     [7, '.', '.', '.', 2, '.', '.','.', 6],
+//     ['.', 6, '.', '.', '.', '.', 2, 8,'.'],
+//     ['.', '.', '.', 4, 1, 9, '.','.', 5],
+//     ['.', '.', '.', '.', 8, '.', '.',7,9]
+// ]
+// solveSudoku(arr)
+// console.log(arr)
