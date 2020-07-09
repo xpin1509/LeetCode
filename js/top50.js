@@ -1198,27 +1198,27 @@ var solveSudoku = function(board) {
  */
 var combinationSum2 = function(candidates, target) {
     // 先排序
-    candidates = candidates((a, b) => a -b)
     const res = []
     const obj = {}
-    function combin (arr, left) {
-        const key = arr.join(',') 
-        const total = arr.reduce((cur, total) => cur + total, 0)
+    function combin (path, left) {
+        path = path.sort((a, b) => (a -b))
+        left = left.sort((a, b) => (a -b))
+        const key = path.join(',') 
+        const total = path.reduce((cur, total) => cur + total, 0)
         if (total === target && !obj[key]) {
-            res.push(arr)
+            res.push([...path])
             obj[key] = 1
             return
         }
         for (let i = 0; i < left.length; i++) {
-            const char = left.pop()
-            combin ([...arr, char], left)
-            left.push(char)
+            if (left[i] + total > target) return
+            const leftArr = left.filter((el, index) => index !== i)
+            combin ([...path, left[i]], [...leftArr])
         }
     }
     combin([], candidates)
     return res
 };
-console.log(combinationSum2([10,1,2,7,6,1,5], 8))
 
 // 给定一个字符串 (s) 和一个字符模式 (p) ，实现一个支持 '?' 和 '*' 的通配符匹配。
 
