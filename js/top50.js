@@ -1111,26 +1111,32 @@ var isValidSudoku = function(board) {
 // 你可以假设给定的数独只有唯一解。
 // 给定数独永远是 9x9 形式的。
 /**
- * TODO
  * @param {character[][]} board
  * @return {void} Do not return anything, modify board in-place instead.
  */
 var solveSudoku = function(board) {
     function combin (row) {
         if (row === (board.length - 1) && board[row].indexOf('.') === -1) {
-            debugger
             return
         }
         for (let i = 0; i < 9; i++) {
             if (board[row][i] === '.') {
                 const left = [1,2,3,4,5,6,7,8,9].filter(el => board[row].indexOf(el) === -1)
-                // for (let j = 0; j < left.length; j++) {
-                const item = left.unshift()
-                board[row][i] = item
-                if (!isValid(row, i, left[j])) continue
-                combin(i == (board.length - 1) ? row + 1 : row)
-                board[row][i] = '.'
-                left.push(item)
+                for (let j = 0; j < left.length; j++) {
+                    board[row][i] = left[j]
+                    debugger
+                    let rowNext, colNext
+                    if (i == (board.length - 1)) {
+                        rowNext = row + 1
+                        colNext = 0
+                    } else {
+                        rowNext = row
+                        colNext = i + 1
+                    }
+                    if (!isValid(row, i, left[j])) continue
+                    combin(rowNext)
+                    board[row][i] = '.'
+                }
             } else {
                 continue
             }
@@ -1288,5 +1294,23 @@ var isMatch = function(s, p) {
  * @return {number}
  */
 var jump = function(nums) {
-
+    if (nums.length === 1) return 0
+    const res = []
+    function combin (path, left) {
+        left = [...left]
+        const total = path.reduce((cur, total) => total + cur, 0)
+        if (path.length > nums.length) return
+        if (total === nums.length) {
+            res.push([...path])
+            return
+        }
+        const cur = left.shift()
+        for (let i = 1; i <= cur; i++) {
+            combin([...path, i], left)
+        }
+        left.unshift(cur)
+    }
+    combin([], nums)
+    return res.length ? Math.min(...res.map(el => el.length)) : nums.length
 };
+console.log(jump([2,3,1,1,4]))
