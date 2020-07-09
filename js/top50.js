@@ -685,59 +685,6 @@ var firstMissingPositive = function(nums) {
     return Math.max(max + 1, 1) 
 };
 
-// 给定一个字符串 (s) 和一个字符模式 (p) ，实现一个支持 '?' 和 '*' 的通配符匹配。
-
-// '?' 可以匹配任何单个字符。
-// '*' 可以匹配任意字符串（包括空字符串）。
-// 两个字符串完全匹配才算匹配成功。
-
-// 说明:
-
-// s 可能为空，且只包含从 a-z 的小写字母。
-// p 可能为空，且只包含从 a-z 的小写字母，以及字符 ? 和 *。
-
-// 输入:
-// s = "aa"
-// p = "a"
-// 输出: false
-// 解释: "a" 无法匹配 "aa" 整个字符串。
-
-// 输入:
-// s = "aa"
-// p = "*"
-// 输出: true
-// 解释: '*' 可以匹配任意字符串。
-// 示例 3:
-
-// 输入:
-// s = "cb"
-// p = "?a"
-// 输出: false
-// 解释: '?' 可以匹配 'c', 但第二个 'a' 无法匹配 'b'。
-
-// 输入:
-// s = "adceb"
-// p = "*a*b"
-// 输出: true
-// 解释: 第一个 '*' 可以匹配空字符串, 第二个 '*' 可以匹配字符串 "dce".
-
-// 输入:
-// s = "acdcb"
-// p = "a*c?b"
-// 输出: false
-/**
- * @param {string} s
- * @param {string} p
- * @return {boolean}
- */
-var isMatch = function(s, p) {
-    if (p === '*') return true
-    const str = s.split('')
-    const pStr = p.split('')
-    while(str.length && pStr.length) {
-        const pChar = pStr
-    }
-}
 // 47. 全排列 II
 // 给定一个可包含重复数字的序列，返回所有不重复的全排列。
 
@@ -1101,6 +1048,56 @@ var addTwoNumbers = function(l1, l2) {
     if( n > 0 ) temp.next = new ListNode(n)
     return node.next
 };
+// 36. 有效的数独
+// 判断一个 9x9 的数独是否有效。只需要根据以下规则，验证已经填入的数字是否有效即可。
+
+// 数字 1-9 在每一行只能出现一次。
+// 数字 1-9 在每一列只能出现一次。
+// 数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。
+
+
+// 上图是一个部分填充的有效的数独。
+
+// 数独部分空格内已填入了数字，空白格用 '.' 表示。
+
+/**
+ * @param {character[][]} board
+ * @return {boolean}
+ */
+var isValidSudoku = function(board) {
+    for (let i = 0; i < board.length; i++) {
+        for (let j = 0; j < board[i].length; j++) {
+            if (board[i][j] !== '.') {
+                if (!validChar(i, j)) return false
+            }
+        }
+    }
+    function validChar (row, col) {
+        const char = board[row][col]
+        // 排
+        for (let i = 0; i < board[row].length; i++) {
+            if (col !== i && char === board[row][i]) {
+                return false
+            }
+        }
+        for (let i = 0; i < board.length; i++) {
+            if (row !== i && char === board[i][col]) {
+                return false
+            }
+        }
+        // 小方形
+        for (let i = parseInt(row/3) * 3; i < (parseInt(row/3) * 3 + 3); i++) {
+            for (let j = parseInt(col/3) * 3; j < (parseInt(col/3) * 3 + 3); j++) {
+                if (board[i][j] === char && (i !== row && j !== col)) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+    return true
+};
+// 37. 解数独
 // 编写一个程序，通过已填充的空格来解决数独问题。
 // 一个数独的解法需遵循如下规则：
 
@@ -1171,3 +1168,125 @@ var solveSudoku = function(board) {
 // ]
 // solveSudoku(arr)
 // console.log(arr)
+
+
+// 40. 组合总和 II
+// 给定一个数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。
+// candidates 中的每个数字在每个组合中只能使用一次。
+
+// 所有数字（包括目标数）都是正整数。
+// 解集不能包含重复的组合。 
+
+// 输入: candidates = [10,1,2,7,6,1,5], target = 8,
+// 所求解集为:
+// [
+//   [1, 7],
+//   [1, 2, 5],
+//   [2, 6],
+//   [1, 1, 6]
+// ]
+// 输入: candidates = [2,5,2,1,2], target = 5,
+// 所求解集为:
+// [
+//   [1,2,2],
+//   [5]
+// ]
+/**
+ * @param {number[]} candidates
+ * @param {number} target
+ * @return {number[][]}
+ */
+var combinationSum2 = function(candidates, target) {
+    // 先排序
+    candidates = candidates((a, b) => a -b)
+    const res = []
+    const obj = {}
+    function combin (arr, left) {
+        const key = arr.join(',') 
+        const total = arr.reduce((cur, total) => cur + total, 0)
+        if (total === target && !obj[key]) {
+            res.push(arr)
+            obj[key] = 1
+            return
+        }
+        for (let i = 0; i < left.length; i++) {
+            const char = left.pop()
+            combin ([...arr, char], left)
+            left.push(char)
+        }
+    }
+    combin([], candidates)
+    return res
+};
+console.log(combinationSum2([10,1,2,7,6,1,5], 8))
+
+// 给定一个字符串 (s) 和一个字符模式 (p) ，实现一个支持 '?' 和 '*' 的通配符匹配。
+
+// '?' 可以匹配任何单个字符。
+// '*' 可以匹配任意字符串（包括空字符串）。
+// 两个字符串完全匹配才算匹配成功。
+
+// 说明:
+
+// s 可能为空，且只包含从 a-z 的小写字母。
+// p 可能为空，且只包含从 a-z 的小写字母，以及字符 ? 和 *。
+
+// 输入:
+// s = "aa"
+// p = "a"
+// 输出: false
+// 解释: "a" 无法匹配 "aa" 整个字符串。
+
+// 输入:
+// s = "aa"
+// p = "*"
+// 输出: true
+// 解释: '*' 可以匹配任意字符串。
+// 示例 3:
+
+// 输入:
+// s = "cb"
+// p = "?a"
+// 输出: false
+// 解释: '?' 可以匹配 'c', 但第二个 'a' 无法匹配 'b'。
+
+// 输入:
+// s = "adceb"
+// p = "*a*b"
+// 输出: true
+// 解释: 第一个 '*' 可以匹配空字符串, 第二个 '*' 可以匹配字符串 "dce".
+
+// 输入:
+// s = "acdcb"
+// p = "a*c?b"
+// 输出: false
+/**
+ * @param {string} s
+ * @param {string} p
+ * @return {boolean}
+ */
+var isMatch = function(s, p) {
+    if (p === '*') return true
+    const str = s.split('')
+    const pStr = p.split('')
+    while(str.length && pStr.length) {
+        const pChar = pStr
+    }
+}
+
+// 45. 跳跃游戏 II
+// 给定一个非负整数数组，你最初位于数组的第一个位置。
+// 数组中的每个元素代表你在该位置可以跳跃的最大长度。
+// 你的目标是使用最少的跳跃次数到达数组的最后一个位置。
+
+// 输入: [2,3,1,1,4]
+// 输出: 2
+// 解释: 跳到最后一个位置的最小跳跃数是 2。
+//      从下标为 0 跳到下标为 1 的位置，跳 1 步，然后跳 3 步到达数组的最后一个位置。
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var jump = function(nums) {
+
+};
