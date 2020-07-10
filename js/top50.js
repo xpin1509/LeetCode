@@ -1111,6 +1111,7 @@ var isValidSudoku = function(board) {
 // 你可以假设给定的数独只有唯一解。
 // 给定数独永远是 9x9 形式的。
 /**
+ * TODO
  * @param {character[][]} board
  * @return {void} Do not return anything, modify board in-place instead.
  */
@@ -1267,17 +1268,38 @@ var combinationSum2 = function(candidates, target) {
 // p = "a*c?b"
 // 输出: false
 /**
+ * TODO
  * @param {string} s
  * @param {string} p
  * @return {boolean}
  */
 var isMatch = function(s, p) {
-    if (p === '*') return true
-    const str = s.split('')
-    const pStr = p.split('')
-    while(str.length && pStr.length) {
-        const pChar = pStr
+    const sLen = s.length;
+    const pLen = p.length;
+    // 初始化（包括了一部分base case）
+    const dp = new Array(sLen + 1);
+    for (let i = 0; i < sLen + 1; i++) {
+      dp[i] = new Array(pLen + 1).fill(false);
     }
+    // base case
+    dp[0][0] = true;
+    for (let j = 1; j <= pLen; j++) {
+      dp[0][j] = p[j - 1] == '*' && dp[0][j - 1];
+    }
+    // 迭代
+    for (let i = 1; i <= sLen; i++) {
+      for (let j = 1; j <= pLen; j++) {
+        if (p[j - 1] == '?' || s[i - 1] == p[j - 1])
+          dp[i][j] = dp[i - 1][j - 1];
+        else if (p[j - 1] == '*' && (dp[i - 1][j] || dp[i][j - 1]))
+          dp[i][j] = true;
+      }
+    }
+    return dp[sLen][pLen]; // 整个s串和整个p串是否匹配
+//   作者：hyj8
+//   链接：https://leetcode-cn.com/problems/wildcard-matching/solution/shou-hua-tu-jie-dong-tai-gui-hua-de-si-lu-by-hyj8/
+//   来源：力扣（LeetCode）
+//   著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 }
 
 // 45. 跳跃游戏 II
@@ -1294,23 +1316,43 @@ var isMatch = function(s, p) {
  * @return {number}
  */
 var jump = function(nums) {
-    if (nums.length === 1) return 0
-    const res = []
-    function combin (path, left) {
-        left = [...left]
-        const total = path.reduce((cur, total) => total + cur, 0)
-        if (path.length > nums.length) return
-        if (total === nums.length) {
-            res.push([...path])
-            return
+    // if (nums.length === 1) return 0
+    // let n = nums.length
+    // function combin (path, left) {
+    //     left = [...left]
+    //     const total = path.reduce((cur, total) => total + cur, 0)
+    //     if (total > nums.length) return
+    //     const length = path.length - 1
+    //     if (total === (nums.length) && length < n) {
+    //         n = length
+    //         return
+    //     }
+    //     const cur = left[0]
+    //     for (let i = 1; i <= cur; i++) {
+    //         const arr = [...path, i]
+    //         const temp = arr.reduce((cur, total) => cur + total, 0)
+    //         if (temp > nums.length) continue
+    //         combin(arr, left.slice(i))
+    //     }
+    // }
+    // combin([1], nums)
+    // return n
+    let position = nums.length - 1;
+    let steps = 0;
+    while (position > 0) {
+        for (let i = 0; i < position; i++) {
+            if (i + nums[i] >= position) {
+                position = i;
+                steps++;
+                break;
+            }
         }
-        const cur = left.shift()
-        for (let i = 1; i <= cur; i++) {
-            combin([...path, i], left)
-        }
-        left.unshift(cur)
     }
-    combin([], nums)
-    return res.length ? Math.min(...res.map(el => el.length)) : nums.length
+    return steps;
 };
-console.log(jump([2,3,1,1,4]))
+// [2,0,2,0,1] 2
+// [1,2,3] 2
+// [2,3,1,1,4] 2
+// [1,2] 1
+// [1] 0
+// [0] 0
