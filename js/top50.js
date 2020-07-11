@@ -1380,4 +1380,65 @@ var jump = function(nums) {
 var myPow = function(x, n) {
     return x ** n
 };
-console.log(myPow(2.00000, -2))
+
+// 52. N皇后 II
+// n 皇后问题研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。
+// 上图为 8 皇后问题的一种解法。
+// 给定一个整数 n，返回 n 皇后不同的解决方案的数量。
+
+// 输入: 4
+// 输出: 2
+// 解释: 4 皇后问题存在如下两个不同的解法。
+// [
+//  [".Q..",  // 解法 1
+//   "...Q",
+//   "Q...",
+//   "..Q."],
+
+//  ["..Q.",  // 解法 2
+//   "Q...",
+//   "...Q",
+//   ".Q.."]
+// ]
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var totalNQueens = function(n) {
+    const res = []
+    const board = Array(n).fill('.').map(() => {
+        return new Array(n).fill('.')
+    })
+    function backtrack (board, row) {
+        // 触发结束
+        if (board.length === row) {
+            res.push(board.map(el => el.join('')))
+            return
+        }
+        const n = board[row].length
+        for (let col = 0; col < n; col++) {
+            if (!isValid(board, row, col)) continue
+            board[row][col] = 'Q'
+            backtrack(board, row + 1)
+            board[row][col] = '.'
+        }
+    }
+    function isValid (board, row, col) {
+        // 检查列
+        for (let i = 0; i < row; i++) {
+            if (board[i][col] === 'Q') return false
+        }
+        // 检查左上方
+        for (let i = col - 1, j = row - 1; i >= 0 && j >= 0; i--, j--) {
+            if (board[j][i] === 'Q') return false
+        }
+        // 检查右上方
+        for (let i = col + 1, j = row - 1 ; i < n && j >= 0; i++, j--) {
+            if (board[j][i] === 'Q') return false
+        }
+        return true
+    }
+    backtrack(board, 0)
+    return res.length
+};
+console.log(totalNQueens(8))
