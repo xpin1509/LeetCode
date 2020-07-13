@@ -1441,4 +1441,246 @@ var totalNQueens = function(n) {
     backtrack(board, 0)
     return res.length
 };
-console.log(totalNQueens(8))
+
+
+// 54. 螺旋矩阵
+// 给定一个包含 m x n 个元素的矩阵（m 行, n 列），请按照顺时针螺旋顺序，返回矩阵中的所有元素。
+
+// 输入:
+// [
+//  [ 1, 2, 3 ],
+//  [ 4, 5, 6 ],
+//  [ 7, 8, 9 ]
+// ]
+// 输出: [1,2,3,6,9,8,7,4,5]
+
+// 输入:
+// [
+//   [1, 2, 3, 4],
+//   [5, 6, 7, 8],
+//   [9,10,11,12]
+// ]
+// 输出: [1,2,3,4,8,12,11,10,9,5,6,7]
+/**
+ * @param {number[][]} matrix
+ * @return {number[]}
+ */
+var spiralOrder = function(matrix) {
+    function isDef (value) {
+        return value != undefined
+    }
+    const res = []
+    while(matrix.length) {
+        // 横排
+        const toparr = matrix.shift()
+        while(isDef(toparr) && toparr.length) {
+            const el = toparr.shift()
+            isDef(el) && res.push(el)
+        }
+        // 竖排
+        for (let i = 0; i < matrix.length; i++) {
+            const temArr = matrix[i]
+            const el = temArr.pop()
+            isDef(el) && res.push(el)
+        }
+        // 下横排
+        const bottomarr = matrix.pop()
+        while(isDef(bottomarr) && bottomarr.length) {
+            const el = bottomarr.pop()
+            isDef(el) && res.push(el)
+        }
+        // 左竖排
+        for (let i = matrix.length - 1; i >= 0; i--) {
+            const temArr = matrix[i]
+            const el = temArr.shift()
+            isDef(el) && res.push(el)
+        }
+    }
+    return res
+};
+
+// 55. 跳跃游戏
+// 给定一个非负整数数组，你最初位于数组的第一个位置。
+// 数组中的每个元素代表你在该位置可以跳跃的最大长度。
+// 判断你是否能够到达最后一个位置。
+ 
+// 输入: [2,3,1,1,4]
+// 输出: true
+// 解释: 我们可以先跳 1 步，从位置 0 到达 位置 1, 然后再从位置 1 跳 3 步到达最后一个位置。
+
+// 输入: [3,2,1,0,4]
+// 输出: false
+// 解释: 无论怎样，你总会到达索引为 3 的位置。但该位置的最大跳跃长度是 0 ， 所以你永远不可能到达最后一个位置。
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var canJump = function(nums) {
+    // const res = []
+    // function combin (index, step) {
+    //     if (index > nums.length - 1) return
+    //     if (index === nums.length - 1) {
+    //         res.push(step)
+    //     }
+    //     for (let i = 1; i <= step; i++) {
+    //         combin(index + i, nums[index + i])
+    //     }
+    // }
+    // combin(0, nums[0])
+    // if (res.length) {
+    //     return true
+    // } else {
+    //     return false
+    // }
+    let n = nums.length;
+    let rightmost = 0;
+    for (let i = 0; i < n; i++) {
+        if (i <= rightmost) {
+            rightmost = Math.max(rightmost, i + nums[i]);
+            if (rightmost >= n - 1) {
+                return true;
+            }
+        }
+    }
+    return false;
+};
+// 56. 合并区间
+// 给出一个区间的集合，请合并所有重叠的区间。
+// 给出一个区间的集合，请合并所有重叠的区间。
+
+// 输入: [[1,3],[2,6],[8,10],[15,18]]
+// 输出: [[1,6],[8,10],[15,18]]
+// 解释: 区间 [1,3] 和 [2,6] 重叠, 将它们合并为 [1,6].
+
+// 输入: [[1,4],[4,5]]
+// 输出: [[1,5]]
+// 解释: 区间 [1,4] 和 [4,5] 可被视为重叠区间。
+/**
+ * @param {number[][]} intervals
+ * @return {number[][]}
+ */
+var merge = function(intervals) {
+    intervals.sort((a, b) => a[0] - b[0])
+    for(let i = 0; i < intervals.length - 1; i++) {
+        if (intervals[i][1] >= intervals[i + 1][0]) {
+            if (intervals[i][1] >= intervals[i + 1][1]) {
+                intervals[i][0] = intervals[i][0]
+                intervals[i][1] = intervals[i][1]
+                intervals.splice(i + 1, 1)
+                i = i - 1
+            } else {
+                intervals[i][0] = intervals[i][0]
+                intervals[i][1] = intervals[i+1][1]
+                intervals.splice(i + 1, 1)
+                i = i - 1
+            }
+        }
+    }
+    return intervals
+};
+
+// 57. 插入区间
+// 给出一个无重叠的 ，按照区间起始端点排序的区间列表。
+// 在列表中插入一个新的区间，你需要确保列表中的区间仍然有序且不重叠（如果有必要的话，可以合并区间）。
+// 输入: intervals = [[1,3],[6,9]], newInterval = [2,5]
+// 输出: [[1,5],[6,9]]
+
+// 输入: intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]
+// 输出: [[1,2],[3,10],[12,16]]
+// 解释: 这是因为新的区间 [4,8] 与 [3,5],[6,7],[8,10] 重叠。
+/**
+ * @param {number[][]} intervals
+ * @param {number[]} newInterval
+ * @return {number[][]}
+ */
+var insert = function(intervals, newInterval) {
+    // for (let i = 0; i < intervals.length; i++) {
+    //     if (intervals[i][1] < newInterval[0]) {
+    //         continue
+    //     } else if (intervals[i][0] < newInterval[0] && intervals[i][0] < newInterval[1]) {
+
+    //     }
+    // }
+};
+
+// 62. 不同路径
+// 一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。
+// 机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为“Finish”）。
+// 问总共有多少条不同的路径？
+
+// 输入: m = 3, n = 2
+// 输出: 3
+// 解释:
+// 从左上角开始，总共有 3 条路径可以到达右下角。
+// 1. 向右 -> 向右 -> 向下
+// 2. 向右 -> 向下 -> 向右
+// 3. 向下 -> 向右 -> 向右
+
+// 输入: m = 7, n = 3
+// 输出: 28
+/**
+ * @param {number} m
+ * @param {number} n
+ * @return {number}
+ */
+var uniquePaths = function(m, n) {
+    // const arr = []
+    // function combin (path, left) {
+    //     if (path[path.length - 1] && path[path.length - 1][0] === (m - 1) && path[path.length - 1][1] === (n - 1)) {
+    //         arr.push(path)
+    //         return
+    //     }
+    //     for (let i = 0; i < left.length; i++) {
+    //         const el = left[i]
+    //         path.push(el)
+    //         const leftArr = []
+    //         if (el[0] < m) {
+    //             leftArr.push([el[0] + 1, el[1]])
+    //         }
+    //         if (el[1] < n) {
+    //             leftArr.push([el[0], el[1] + 1])
+    //         }
+    //         combin(path, leftArr)
+    //         path.pop()
+    //     }
+    // }
+    // combin([[0, 0]], [[1,0], [0, 1]])
+    // return uniquePaths(m - 1, n) + uniquePaths(m, n - 1)
+    var N = n+m-2;
+    var k = m-1;
+    var result = 1;
+    for(var i = 1;i<= k;i++){
+        result = result * (N-k+i)/i;
+    }
+    return result;
+    // 来源：力扣（LeetCode）
+    // 链接：https://leetcode-cn.com/problems/spiral-matrix-ii
+    // 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+};
+// 59. 螺旋矩阵 II
+// 给定一个正整数 n，生成一个包含 1 到 n2 所有元素，且元素按顺时针顺序螺旋排列的正方形矩阵。
+
+// 输入: 3
+// 输出:
+// [
+//  [ 1, 2, 3 ],
+//  [ 8, 9, 4 ],
+//  [ 7, 6, 5 ]
+// ]
+[
+    [1,2,3,4],
+    [12,13,14,5],
+    [11,16,15,6],
+    [10,9,8,7]
+]
+/**
+ * @param {number} n
+ * @return {number[][]}
+ */
+var generateMatrix = function(n) {
+    const res = []
+    while(i <= Math.pow(n, 2)) {
+        i++
+    }
+};
+
