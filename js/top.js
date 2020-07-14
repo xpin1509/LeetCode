@@ -1667,20 +1667,108 @@ var uniquePaths = function(m, n) {
 //  [ 8, 9, 4 ],
 //  [ 7, 6, 5 ]
 // ]
-[
-    [1,2,3,4],
-    [12,13,14,5],
-    [11,16,15,6],
-    [10,9,8,7]
-]
+// [
+//     [1,2,3,4],
+//     [12,13,14,5],
+//     [11,16,15,6],
+//     [10,9,8,7]
+// ]
 /**
  * @param {number} n
  * @return {number[][]}
  */
 var generateMatrix = function(n) {
     const res = []
-    while(i <= Math.pow(n, 2)) {
-        i++
+    for (let i = 0; i < n; i++) {
+        res[i] = []
     }
+    let i = 1
+    let l = 0, r = n - 1, t = 0, b = n - 1
+    while(i <= Math.pow(n, 2)) {
+        for (let j = l; j <= r; j++) {
+            res[t][j] = i++
+        }
+        t++
+        for (let j = t; j <= b; j++) {
+            res[j][r] = i++
+        }
+        r--
+        for (let j = r; j >= l; j--) {
+            res[b][j] = i++
+        }
+        b--
+        for (let j = b; j >= t; j--) {
+            res[j][l] = i++
+        }
+        l++
+    }
+    return res
 };
 
+// 60. 第k个排列
+// 给出集合 [1,2,3,…,n]，其所有元素共有 n! 种排列。
+// 按大小顺序列出所有排列情况，并一一标记，当 n = 3 时, 所有排列如下：
+
+// "123"
+// "132"
+// "213"
+// "231"
+// "312"
+// "321"
+// 给定 n 和 k，返回第 k 个排列。
+
+// 给定 n 的范围是 [1, 9]。
+// 给定 k 的范围是[1,  n!]。
+
+// 输入: n = 3, k = 3
+// 输出: "213"
+
+// 输入: n = 4, k = 9
+// 输出: "2314"
+/**
+ * @param {number} n
+ * @param {number} k
+ * @return {string}
+ */
+var getPermutation = function(n, k) {
+    // const res = []
+    // const arr = []
+    // for (i = 1; i <= n; i++) {
+    //     arr.push(i)
+    // }
+    // function combin (path, left) {
+    //     if (path.length === n) {
+    //         res.push(path.join(''))
+    //         return
+    //     }
+    //     for (let i = 0; i < left.length; i++) {
+    //         const el = left.splice(i, 1)
+    //         path.push(el)
+    //         combin(path, left)
+    //         path.pop()
+    //         left.splice(i, 0, el)
+    //     }
+    // }
+    // combin([], arr)
+    // return res[k-1]
+    let res = []
+    let used = {}
+    function backtrace(str) {
+        if(str.length === n) {
+            res.push(str)
+            return
+        }
+        for(let i = 1; i <= n; i++) {
+            if(used[i]){
+                continue
+            }
+            str += i
+            used[i] = true
+            backtrace(str)
+            str = str.substr(0, str.length - 1)
+            used[i] = false
+        }
+    }
+    backtrace('')
+    return res[k - 1]
+};
