@@ -1772,3 +1772,87 @@ var getPermutation = function(n, k) {
     backtrace('')
     return res[k - 1]
 };
+
+// 64. 最小路径和
+// 给定一个包含非负整数的 m x n 网格，请找出一条从左上角到右下角的路径，使得路径上的数字总和为最小。
+
+// 说明：每次只能向下或者向右移动一步。
+
+// 输入:
+// [
+//   [1,3,1],
+//   [1,5,1],
+//   [4,2,1]
+// ]
+// 输出: 7
+// 解释: 因为路径 1→3→1→1→1 的总和最小。
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var minPathSum = function(grid) {
+
+};
+
+
+// 93. 复原IP地址
+// 给定一个只包含数字的字符串，复原它并返回所有可能的 IP 地址格式。
+// 有效的 IP 地址正好由四个整数（每个整数位于 0 到 255 之间组成），整数之间用 '.' 分隔。
+
+// 输入: "25525511135"
+// 输出: ["255.255.11.135", "255.255.111.35"]
+/**
+ * @param {string} s
+ * @return {string[]}
+ */
+var restoreIpAddresses = function(s) {
+    const res = []
+    function combin (path, left) {
+        if (path.length === 4) {
+            if (left === '') {
+                res.push(path.join('.'))
+            }
+            return
+        }
+        const len = Math.min(left.length, 3)
+        for (let i = 1; i <= len; i++) {
+            const num = left.slice(0, i)
+            if (!isValid(num)) continue
+            path.push(num)
+            combin(path, left.slice(i))
+            path.pop()
+        }
+    }
+    function isValid (num) {
+        if (num.length > 1 && num.charAt(0) === '0') return false
+        return num >= 0 && num <= 255
+    }
+    combin([], s)
+    return res
+};
+// 91. 解码方法
+// 一条包含字母 A-Z 的消息通过以下方式进行了编码：
+
+// 'A' -> 1
+// 'B' -> 2
+// ...
+// 'Z' -> 26
+// 给定一个只包含数字的非空字符串，请计算解码方法的总数。
+
+// 示例 1:
+
+// 输入: "12"
+// 输出: 2
+// 解释: 它可以解码为 "AB"（1 2）或者 "L"（12）。
+// 示例 2:
+
+// 输入: "226"
+// 输出: 3
+// 解释: 它可以解码为 "BZ" (2 26), "VF" (22 6), 或者 "BBF" (2 2 6) 。
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var numDecodings = function(s) {
+
+};
