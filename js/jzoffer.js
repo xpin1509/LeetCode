@@ -135,3 +135,17 @@ var fib = function(n) {
 
 // 输入：n = 7
 // 输出：21
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var numWays = function(n) {
+    const res = [1, 1, 2]
+    if (n >= 2) {
+        for (let i = 3; i <= n; i++) {
+            res.push((res[i-1] + res[i - 2])%1000000007)
+        }
+    }
+    return res[n]
+};
+console.log(numWays(1))
