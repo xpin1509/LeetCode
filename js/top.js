@@ -1859,9 +1859,30 @@ var getPermutation = function(n, k) {
  * @return {number}
  */
 var minPathSum = function(grid) {
-
+    const dp = JSON.parse(JSON.stringify(grid))
+    const m = dp.length
+    const n = dp[0].length
+    dp[0][0] = grid[0][0]
+    for (let i = 1; i < m; i++) {
+        dp[i][0] = dp[i-1][0] + grid[i][0]
+    }
+    for (let i = 1; i < n; i++) {
+        dp[0][i] = dp[0][i-1] + grid[0][i]
+    }
+    for (let i = 1; i < m; i++) {
+        for (let j = 1; j < n; j++) {
+            const len1 = dp[i][j-1] + grid[i][j]
+            const len2 = dp[i-1][j] + grid[i][j]
+            dp[i][j] = Math.min(len1, len2)
+        }
+    }
+    return dp[m-1][n-1]
 };
-
+console.log(minPathSum([
+      [1,3,1],
+      [1,5,1],
+      [4,2,1]
+    ]))
 
 // 93. 复原IP地址
 // 给定一个只包含数字的字符串，复原它并返回所有可能的 IP 地址格式。
