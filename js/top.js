@@ -1878,11 +1878,6 @@ var minPathSum = function(grid) {
     }
     return dp[m-1][n-1]
 };
-console.log(minPathSum([
-      [1,3,1],
-      [1,5,1],
-      [4,2,1]
-    ]))
 
 // 93. 复原IP地址
 // 给定一个只包含数字的字符串，复原它并返回所有可能的 IP 地址格式。
@@ -2082,3 +2077,75 @@ var combine = function(n, k) {
     combin([], left)
     return res
 };
+
+// 78. 子集
+// 给定一组不含重复元素的整数数组 nums，返回该数组所有可能的子集（幂集）。
+// 说明：解集不能包含重复的子集。
+
+// 输入: nums = [1,2,3]
+// 输出:
+// [
+//   [3],
+//   [1],
+//   [2],
+//   [1,2,3],
+//   [1,3],
+//   [2,3],
+//   [1,2],
+//   []
+// ]
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var subsets = function(nums) {
+    let n = nums.length;
+    let tmpPath = [];
+    let res = [];
+    let backtrack = (tmpPath,start) => {
+        res.push(tmpPath);
+       for(let i = start;i < n;i++){
+           tmpPath.push(nums[i]);
+           backtrack(tmpPath.slice(),i+1);
+           tmpPath.pop();
+       } 
+    }
+    backtrack(tmpPath,0);
+    return res;
+};
+// 90. 子集 II
+// 给定一个可能包含重复元素的整数数组 nums，返回该数组所有可能的子集（幂集）。
+
+// 说明：解集不能包含重复的子集。
+// 输入: [1,2,2]
+// 输出:
+// [
+//   [2],
+//   [1],
+//   [1,2,2],
+//   [2,2],
+//   [1,2],
+//   []
+// ]
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var subsetsWithDup = function(nums) {
+    let n = nums.length;
+    nums = nums.sort((a,b) => {return a - b});
+    let start = 1;
+    let res = [[]];
+    for(let i = 0;i < nums.length;i++){
+        let len = res.length;
+        let resTmp = [];
+        for(let j = 0;j < len;j++){
+            if(i > 0  && j < start && nums[i-1] == nums[i]) continue;
+            resTmp.push(res[j].concat([nums[i]]));
+        }
+        start = res.length;
+        res.push(...resTmp);
+    }
+    return res;
+};
+console.log(subsetsWithDup([1,2,2]))
