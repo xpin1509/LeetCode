@@ -148,4 +148,3 @@ var numWays = function(n) {
     }
     return res[n]
 };
-console.log(numWays(1))

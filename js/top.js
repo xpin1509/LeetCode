@@ -1174,7 +1174,6 @@ var solveSudoku = function(board) {
 //     ['.', '.', '.', '.', 8, '.', '.',7,9]
 // ]
 // solveSudoku(arr)
-// console.log(arr)
 
 
 // 40. 组合总和 II
@@ -1646,17 +1645,86 @@ var uniquePaths = function(m, n) {
     // }
     // combin([[0, 0]], [[1,0], [0, 1]])
     // return uniquePaths(m - 1, n) + uniquePaths(m, n - 1)
-    var N = n+m-2;
-    var k = m-1;
-    var result = 1;
-    for(var i = 1;i<= k;i++){
-        result = result * (N-k+i)/i;
+    // 1.排列组合
+    // C(m-1)(m+n-2)
+    // m! / n!(m-n)！
+    // var N = n+m-2;
+    // var k = m-1;
+    // var result = 1;
+    
+    // for(var i = 1;i<= k;i++){
+    //     result = result * (N-k+i)/i;
+    // }
+    // return result
+
+    // 2.动态规划法
+    const dp = new Array(m)
+    for (let i = 0; i < m; i++) {
+        dp[i] = new Array(n)
     }
-    return result;
-    // 来源：力扣（LeetCode）
-    // 链接：https://leetcode-cn.com/problems/spiral-matrix-ii
-    // 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+    for (let i = 0; i < m; i++) {
+        for (let j = 0; j < n; j++) {
+            if (i === 0 || j === 0) {
+                dp[i][j] = 1
+            } else {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
+            }
+        }
+    }
+    return dp[m-1][n-1]
 };
+// 63. 不同路径 II
+// 网格中的障碍物和空位置分别用 1 和 0 来表示。
+// 说明：m 和 n 的值均不超过 100。
+
+// 输入:
+// [
+//   [0,0,0],
+//   [0,1,0],
+//   [0,0,0]
+// ]
+// 输出: 2
+// 解释:
+// 3x3 网格的正中间有一个障碍物。
+// 从左上角到右下角一共有 2 条不同的路径：
+// 1. 向右 -> 向右 -> 向下 -> 向下
+// 2. 向下 -> 向下 -> 向右 -> 向右
+/**
+ * @param {number[][]} obstacleGrid
+ * @return {number}
+ */
+var uniquePathsWithObstacles = function(obstacleGrid) {
+    const dp = JSON.parse(JSON.stringify(obstacleGrid))
+    const m = dp.length
+    const n = dp[0].length
+    for (let i = 0; i < m; i++) {
+        for (let j = 0; j < n; j++) {
+            if (i === 0 || j === 0) {
+                if (obstacleGrid[i][j] === 1) {
+                    dp[i][j] = 0
+                } else {
+                    if (i > 0) {
+                        dp[i][j] = dp[i - 1][j]
+                    }
+                    if (j > 0) {
+                        dp[i][j] = dp[i][j - 1]
+                    }
+                    if (i === 0 && j === 0) {
+                        dp[i][j] = 1
+                    }
+                }
+            } else {
+                if (obstacleGrid[i][j] === 1) {
+                    dp[i][j] = 0
+                } else {
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
+                }
+            }
+        }
+    }
+    return dp[m - 1][n - 1]
+};
+
 // 59. 螺旋矩阵 II
 // 给定一个正整数 n，生成一个包含 1 到 n2 所有元素，且元素按顺时针顺序螺旋排列的正方形矩阵。
 
