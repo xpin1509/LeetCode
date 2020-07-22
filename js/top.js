@@ -2006,33 +2006,6 @@ var sortColors = function(nums) {
     }
     return nums
 };
-// 79. 单词搜索
-// 给定一个二维网格和一个单词，找出该单词是否存在于网格中。
-// 单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。
-// board =
-// [
-//   ['A','B','C','E'],
-//   ['S','F','C','S'],
-//   ['A','D','E','E']
-// ]
-
-// 给定 word = "ABCCED", 返回 true
-// 给定 word = "SEE", 返回 true
-// 给定 word = "ABCB", 返回 false
-// 提示：
-
-// board 和 word 中只包含大写和小写英文字母。
-// 1 <= board.length <= 200
-// 1 <= board[i].length <= 200
-// 1 <= word.length <= 10^3
-/**
- * @param {character[][]} board
- * @param {string} word
- * @return {boolean}
- */
-var exist = function(board, word) {
-
-};
 // 77. 组合
 // 给定两个整数 n 和 k，返回 1 ... n 中所有可能的 k 个数的组合。
 // 输入: n = 4, k = 2
@@ -2331,7 +2304,6 @@ var grayCode = function(n) {
         gray.push(binary ^ binary >> 1);
     }
     return gray;
-
     // const obj = {
     //     0: [1, 2],
     //     1: [0, 3],
@@ -2355,4 +2327,90 @@ var grayCode = function(n) {
     // combin([0])
     // return res.shift()
 };
-console.log(grayCode(6))
+
+// 81. 搜索旋转排序数组 II
+// 假设按照升序排序的数组在预先未知的某个点上进行了旋转。
+
+// ( 例如，数组 [0,0,1,2,2,5,6] 可能变为 [2,5,6,0,0,1,2] )。
+
+// 编写一个函数来判断给定的目标值是否存在于数组中。若存在返回 true，否则返回 false。
+
+// 输入: nums = [2,5,6,0,0,1,2], target = 0
+// 输出: true
+
+// 输入: nums = [2,5,6,0,0,1,2], target = 3
+// 输出: false
+// 进阶:
+
+// 这是 搜索旋转排序数组 的延伸题目，本题中的 nums  可能包含重复元素。
+// 这会影响到程序的时间复杂度吗？会有怎样的影响，为什么？
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {boolean}
+ */
+var search = function(nums, target) {
+    return nums.indexOf(target) > -1
+};
+
+// 79. 单词搜索
+// 给定一个二维网格和一个单词，找出该单词是否存在于网格中。
+// 单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。
+// board =
+// [
+//   ['A','B','C','E'],
+//   ['S','F','C','S'],
+//   ['A','D','E','E']
+// ]
+
+// 给定 word = "ABCCED", 返回 true
+// 给定 word = "SEE", 返回 true
+// 给定 word = "ABCB", 返回 false
+// 提示：
+
+// board 和 word 中只包含大写和小写英文字母。
+// 1 <= board.length <= 200
+// 1 <= board[i].length <= 200
+// 1 <= word.length <= 10^3
+/**
+ * @param {character[][]} board
+ * @param {string} word
+ * @return {boolean}
+ */
+var exist = function(board, word) {
+     //越界处理
+    board[-1] = []
+    board.push([])
+
+    //寻找首个字母
+    for (let y = 0; y < board.length; y++) {
+        for (let x = 0; x < board.length; x++) {
+        if (word[0] === board[y][x] && backtrack(y, x, 0)) return true
+        }
+    }
+    
+    //回溯
+    function backtrack(y, x, i) {
+        //回溯终止
+        if (i + 1 === word.length) return true
+
+        //保存字母
+        var tmp = board[y][x]
+        board[y][x] = false
+
+        if (board[y][x + 1] === word[i + 1] && backtrack(y, x + 1, i + 1)) return true
+        if (board[y][x - 1] === word[i + 1] && backtrack(y, x - 1, i + 1)) return true
+        if (board[y + 1][x] === word[i + 1] && backtrack(y + 1, x, i + 1)) return true
+        if (board[y - 1][x] === word[i + 1] && backtrack(y - 1, x, i + 1)) return true
+
+        //复原字母
+        board[y][x] = tmp
+    }
+
+    return false
+
+    // 作者：user3026
+    // 链接：https://leetcode-cn.com/problems/word-search/solution/hui-su-by-user3026/
+    // 来源：力扣（LeetCode）
+    // 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+};
