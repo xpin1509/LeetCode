@@ -57,4 +57,3 @@ var getRow = function(rowIndex) {
     }
     return arr[rowIndex]
 };
-console.log(getRow(0))
