@@ -1097,84 +1097,6 @@ var isValidSudoku = function(board) {
     }
     return true
 };
-// 37. 解数独
-// 编写一个程序，通过已填充的空格来解决数独问题。
-// 一个数独的解法需遵循如下规则：
-
-// 数字 1-9 在每一行只能出现一次。
-// 数字 1-9 在每一列只能出现一次。
-// 数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。
-// 空白格用 '.' 表示。
-
-
-// 给定的数独序列只包含数字 1-9 和字符 '.' 。
-// 你可以假设给定的数独只有唯一解。
-// 给定数独永远是 9x9 形式的。
-/**
- * TODO
- * @param {character[][]} board
- * @return {void} Do not return anything, modify board in-place instead.
- */
-var solveSudoku = function(board) {
-    function combin (row) {
-        if (row === (board.length - 1) && board[row].indexOf('.') === -1) {
-            return
-        }
-        for (let i = 0; i < 9; i++) {
-            if (board[row][i] === '.') {
-                const left = [1,2,3,4,5,6,7,8,9].filter(el => board[row].indexOf(el) === -1)
-                for (let j = 0; j < left.length; j++) {
-                    board[row][i] = left[j]
-                    debugger
-                    let rowNext, colNext
-                    if (i == (board.length - 1)) {
-                        rowNext = row + 1
-                        colNext = 0
-                    } else {
-                        rowNext = row
-                        colNext = i + 1
-                    }
-                    if (!isValid(row, i, left[j])) continue
-                    combin(rowNext)
-                    board[row][i] = '.'
-                }
-            } else {
-                continue
-            }
-        }
-    }
-    combin(0)
-    function isValid (row, col, val) {
-        // 竖排没有重复的数
-        for (let i = 0; i < board.length; i++) {
-            if (board[i][col] === val && row !== i) {
-                return false
-            }
-        }
-        // 小框里没有重复的数
-        for (let i = parseInt(row/3) * 3; i < (parseInt(row/3) * 3 + 3); i++) {
-            for (let j = parseInt(col/3) * 3; j < (parseInt(col/3) * 3 + 3); j++) {
-                if (board[i][j] === val && (i !== row && j !== col)) {
-                    return false
-                }
-            }
-        }
-        return true
-    } 
-};
-// const arr = [
-//     [5, 3, '.', '.', 7, '.', '.','.','.'],
-//     [6, '.', '.', 1, 9, 5, '.','.','.'],
-//     ['.', 9, 8, '.', '.', '.', '.',6,'.'],
-//     [8, '.', '.', '.', 6, '.', '.','.', 3],
-//     [4, '.', '.', 8, '.', 3, '.','.', 1],
-//     [7, '.', '.', '.', 2, '.', '.','.', 6],
-//     ['.', 6, '.', '.', '.', '.', 2, 8,'.'],
-//     ['.', '.', '.', 4, 1, 9, '.','.', 5],
-//     ['.', '.', '.', '.', 8, '.', '.',7,9]
-// ]
-// solveSudoku(arr)
-
 
 // 40. 组合总和 II
 // 给定一个数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。
@@ -2414,3 +2336,103 @@ var exist = function(board, word) {
     // 来源：力扣（LeetCode）
     // 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 };
+
+
+// 37. 解数独
+// 编写一个程序，通过已填充的空格来解决数独问题。
+// 一个数独的解法需遵循如下规则：
+
+// 数字 1-9 在每一行只能出现一次。
+// 数字 1-9 在每一列只能出现一次。
+// 数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。
+// 空白格用 '.' 表示。
+
+
+// 给定的数独序列只包含数字 1-9 和字符 '.' 。
+// 你可以假设给定的数独只有唯一解。
+// 给定数独永远是 9x9 形式的。
+/**
+ * TODO
+ * @param {character[][]} board
+ * @return {void} Do not return anything, modify board in-place instead.
+ */
+var solveSudoku = function(board) {
+    const arrList = []
+    const rowObj = {}
+    const colObj = {}
+    for (let i = 0; i < board.length; i++) {
+        let arr = []
+        for (let j = 0; j < board.length; j++) {
+            if (board[i][j] === '.') {
+                arrList.push(i+ ','+j)
+            } else {
+                arr.push(board[i][j])
+                if (!colObj[j]) {
+                    colObj[j] = [board[i][j]]
+                } else {
+                    colObj[j].push(board[i][j])
+                }
+            }
+        }
+        rowObj[i] = arr
+    }
+    function combin (index) {
+        if (arrList[index] == null) return
+        const row = parseInt(arrList[index].split(',')[0])
+        const col = parseInt(arrList[index].split(',')[1]) 
+        const left = getleftArr(row, col)
+        for (let j = 0; j < left.length; j++) {
+            board[row][col] = left[j]
+            const result = isValid(row, col, left[j])
+            if (!result) {
+                continue
+            }
+            combin(index+1)
+            board[row][col] = '.'
+        }
+    }
+    combin(0)
+    function getleftArr (row, col) {
+        const rows = rowObj[row] || []
+        const cols = colObj[col] || []
+        return [1,2,3,4,5,6,7,8,9].filter(el => rows.indexOf(el) === -1 && cols.indexOf(el) === -1)
+    }
+    function isValid (row, col, val) {
+        // 横排校验
+        for (let i = 0; i < col; i++) {
+            if (board[row][i] === val) {
+                return false
+            }
+        }
+        // 竖排没有重复的数
+        for (let i = 0; i < row; i++) {
+            if (board[i][col] === val) {
+                return false
+            }
+        }
+        // 小框里没有重复的数
+        const m = parseInt(col/3) * 3
+        const n = parseInt(row/3) * 3
+        for (let i = m; i < m + 3; i++) {
+            for (let j = n; j < n + 3; j++) {
+                if (board[j][i] === val && i !== col && j !== row) {
+                    return false
+                }
+            }
+        }
+        return true
+    } 
+};
+const arr = [
+    [5, 3, '.', '.', 7, '.', '.','.','.'],
+    [6, '.', '.', 1, 9, 5, '.','.','.'],
+    ['.', 9, 8, '.', '.', '.', '.',6,'.'],
+    [8, '.', '.', '.', 6, '.', '.','.', 3],
+    [4, '.', '.', 8, '.', 3, '.','.', 1],
+    [7, '.', '.', '.', 2, '.', '.','.', 6],
+    ['.', 6, '.', '.', '.', '.', 2, 8,'.'],
+    ['.', '.', '.', 4, 1, 9, '.','.', 5],
+    ['.', '.', '.', '.', 8, '.', '.',7,9]
+]
+solveSudoku(arr)
+console.log(arr)
