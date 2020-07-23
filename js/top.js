@@ -2360,6 +2360,7 @@ var solveSudoku = function(board) {
     const arrList = []
     const rowObj = {}
     const colObj = {}
+    const square = {}
     for (let i = 0; i < board.length; i++) {
         let arr = []
         for (let j = 0; j < board.length; j++) {
@@ -2381,13 +2382,17 @@ var solveSudoku = function(board) {
         const row = parseInt(arrList[index].split(',')[0])
         const col = parseInt(arrList[index].split(',')[1]) 
         const left = getleftArr(row, col)
-        for (let j = 0; j < left.length; j++) {
-            board[row][col] = left[j]
-            const result = isValid(row, col, left[j])
+        for (let i = 0; i < left.length; i++) {
+            board[row][col] = left[i]
+            const result = isValid(row, col, left[i])
+            console.log(board[row])
+            debugger
             if (!result) {
                 continue
             }
+            debugger
             combin(index+1)
+            debugger
             board[row][col] = '.'
         }
     }
