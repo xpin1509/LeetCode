@@ -2360,7 +2360,7 @@ var solveSudoku = function(board) {
     const arrList = []
     const rowObj = {}
     const colObj = {}
-    const square = {}
+    const squareObj = {}
     for (let i = 0; i < board.length; i++) {
         let arr = []
         for (let j = 0; j < board.length; j++) {
@@ -2373,26 +2373,38 @@ var solveSudoku = function(board) {
                 } else {
                     colObj[j].push(board[i][j])
                 }
+                const squareI= squarIndex(i, j)
+                if (!squareObj[squareI]) {
+                    squareObj[squareI] = [board[i][j]]
+                } else {
+                    squareObj[squareI].push(board[i][j])
+                }
             }
         }
         rowObj[i] = arr
     }
     function combin (index) {
-        if (arrList[index] == null) return
+        if (arrList.length == index) {
+            console.log(arr)
+            debugger
+            return
+        }
+        if (index === 11) {
+            debugger
+        }
         const row = parseInt(arrList[index].split(',')[0])
         const col = parseInt(arrList[index].split(',')[1]) 
         const left = getleftArr(row, col)
         for (let i = 0; i < left.length; i++) {
             board[row][col] = left[i]
             const result = isValid(row, col, left[i])
-            console.log(board[row])
-            debugger
+            // debugger
             if (!result) {
                 continue
             }
-            debugger
+            // debugger
             combin(index+1)
-            debugger
+            // debugger
             board[row][col] = '.'
         }
     }
@@ -2400,7 +2412,19 @@ var solveSudoku = function(board) {
     function getleftArr (row, col) {
         const rows = rowObj[row] || []
         const cols = colObj[col] || []
-        return [1,2,3,4,5,6,7,8,9].filter(el => rows.indexOf(el) === -1 && cols.indexOf(el) === -1)
+        const squareI= squarIndex(row, col)
+        const square = squareObj[squareI] || []
+        return [1,2,3,4,5,6,7,8,9].filter(el => rows.indexOf(el) === -1 && cols.indexOf(el) === -1 && square.indexOf(el) === -1)
+    }
+    function squarIndex (row, col) {
+        const m = parseInt(row/3)
+        const n = parseInt(col/3)
+        const res = [
+            [0,1,2],
+            [3,4,5],
+            [6,7,8]
+        ]
+        return res[m][n]
     }
     function isValid (row, col, val) {
         // 横排校验
@@ -2420,7 +2444,7 @@ var solveSudoku = function(board) {
         const n = parseInt(row/3) * 3
         for (let i = m; i < m + 3; i++) {
             for (let j = n; j < n + 3; j++) {
-                if (board[j][i] === val && i !== col && j !== row) {
+                if (board[j][i] === val && !(i >= col && j >= row)) {
                     return false
                 }
             }
@@ -2441,3 +2465,7 @@ const arr = [
 ]
 solveSudoku(arr)
 console.log(arr)
+
+// 1.看下left是否正确
+
+// 思路2 先填写确定的值只有一个可能性的值
