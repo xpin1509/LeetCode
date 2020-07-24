@@ -2357,66 +2357,94 @@ var exist = function(board, word) {
  * @return {void} Do not return anything, modify board in-place instead.
  */
 var solveSudoku = function(board) {
-    const arrList = []
-    const rowObj = {}
-    const colObj = {}
-    const squareObj = {}
-    for (let i = 0; i < board.length; i++) {
-        let arr = []
-        for (let j = 0; j < board.length; j++) {
-            if (board[i][j] === '.') {
-                arrList.push(i+ ','+j)
-            } else {
-                arr.push(board[i][j])
-                if (!colObj[j]) {
-                    colObj[j] = [board[i][j]]
-                } else {
-                    colObj[j].push(board[i][j])
-                }
-                const squareI= squarIndex(i, j)
-                if (!squareObj[squareI]) {
-                    squareObj[squareI] = [board[i][j]]
-                } else {
-                    squareObj[squareI].push(board[i][j])
+    const boardBack = JSON.parse(JSON.stringify(board))
+    const n = board.length
+    const allChar = ['1','2','3','4','5','6','7','8','9']
+    const sparkObj = getSparkObj()
+    const sparklist = Object.keys(sparkObj)
+    function combin (index) {
+        if (index === sparklist.length) {
+            for (let i = 0; i < n; i++) {
+                for (let j = 0; j < n; j++) {
+                    board[i][j] = boardBack[i][j]
                 }
             }
-        }
-        rowObj[i] = arr
-    }
-    function combin (index) {
-        if (arrList.length == index) {
-            console.log(arr)
-            debugger
             return
         }
-        if (index === 11) {
-            debugger
-        }
-        const row = parseInt(arrList[index].split(',')[0])
-        const col = parseInt(arrList[index].split(',')[1]) 
-        const left = getleftArr(row, col)
+        const key = sparklist[index]
+        const left = sparkObj[key]
         for (let i = 0; i < left.length; i++) {
-            board[row][col] = left[i]
-            const result = isValid(row, col, left[i])
-            // debugger
-            if (!result) {
-                continue
-            }
-            // debugger
-            combin(index+1)
-            // debugger
-            board[row][col] = '.'
+            const row = parseInt(key.split(',')[0])
+            const col = parseInt(key.split(',')[1])
+            boardBack[row][col] = left[i]
+            if (!isValid(row, col, left[i])) continue
+            combin(index + 1)
+            boardBack[row][col] = '.'
         }
     }
     combin(0)
-    function getleftArr (row, col) {
-        const rows = rowObj[row] || []
-        const cols = colObj[col] || []
-        const squareI= squarIndex(row, col)
-        const square = squareObj[squareI] || []
-        return [1,2,3,4,5,6,7,8,9].filter(el => rows.indexOf(el) === -1 && cols.indexOf(el) === -1 && square.indexOf(el) === -1)
+    function isValid(row, col, value) {
+        for (let i = 0; i < col; i++) {
+            if (boardBack[row][i] === value) return false
+        }
+        for (let i = 0; i < row; i++) {
+            if (boardBack[i][col] === value) return false
+        }
+        const m = parseInt(row/3) * 3
+        const n = parseInt(col/3) * 3
+        for (let i = m; i < row; i++) {
+            for (let j = n; j < n + 3; j++) {
+                if (value === boardBack[i][j]) {
+                    return false
+                }
+            }
+        }
+        return true
     }
-    function squarIndex (row, col) {
+    function getSparkObj () {
+        const rowObj = {}
+        const colObj = {}
+        const squareObj = {}
+        for (let i = 0; i < n; i++) {
+            rowObj[i] = []
+            for (let j = 0; j < n; j++) {
+                if (boardBack[i][j] !== '.') {
+                    // 横向
+                    rowObj[i].push(boardBack[i][j])
+                    // 纵向
+                    if (!Array.isArray(colObj[j])) {
+                        colObj[j] = []
+                    }
+                    colObj[j].push(boardBack[i][j])
+
+                    const sIndex = squareIndex(i, j)
+                    // 小正方
+                    if (!Array.isArray(squareObj[sIndex])) {
+                        squareObj[sIndex] = []
+                    }
+                    squareObj[sIndex].push(boardBack[i][j])
+                }
+            }
+        }
+        const sparkObj = {}
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < n; j++) {
+                if (boardBack[i][j] === '.') {
+                    const left = getleftArr(i, j, rowObj, colObj, squareObj)
+                    sparkObj[i + ',' + j] = left
+                }
+            }
+        }
+        return sparkObj
+    }
+    function getleftArr (row, col, rowObj, colObj, squareObj) {
+        const rows = rowObj[row]
+        const cols = colObj[col] || []
+        const sIndex= squareIndex(row, col)
+        const square = squareObj[sIndex] || []
+        return allChar.filter(el => rows.indexOf(el) === -1 && cols.indexOf(el) === -1 && square.indexOf(el) === -1)
+    }
+    function squareIndex (row, col) {
         const m = parseInt(row/3)
         const n = parseInt(col/3)
         const res = [
@@ -2426,46 +2454,4 @@ var solveSudoku = function(board) {
         ]
         return res[m][n]
     }
-    function isValid (row, col, val) {
-        // 横排校验
-        for (let i = 0; i < col; i++) {
-            if (board[row][i] === val) {
-                return false
-            }
-        }
-        // 竖排没有重复的数
-        for (let i = 0; i < row; i++) {
-            if (board[i][col] === val) {
-                return false
-            }
-        }
-        // 小框里没有重复的数
-        const m = parseInt(col/3) * 3
-        const n = parseInt(row/3) * 3
-        for (let i = m; i < m + 3; i++) {
-            for (let j = n; j < n + 3; j++) {
-                if (board[j][i] === val && !(i >= col && j >= row)) {
-                    return false
-                }
-            }
-        }
-        return true
-    } 
-};
-const arr = [
-    [5, 3, '.', '.', 7, '.', '.','.','.'],
-    [6, '.', '.', 1, 9, 5, '.','.','.'],
-    ['.', 9, 8, '.', '.', '.', '.',6,'.'],
-    [8, '.', '.', '.', 6, '.', '.','.', 3],
-    [4, '.', '.', 8, '.', 3, '.','.', 1],
-    [7, '.', '.', '.', 2, '.', '.','.', 6],
-    ['.', 6, '.', '.', '.', '.', 2, 8,'.'],
-    ['.', '.', '.', 4, 1, 9, '.','.', 5],
-    ['.', '.', '.', '.', 8, '.', '.',7,9]
-]
-solveSudoku(arr)
-console.log(arr)
-
-// 1.看下left是否正确
-
-// 思路2 先填写确定的值只有一个可能性的值
+}
