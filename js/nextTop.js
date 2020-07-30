@@ -86,4 +86,3 @@ var isPalindrome = function(s) {
     const reverStr = char.split('').reverse().join('')
     return char.toLowerCase() === reverStr.toLowerCase()
 };
-console.log(isPalindrome('A man, a plan, a canal: Panama'))
