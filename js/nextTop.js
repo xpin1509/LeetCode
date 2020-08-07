@@ -106,28 +106,39 @@ var isPalindrome = function(s) {
  * @return {number}
  */
 var minimumTotal = function(triangle) {
-    const n = triangle.length
-    const res = []
-    function combin (path, left) {
-        if (path == n) {
-            res.push(path.reduce((cur, total) => cur + total, 0))
-            return
+    // const n = triangle.length
+    // const res = []
+    // function combin (path, index, rowIndex) {
+    //     if (path.length == n) {
+    //         res.push(path.reduce((cur, total) => cur + total, 0))
+    //         return
+    //     }
+    //     const left = [triangle[rowIndex + 1][index], triangle[rowIndex + 1][index + 1]]
+    //     for (let i = 0; i < left.length; i++) {
+    //         const el = left.splice(i, 1)
+    //         path.push(el)
+    //         combin(path, left)
+    //         path.pop()
+    //         left.splice(i, 0, el)
+    //     }
+    // }
+    // combin([], 0, 0)
+    // debugger
+    // return Math.min(...res)
+    // 动态规划法
+    const res = [triangle[0]]
+    for (let i = 1; i < triangle.length; i++) {
+        const arr = triangle[i]
+        const arrBefore = res[i-1]
+        const line = [arrBefore[0] + arr[0]]
+        for (let j = 1; j < arr.length; j++) {
+            let min = arr[j] + arrBefore[j-1]
+            if (arrBefore[j] !== undefined) {
+                min = Math.min(arr[j] + arrBefore[j], min)
+            }
+            line.push(min)
         }
-        for (let i = 0; i < left.length; i++) {
-            const el = left.splice(i, 1)
-            path.push(el)
-            combin(path, left)
-            path.pop()
-            left.splice(i, 0, el)
-        }
+        res.push(line)
     }
-    combin(triangle[0], triangle[1])
-    debugger
-    return Math.min(...res)
+    return Math.min(...res.pop())
 };
-// console.log(minimumTotal([
-//     [2],
-//    [3,4],
-//   [6,5,7],
-//  [4,1,8,3]
-// ]))
