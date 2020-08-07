@@ -106,5 +106,28 @@ var isPalindrome = function(s) {
  * @return {number}
  */
 var minimumTotal = function(triangle) {
-
+    const n = triangle.length
+    const res = []
+    function combin (path, left) {
+        if (path == n) {
+            res.push(path.reduce((cur, total) => cur + total, 0))
+            return
+        }
+        for (let i = 0; i < left.length; i++) {
+            const el = left.splice(i, 1)
+            path.push(el)
+            combin(path, left)
+            path.pop()
+            left.splice(i, 0, el)
+        }
+    }
+    combin(triangle[0], triangle[1])
+    debugger
+    return Math.min(...res)
 };
+// console.log(minimumTotal([
+//     [2],
+//    [3,4],
+//   [6,5,7],
+//  [4,1,8,3]
+// ]))
