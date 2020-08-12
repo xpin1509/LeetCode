@@ -95,3 +95,20 @@ console.log('end')
 //         resovle(1000)
 //     }, 1000);
 // })
+// const p1 = () => {
+//     return new Promise((resolve) => {
+//         setTimeout(() => {
+//             resolve('p1')
+//         }, 1000);
+//     })
+// }
+// const p2 = () => {
+//     return new Promise((resolve) => {
+//         setTimeout(() => {
+//             resolve('p2')
+//         }, 500);
+//     })
+// }
+// P.all([p1(), p2()]).then(res => {
+//     console.log(res)
+// })

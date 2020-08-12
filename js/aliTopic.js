@@ -28,13 +28,13 @@ class P {
                 })
             }
             function valid () {
-                if (Object.keys(result !== promiseArr.length)) {
+                if (Object.keys(result).length !== promiseArr.length) {
                     return
                 }
                 let res = true
                 const resultArr = []
                 for (let i in result) {
-                    if (i['status'] !== 'resovled') {
+                    if (result[i]['status'] !== 'resovled') {
                         res = false
                         return
                     } else {
@@ -46,6 +46,7 @@ class P {
         })
     }
 }
+
 // 2.xhr请求缓存与合并
 
 // 3.将一个html字符串变成树的形式
