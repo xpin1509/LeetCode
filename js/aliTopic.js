@@ -46,10 +46,19 @@ class P {
         })
     }
 }
-
-// 2.xhr请求缓存与合并
-
 // 3.将一个html字符串变成树的形式
+/**
+ * '<html><span>hello world</span></html>'
+ * @param {String} str 
+ * return {Objec} dom
+ */
+function transfer (str) {
+    const htmlTag = ['html', 'body', 'p', 'span']
+    const dom = {}
+    return dom
+}
+console.log(transfer('<html><span>hello world</span></html>'))
+// 2.xhr请求缓存与合并
 
 // 4.给定一个数组,他的第i个元素是一支给定股票第i天的价格
 
