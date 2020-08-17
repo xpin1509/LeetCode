@@ -52,14 +52,86 @@ class P {
  * @param {String} str 
  * return {Objec} dom
  */
-function transfer (str) {
-    const htmlTag = ['html', 'body', 'p', 'span']
-    const dom = {}
+function transfer (html) {
+    const isselfCloseReg = /\/>$/
+    const endTagReg = /^<\/[\w]+>$/
+    const isStartTagReg = /^<[\w]+(\s+[\w-]+="[\w]*")*\/?>/
+
+    let lastdom = null, dom = null
+    while(html) {
+        const starttag = html.match(isStartTagReg)
+        const endTag = html.match(endTagReg)
+        if (starttag && starttag[0].length) {
+            // 开始标签
+            const newDom = parserStart(starttag[0])
+            if (!lastdom) {
+                dom = newDom
+                lastdom = dom
+            } else {
+                lastdom.children = lastdom.children ? [...lastdom.children, newDom] : [newDom]
+            }
+            html = html.substring(starttag[0].length)
+        } else if (endTag && endTag[0]) {
+            // 结束标签
+            html = html.substring(endTag[0].length)
+        } else {
+            // 当做text处理,截取下一个<
+            const index = html.indexOf('<')
+            const text = html.substring(0, index)
+            Object.assign(lastdom, { text })
+            html = html.substring(index)
+        }
+    }
+    function parserStart (startHtml) {
+        let tag = '', attributes = {}, selfClose = false
+        if (~startHtml.indexOf('/>')) {
+            selfClose = true
+            startHtml = startHtml.replace(/^</, '').replace(/\/>$/, '')
+        } else {
+            startHtml = startHtml.replace(/^</, '').replace(/>$/, '')
+        }
+        startHtml = startHtml.replace(/^</, '').replace(/>$/, '')
+        const attrsAndTag = startHtml.split(' ')
+        for (let attr of attrsAndTag) {
+            if (~attr.indexOf('=')) {
+                // 属性
+                const [key, value] = attr.split('=')
+                attributes[key] = value
+            } else {
+                // 标签
+                tag = attr
+            }
+        }
+        return {
+            tag,
+            attributes
+        }
+    }
     return dom
 }
-console.log(transfer('<html><span>hello world</span></html>'))
+console.log(transfer('<div id="main" data-x="hello">Hello<span id="sub"/></div>'))
+/* <div id="main" data-x="hello">Hello<span id="sub" /></div>
+{
+    tag: "div",
+    selfClose: false,
+    attributes: {
+      "id": "main",
+      "data-x": "hello"
+    },
+    text: "Hello",
+    children: [
+      {
+        tag: "span",
+        selfClose: true,
+        attributes: {
+          "id": "sub"
+        }
+      }
+    ]
+} */
 // 2.xhr请求缓存与合并
 
 // 4.给定一个数组,他的第i个元素是一支给定股票第i天的价格
+// 见leetcode
 
 // 5.给定两个二叉树,编写一个函数来检验他们是否相同
