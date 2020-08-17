@@ -64,43 +64,72 @@ var winner = single.getInstance('xiaoming')
 var looser = single.getInstance('xiaofang')
 
 
-// 发布订阅模式
-var eventEnitter = {
-    list : {},
-    on: function (type, fn) {
-        if (!this.list[type]) {
-            this.list[type] = []
+// // 发布订阅模式
+// var eventEnitter = {
+//     list : {},
+//     on: function (type, fn) {
+//         if (!this.list[type]) {
+//             this.list[type] = []
+//         }
+//         this.list[type].push(fn)
+//     },
+//     emit: function() {
+//         const type = [].shift.call(arguments)
+//         this.list[type].forEach(fn => {
+//             fn.apply(this, arguments)
+//         })
+//     },
+//     off: function(type, fn) {
+//         if (!this.list[type]) return
+//         for (let i = 0; i < this.list[type].length; i++) {
+//             if (fn === this.list[type][i]) {
+//                 this.list[type].splice(i, 1)
+//             }
+//         }
+//     }
+// }
+// function sayName(name) {
+//     console.log(name)
+// }
+// function sayAge (age, sex) {
+//     console.log(age, sex)
+// }
+// eventEnitter.on('article', sayName)
+// eventEnitter.on('person', sayAge)
+
+// eventEnitter.emit('article', 'hello world')
+// eventEnitter.emit('person', 25, '男')
+
+// eventEnitter.off('article', sayName)
+// eventEnitter.off('person', sayAge)
+
+// eventEnitter.emit('article', 'hello world2')
+
+const eventbus = {
+    events: {},
+    on (evenname, fn) {
+        if (this.events[evenname]) {
+            this.events[evenname].push(fn)
+        } else {
+            this.events[evenname] = [fn]
         }
-        this.list[type].push(fn)
     },
-    emit: function() {
-        const type = [].shift.call(arguments)
-        this.list[type].forEach(fn => {
-            fn.apply(this, arguments)
-        })
-    },
-    off: function(type, fn) {
-        if (!this.list[type]) return
-        for (let i = 0; i < this.list[type].length; i++) {
-            if (fn === this.list[type][i]) {
-                this.list[type].splice(i, 1)
+    emit (evenname, ...args) {
+        const events = this.events[evenname]
+        if (events && events.length) {
+            for (let i = 0; i < events.length; i++) {
+                const fn = events[i]
+                fn.apply(this, args)
             }
         }
     }
 }
-function sayName(name) {
-    console.log(name)
-}
-function sayAge (age, sex) {
-    console.log(age, sex)
-}
-eventEnitter.on('article', sayName)
-eventEnitter.on('person', sayAge)
-
-eventEnitter.emit('article', 'hello world')
-eventEnitter.emit('person', 25, '男')
-
-eventEnitter.off('article', sayName)
-eventEnitter.off('person', sayAge)
-
-eventEnitter.emit('article', 'hello world2')
+eventbus.on('open', (...args) => {
+    console.log(this)
+    console.log('open', ...args)
+})
+eventbus.on('close', () => {
+    console.log('close')
+})
+eventbus.emit('open', 'xubin', 28)
+// eventbus.emit('close')
