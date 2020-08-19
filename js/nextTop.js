@@ -206,12 +206,20 @@ var maxProfit = function(prices) {
  * @return {number}
  */
 var maxProfit2   = function(prices) {
-    const arr = []
-    if (prices.length < 2) return 0
-    for (let i = 0; i < prices.length; i++) {
-        let min = 0
-        for (let j = i + 1; i < prices.length; j ++) {
+    // const arr = []
+    // if (prices.length < 2) return 0
+    // for (let i = 0; i < prices.length; i++) {
+    //     let min = 0
+    //     for (let j = i + 1; i < prices.length; j ++) {
             
+    //     }
+    // }
+    let max = 0
+    if (prices.length < 2) return max
+    for (let i = 1; i < prices.length; i++) {
+        if (prices[i] > prices[i-1]) {
+            max += prices[i] - prices[i-1]
         }
     }
+    return max
 };
