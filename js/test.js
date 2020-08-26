@@ -1,14 +1,30 @@
 // 1.Promise.all
 Promise.all = function (list) {
+    const obj = {}
     return new Promise((resolve, reject) => {
-        resole()
+        for (let i = 0; i < list.length; i++) {
+            const p = list[i]
+            p.then(res => {
+                obj[i] = res
+                if (Object.keys(obj) === list.length) {
+                    const result = Object.keys(obj).map(el => obj[el])
+                    resolve(result)
+                }
+            }).catch(err => {
+                reject(err)
+            })
+        }
     })
 }
 // 2.Promise.race
 Promise.race = function (list) {
     return new Promise((resole, reject) => {
         for (let p of list) {
-            resole(p)
+            p.then(res => {
+                resole(res)
+            }).catch(err => {
+                reject(err)
+            })
         }
     })
 }
