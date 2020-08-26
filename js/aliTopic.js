@@ -109,7 +109,6 @@ function transfer (html) {
     }
     return dom
 }
-console.log(transfer('<div id="main" data-x="hello">Hello<span id="sub"/></div>'))
 /* <div id="main" data-x="hello">Hello<span id="sub" /></div>
 {
     tag: "div",
