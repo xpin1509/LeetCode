@@ -136,12 +136,45 @@ function instanceof1 (left, right) {
     }
     return false
 } 
-
+// 插入排序
 // 快排
 // 希尔排序
 // 归并排序
+// 深拷贝
+// JSON.parse的缺点
+// 1.undefined
+// 2.正则
+// 3.循环引用
+function deepcolne (data) {
+    const obj = {}
+    for (let i in data) {
+        const value = data[i]
+        if (value == undefined) {
+            obj[i] = value
+        } else if (value instanceof RegExp) {
+            obj[i] = value
+        } else if (value instanceof Object){
+            obj[i] = deepcolne(value)
+        } else {
+            obj[i] = value
+        }
+    }
+    return obj
+}
 // 简单二叉树 2-3条题目
-// 5.给定两个二叉树,编写一个函数来检验他们是否相同
+// 100. 相同的树
 // 简单链表  2-3条题目
+// 2. 两数相加
+
+// [2,88]的随机数
+function random(start, end) {
+    const rang = end - start + 1
+    return parseInt(Math.random() * rang + start)
+}
 // 重新看下云的算法笔记和leetcode的笔记
 // https://juejin.im/post/6844903887502082061
+
+
+/*
+ *暂时不做的promise
+ */
