@@ -1,6 +1,8 @@
 // 1.Promise.all
 Promise.all = function (list) {
-    
+    return new Promise((resolve, reject) => {
+        resole()
+    })
 }
 // 2.Promise.race
 Promise.race = function (list) {
@@ -62,8 +64,19 @@ function totree(list){
     return list.find(el => el.parentId === null)
 }
 // 7.防抖
+function debounce () {}
 // 8.节流
+function throttle () {}
 // map
+Array.prototype.myMap = function (fn) {
+    const arr = this
+    const result = []
+    for (let i = 0; i < arr.length; i++) {
+        const el = arr[i]
+        result.push(fn(el, i, arr))
+    }
+    return result
+}
 // new
 // instanceof
 // 快排
