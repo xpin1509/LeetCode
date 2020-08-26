@@ -80,9 +80,34 @@ function totree(list){
     return list.find(el => el.parentId === null)
 }
 // 7.防抖
-function debounce () {}
+function debounce (fn, time) {
+    var timer = null
+    return function (...arg) {
+        if (timer) {
+            clearTimeout(timer)
+            timer = null
+        }
+        const _this = this
+        timer = setTimeout(() => {
+            fn.call(_this, ...arg)
+        }, time)
+    }
+}
 // 8.节流
-function throttle () {}
+function throttle (fn, wait = 0) {
+    let timer = null
+    return function (...arg) {
+        const _this = this
+        if (!timer) {
+            fn.call(_this, ...arg)
+        }
+        timer = setTimeout(() => {
+            clearTimeout(timer)
+            timeId = null
+        }, wait)
+    }
+}
+
 // map
 Array.prototype.myMap = function (fn) {
     const arr = this
@@ -94,7 +119,24 @@ Array.prototype.myMap = function (fn) {
     return result
 }
 // new
+function new1 (fn, ...arg) {
+    const _this = Object.create(fn.prototype)
+    fn.call(_this, ...arg)
+    // _this.__proto__ = fn.prototype
+    return _this
+}
+
 // instanceof
+function instanceof1 (left, right) {
+    while(left.__proto__ !== null) {
+        if (left.__proto__ === right.prototype) {
+            return true
+        }
+        left = left.__proto__
+    }
+    return false
+} 
+
 // 快排
 // 希尔排序
 // 归并排序
