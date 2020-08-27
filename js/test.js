@@ -161,10 +161,22 @@ function quickSort (arr) {
  * @param {Array} arr 
  */
 function shellSort (arr) {
-    const result = []
+    const result = [].concat(arr)
+    const len = result.length
+    let gap = Math.floor(len / 2)
+    for (gap; gap > 0; gap = Math.floor(gap/2)) {
+        for (let i = gap; i < len; i++) {
+            for (let j = i - gap; j >= 0; j -= gap) {
+                if (result[j] > result[i]) {
+                    const temp = result[j]
+                    result[j] = result[i]
+                    result[i] = temp
+                }
+            }
+        }
+    }
     return result
 }
-// console.log(shellSort([3, 1, 2, 8, 9, 7, 6]))
 /**
  * 归并排序 merge sort，核心思想分治 采用递归的方式
  * @param {Array} data 
@@ -308,3 +320,39 @@ function shuffle (arr) {
     }
     return result
 }
+
+//在写快排和归并
+// function quick (arr) {
+//     if (arr.length <= 1) return arr
+//     const basic = arr[arr.length - 1]
+//     const left = [], center = [], right = []
+//     for (let i = 0; i < arr.length; i++) {
+//         if (arr[i] < basic) {
+//             left.push(arr[i])
+//         } else if (arr[i] > basic) {
+//             right.push(arr[i])
+//         } else {
+//             center.push(arr[i])
+//         }
+//     }
+//     return [...quick(left), ...center, ...quick(right)]
+// }
+// function mergeSort1 (arr) {
+//     if (arr.length < 2) return arr
+//     const len = arr.length
+//     const mid = Math.floor(len/2)
+//     const left = arr.slice(0, mid)
+//     const right = arr.slice(mid)
+//     return merge1(mergeSort1(left), mergeSort1(right))
+// }
+// function merge1 (left, right) {
+//     const result = []
+//     while(left.length && right.length) {
+//         if (left[0] < right[0]) {
+//             result.push(left.shift())
+//         } else {
+//             result.push(right.shift())
+//         }
+//     }
+//     return [...result, ...left, ...right]
+// }
