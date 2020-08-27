@@ -344,6 +344,8 @@ function deepclone (data, hash = new WeakMap()) {
     if (data == null || typeof data !== 'object') {
         return data
     }
+    if (data instanceof RegExp) return new RegExp(data)
+
     if (hash.has(data)) return hash.get(data)
     let reslut = new data.__proto__.constructor()
     hash.set(data, reslut)
