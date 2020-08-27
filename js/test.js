@@ -199,30 +199,7 @@ function mergeSort (arr) {
     const right = arr.slice(mid)
     return merge(mergeSort(left), mergeSort(right))
 }
-/**
- * 深拷贝
- * 问题1：JSON.parse的缺点1.undefined 2.正则 3.循环引用
- * 问题2：数组的拷贝
- * @param {Object} data 
- */
-function deepclone (data) {
-    if (data == null || !(data instanceof Object)) {
-        return data
-    }
-    let reslut
-    if (Array.isArray(data)) {
-        reslut = []
-    } else {
-        reslut = {}
-    }
-    for (let el in data) {
-        if (data[i] instanceof Object) {
-            reslut[i] = deepclone(data[i])
-        } else {
-            reslut[i] = data[i]
-        }
-    }
-}
+
 // 简单二叉树 2-3条题目
 // 100. 相同的树
 var isSameTree = function(p, q) {
@@ -356,3 +333,35 @@ function shuffle (arr) {
 //     }
 //     return [...result, ...left, ...right]
 // }
+
+/**
+ * 深拷贝
+ * 问题1：JSON.parse的缺点1.undefined 2.正则 3.循环引用 4.Symbol
+ * 问题2：递归需要注意的事项：1.数组的拷贝 2.循环引用
+ * @param {Object} data 
+ */
+function deepclone (data, hash = new WeakMap()) {
+    if (data == null || typeof data !== 'object') {
+        return data
+    }
+    if (hash.has(data)) return hash.get(data)
+    let reslut = new data.__proto__.constructor()
+    hash.set(data, reslut)
+    for (let i in data) {
+        if (typeof data[i] === 'object') {
+            reslut[i] = deepclone(data[i], hash)
+        } else {
+            reslut[i] = data[i]
+        }
+    }
+    return reslut
+}
+// let obj = {         
+//     reg : /^asd$/,
+//     fun: function(){},
+//     syb:Symbol('foo'),
+//     asd:'asd'
+// }
+// obj.c = obj
+// console.log(deepclone(obj))
+// JSON.parse(JSON.stringify(obj))
