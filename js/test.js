@@ -107,7 +107,6 @@ function throttle (fn, wait = 0) {
         }, wait)
     }
 }
-
 // map
 Array.prototype.myMap = function (fn) {
     const arr = this
@@ -136,45 +135,176 @@ function instanceof1 (left, right) {
     }
     return false
 } 
-// 插入排序
-// 快排
-// 希尔排序
-// 归并排序
-// 深拷贝
-// JSON.parse的缺点
-// 1.undefined
-// 2.正则
-// 3.循环引用
-function deepcolne (data) {
-    const obj = {}
-    for (let i in data) {
-        const value = data[i]
-        if (value == undefined) {
-            obj[i] = value
-        } else if (value instanceof RegExp) {
-            obj[i] = value
-        } else if (value instanceof Object){
-            obj[i] = deepcolne(value)
+/**
+ * 阮一峰版优化版
+ * 快排 先选取基准值（可选随机数的最后一值），分成两份，然后递归两边完成排序
+ * @param {Array} result 
+ */
+function quickSort (arr) {
+    if (arr.length <= 1) return arr
+    const basic = arr[arr.length - 1]
+    const left  = [], right = [], center = []
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] < basic) {
+            left.push(arr[i])
+        } else if (arr[i] > basic) {
+            right.push(arr[i])
         } else {
-            obj[i] = value
+            center.push(arr[i])
         }
     }
-    return obj
+    return [...quickSort(left), ...center, ...quickSort(right)]
+}
+// 
+/**
+ * 希尔排序 首次突破O(n^2)的排序 又称缩小增量排序
+ * @param {Array} arr 
+ */
+function shellSort (arr) {
+    const result = []
+    return result
+}
+// console.log(shellSort([3, 1, 2, 8, 9, 7, 6]))
+/**
+ * 归并排序 merge sort，核心思想分治 采用递归的方式
+ * @param {Array} data 
+ */
+function merge (left, right) {
+    const result = []
+    while(left.length && right.length) {
+        if (left[0] < right[0]) {
+            result.push(left.shift())
+        } else {
+            result.push(right.shift())
+        }
+    }
+    return result.concat(left, right)
+}
+function mergeSort (arr) {
+    if(arr.length <=1) return arr
+    const mid = Math.floor(arr.length / 2)
+    const left = arr.slice(0, mid)
+    const right = arr.slice(mid)
+    return merge(mergeSort(left), mergeSort(right))
+}
+/**
+ * 深拷贝
+ * 问题1：JSON.parse的缺点1.undefined 2.正则 3.循环引用
+ * 问题2：数组的拷贝
+ * @param {Object} data 
+ */
+function deepclone (data) {
+    if (data == null || !(data instanceof Object)) {
+        return data
+    }
+    let reslut
+    if (Array.isArray(data)) {
+        reslut = []
+    } else {
+        reslut = {}
+    }
+    for (let el in data) {
+        if (data[i] instanceof Object) {
+            reslut[i] = deepclone(data[i])
+        } else {
+            reslut[i] = data[i]
+        }
+    }
 }
 // 简单二叉树 2-3条题目
 // 100. 相同的树
+var isSameTree = function(p, q) {
+    if (p === null && q === null) {
+        return true
+    } else if (p === null || q === null) {
+        return false
+    } else if (p.val !== q.val) {
+        return false
+    } else {
+        return isSameTree(p.left, q.left) && isSameTree(p.right, q.right)
+    }
+}
 // 简单链表  2-3条题目
 // 2. 两数相加
+// 206. 反转链表
+var reverseList = function(head) {
+    if (!head || !head.next) return head
+    let current = head
+    let pre = null
+    while (current) {
+        next = current.next
+        current.next = pre
+        pre = current
+        current = next
+    }
+    return pre
+};
 
-// [2,88]的随机数
+
+// [start,end]的随机数
 function random(start, end) {
     const rang = end - start + 1
     return parseInt(Math.random() * rang + start)
 }
+// 请实现plus(1)(2)(3)(4)等于8？
+function plus (n) {
+    let sum = n
+    function _plus (num) {
+        sum += num
+        return _plus
+    }
+    _plus.toString = function () {
+        return sum
+    }
+    return _plus
+}
+
 // 重新看下云的算法笔记和leetcode的笔记
 // https://juejin.im/post/6844903887502082061
+// 暂时不做的promise
 
+// Promise.all = function (list) {
+//     return new Promise((resolve, reject) => {
+//         const map = {}
+//         for (let i = 0; i < list.length; i++) {
+//             list[i].then(res => {
+//                 // 检查所有的数据加载完成
+//                 map[index] = res
+//                 if (Reflect.keys(map).length === list.length) {
+//                     const result = Reflect.keys(map).map(el => map[el])
+//                     resolve(result)
+//                 }
+//             }, err => {
+//                 reject(err)
+//             })
+//         }
+//     }) 
+// }
+// Promise.race = function (list) {
+//     return new Promise((resolve, reject) => {
+//         for (let i = 0; i < list.length; i++) {
+//             const p = list[i]
+//             p.then((result) => {
+//                 resolve(result)
+//             }).catch((err) => {
+//                 reject(err)
+//             });
+//         }
+//     })
+// }
 
-/*
- *暂时不做的promise
+/**
+ * 洗牌算法 利用随机数的原理
  */
+function shuffle (arr) {
+    const result = [].concat(arr)
+    let n = arr.length - 1, i = 0
+    while (n > 0) {
+        i = parseInt(Math.floor((n + 1) * Math.random()))
+        const temp = result[i]
+        result[i] = result[n]
+        result[n] = temp
+        n--
+    }
+    return result
+}

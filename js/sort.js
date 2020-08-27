@@ -2,7 +2,6 @@
  * 常见排序算法
  */
 const arr = [3,44,38,5,47,15,36,26,27,2,46,4,19,50,48]
-
 /**
  * 二分法查找
  * 时间复杂度O(logn)
@@ -47,12 +46,23 @@ function bubbleSort(arr) {
  * 时间复杂度O(nlogn)
  * @param {Array} arr 
  */
+// var arr = [49, 38, 65, 97, 76, 13, 27, 49, 55, 04];
+// var len = arr.length;
+// for (var fraction = Math.floor(len / 2); fraction > 0; fraction = Math.floor(fraction / 2)) {
+//     for (var i = fraction; i < len; i++) {
+//         for (var j = i - fraction; j >= 0 && arr[j] > arr[fraction + j]; j -= fraction) {
+//             var temp = arr[j];
+//             arr[j] = arr[fraction + j];
+//             arr[fraction + j] = temp;
+//         }
+//     }
+// }
+// console.log(arr);
 function shellSort(arr) {
-    var len = arr.length,
-    temp,
-    gap = 1;
-    while(gap < len/3) {          //动态定义间隔序列
-        gap = gap*3+1;
+    var len = arr.length, temp, gap = 1
+    //动态定义间隔序列
+    while(gap < len/3) {
+        gap = gap*3+1
     }
     for (gap; gap > 0; gap = Math.floor(gap/3)) {
         for (var i = gap; i < len; i++) {

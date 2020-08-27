@@ -31,7 +31,6 @@ var twoSum = function(nums, target) {
     //     }
     // }
 };
-twoSum([2,7,11,15], 9)
 // 给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，
 // 并且它们的每个节点只能存储 一位 数字。
 // 如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。
@@ -50,12 +49,22 @@ twoSum([2,7,11,15], 9)
  * @return {ListNode}
  */
 var addTwoNumbers = function(l1, l2) {
-
+    let node = new ListNode('head')
+    const left = 0, sum = 0
+    while (l1 && l2) {
+        const n1 = l1 ? l1.val : 0
+        const n2 = l2 ? l2.val : 0
+        sum += n1 + n2 + left
+        left = parseInt(sum / 10)
+        const temp = new ListNode(sum % 10)
+        l1 = l1.next
+        l2 = l2.next
+        node.next = temp
+    }
+    return node
 };
 
 // 给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
-
-// 示例 1:
 
 // 输入: "abcabcbb"
 // 输出: 3 
