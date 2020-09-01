@@ -358,12 +358,61 @@ function deepclone (data, hash = new WeakMap()) {
     }
     return reslut
 }
-// let obj = {         
-//     reg : /^asd$/,
-//     fun: function(){},
-//     syb:Symbol('foo'),
-//     asd:'asd'
-// }
-// obj.c = obj
-// console.log(deepclone(obj))
-// JSON.parse(JSON.stringify(obj))
+
+function P (executor) {
+    this.status = 'pending'
+    this.value = undefined
+    this.reason = undefined
+    const _this = this
+    function resolve (val) {
+        if (_this.status === 'pending') {
+            _this.status = 'resolved'
+            _this.value = val
+        }
+    }
+    function reject (reason) {
+        if (_this.status === 'pending') {
+            _this.status = 'rejected'
+            _this.reason = reason
+        }
+    }
+    executor(resolve, reject)
+}
+P.prototype.then = function (onFullFilled, onRejected) {
+    return new P((resolve, reject) => {
+        if (this.status === 'resolved') {
+            try {
+                resolve(onFullFilled(this.value))
+            } catch (e) {
+                reject(e)
+            }
+            
+        } else if (this.status === 'rejected') {
+            try {
+                resolve(onRejected(this.reason))
+            } catch (e) {
+                reject(e)
+            }
+        }
+    })
+    
+}
+// const promise = new P((resolve, reject) => {
+//     resolve('hello world')
+//     reject('hello err')
+// }).then(res => {
+//     console.log(res)
+// }, err => {
+//     console.log(err)
+// })
+// console.log(promise)
+
+// const promise = new Promise((resolve, reject) => {
+//     resolve(new Error('hh'))
+// })
+// .then(res => {
+//     console.log(a)
+// }, err => {
+//     console.log(err)
+// })
+// console.log(promise)
