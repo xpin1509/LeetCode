@@ -68,7 +68,18 @@ MyPromise.prototype.then  = function (onFullFilled, onRejected) {
 MyPromise.prototype.catch = function () {}
 MyPromise.prototype.finally = function () {}
 MyPromise.all = function () {}
-MyPromise.race = function () {}
+MyPromise.race = function (arr) {
+    return new MyPromise((resolve, reject) => {
+        arr.forEach(promise => {
+            promise.then(resolve, reject)
+        })
+    })
+}
+MyPromise.resolve = function (res) {
+    return new MyPromise((resolve, reject) => {
+        resolve(res)
+    })
+}
 const promise2 = new MyPromise((resolve, reject) => {
     // setTimeout(() => {
     console.log('start')
