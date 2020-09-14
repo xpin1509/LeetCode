@@ -1,81 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        .reflow{
-            /* width: 0;
-            border-width: 10px;
-            border-style: solid;
-            border-bottom-width: 17.3px;
-            border-color: transparent;
-            border-bottom-color: blue; */
-            /* display: none; */
-            width: 600px;
-            height: 600px;
-            background: red;
-        }
-        .next {
-            width: 600px;
-            height: 600px;
-            background: yellow;
-        }
-        p {
-            line-height: 50%;
-        }
-        .padding {
-            width: 30%;
-            height: 0;
-            padding-bottom: 30%;
-            background-color: yellow;
-        }
-    </style>
-</head>
-<body>
-    <ul>
-    <!-- <div class="padding"></div>
-    <div draggable="true" ondragstart="dragstart(event)" ondrag="drag(event)" ondragend="dragdown(event)">1</div>
-    <div draggable="true">2</div>
-    <div draggable="true">3</div> -->
-    <script>
-        function dragstart (event) {
-            console.log(event)
-        }
-        function drag (event) {
-            console.log(event)
-        }
-        function dragdown (event) {
-            console.log(event)
-        }
-    </script>
-    <!-- <ul>
-      控件
-    </ul>
-    <div class="reflow">
-        <p>hello world</p>
-    </div> -->
-    <!-- <div class="next"></div> -->
-    <!-- <button onclick="clickHandle()">点击</button> -->
-    <!-- <script src="./js/class.js"></script>
-    <script src="./js/promise.js"></script>
-    <script src="./js/util.js"></script> -->
-    <!-- <script src="./js/code.js"></script> -->
-    <!-- <script src="./js/leetCode.js"></script> -->
-    <!-- <script src="./js/designPatterns.js"></script> -->
-    <!-- <script src="./js/leetCode.js"></script> -->
-    <!-- <script src="./js/designPatterns.js"></script> -->
-    <!-- <script src="./js/sort.js"></script> -->
-    <!-- <script src="./js/nextTop.js"></script> -->
-    <!-- <script src="./js/jzoffer.js"></script> -->
-    <script src="./js/dom.js"></script>
-    <!-- <script src="./js/primary.js"></script> -->
-    <!-- <script src="./js/top.js"></script> -->
-    <!-- <script src="./js/watch.js"></script> -->
-    <!-- <script src="./js/aliTopic.js"></script> -->
-    <!-- <script src="./js/test.js"></script> -->
-    <script>
+    //     setTimeout(() => {
+    //         // 插入十万条数据
+    //         const total = 100000
+    //         // 一次插入 20 条，如果觉得性能不好就减少
+    //         const once = 20
+    //         // 渲染数据总共需要几次
+    //         const loopCount = total / once
+    //         let countOfRender = 0
+    //         let ul = document.querySelector('ul')
+    //         function add() {
+    //             // 优化性能，插入不会造成回流
+    //             const fragment = document.createDocumentFragment()
+    //             for (let i = 0; i < once; i++) {
+    //                 const li = document.createElement('li')
+    //                 li.innerText = Math.floor(Math.random() * total)
+    //                 fragment.appendChild(li)
+    //             }
+    //             ul.appendChild(fragment)
+    //             countOfRender += 1
+    //             loop()
+    //         }
+    //         function loop() {
+    //             if (countOfRender < loopCount) {
+    //                 window.requestAnimationFrame(add)
+    //             }
+    //         }
+    //         loop()
+    //   }, 0)
         // 洗牌算法
         // function getTarget (arr, target) {
         //     for (let i = 0; i < arr.length; i++) {
@@ -222,8 +172,3 @@
             }
         }
         
-    </script>
-    <script src="./js/test2.js"></script>
-    <!-- <script src="./js/test2.js"></script> -->
-</body>
-</html>

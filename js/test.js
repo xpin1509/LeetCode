@@ -395,17 +395,17 @@ P.prototype.then = function (onFullFilled, onRejected) {
             }
         }
     })
-    
 }
 // const promise = new P((resolve, reject) => {
-//     resolve('hello world')
-//     reject('hello err')
+//     setTimeout(() => {
+//         resolve('hello world')
+//     }, 1000)
+//     // reject('hello err')
 // }).then(res => {
 //     console.log(res)
 // }, err => {
 //     console.log(err)
 // })
-// console.log(promise)
 
 // const promise = new Promise((resolve, reject) => {
 //     resolve(new Error('hh'))
