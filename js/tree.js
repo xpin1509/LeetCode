@@ -310,6 +310,7 @@ var isSymmetric = function(root) {
     } else {
         return isSymmetric(root.left) === isSymmetric(root.right)
     }
+}
 var isBalanced = function(root) {
     function getPpathLen (node) {
         if (node == null) return 0
@@ -360,4 +361,4 @@ var minDepth = function(root) {
         minDepthVal = Math.min(minDepth(root.right), minDepthVal)
     }
     return minDepthVal + 1
-};
+}
