@@ -77,16 +77,64 @@ function numToChar (num) {
     return result.join('')
 }
 
-// 洗牌算法
-arr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+// 洗牌算法分组
+// arr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 's']
 function shuffle (arr) {
     // 洗一次再分两组
     const len = arr.length
     for (let i = 0; i < len; i++) {
-        const rangdom = parseInt(Math.random() * len)
+        const rangdom = Math.floor(Math.random() * len)
         const temp = arr[i]
         arr[i] = arr[rangdom]
         arr[rangdom] = temp
     }
-    return arr.filter((el, index) => index % 2 === 0)
+    const left = [], right = []
+    arr.map((el, index) => {
+        if (index % 2 === 0) {
+            left.push(el)
+        } else {
+            right.push(el)
+        }
+    })
+    return {
+        left, right
+    }
 }
+
+/**
+ * 正则，日期，循环引用，数组
+ * 深拷贝
+ */
+function deepClone (target, weakMap = new WeakMap()) {
+    if (typeof target !== 'object' || target === null) return target
+    const result = Array.isArray(target) ? [] : {}
+    if (weakMap.has(target)) return weakMap.get(target)
+    // 正则
+    if (target instanceof RegExp) return new RegExp(target)
+    // date
+    if (target instanceof Date) return new Date(target)
+
+    weakMap.set(target, result)
+
+    for (let key in target) {
+        if (target.hasOwnProperty(key)) {
+            if (typeof target[key] === 'object') {
+                result[key] = deepClone(target[key], weakMap)
+            } else {
+                result[key] = target[key]
+            }
+        }
+    }
+    return result
+}
+// var obj = {
+//     name: /^[a-z]$/,
+//     age: new Date('1993-04-28'),
+//     say: function () {
+//         console.log(this.name)
+//     }
+// }
+// obj.child = obj
+// const arr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 's', obj]
+// const cloneObj = deepClone(arr)
+// console.log(JSON.parse(JSON.stringify(arr)))
