@@ -76,3 +76,17 @@ function numToChar (num) {
     }
     return result.join('')
 }
+
+// 洗牌算法
+arr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+function shuffle (arr) {
+    // 洗一次再分两组
+    const len = arr.length
+    for (let i = 0; i < len; i++) {
+        const rangdom = parseInt(Math.random() * len)
+        const temp = arr[i]
+        arr[i] = arr[rangdom]
+        arr[rangdom] = temp
+    }
+    return arr.filter((el, index) => index % 2 === 0)
+}
