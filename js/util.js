@@ -76,3 +76,24 @@ function numToChar (num) {
     }
     return result.join('')
 }
+
+// const arr1 = [1,2,'a','c',0]
+// const arr2 = [2,'c',9,7, 0]
+/**
+ * 求两个数组的交集
+ * @param {Array} arr1 
+ * @param {Array} arr2 
+ */
+function mixed (arr1, arr2) {
+    const result = []
+    const map = new Map()
+    for (let i = 0; i < arr1.length; i++) {
+        map.set(arr1[i], 1)
+    }
+    for (let i = 0; i < arr2.length; i++) {
+        if (map.has(arr2[i])) {
+            result.push(arr2[i])
+        }
+    }
+    return result
+}
