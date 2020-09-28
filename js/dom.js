@@ -72,3 +72,58 @@ function syncDom () {
 //         }
 //         loop()
 //   }, 0)
+
+function addDom () {
+    // 方案1
+    const count = 100000
+    let $ul = document.querySelector('ul')
+    // const fragment = document.createDocumentFragment()
+    // for (let i = 0; i < count; i++) {
+    //     const li = document.createElement('li')
+    //     li.innerText = Math.floor(Math.random() * count)
+    //     fragment.appendChild(li)
+    // }
+    // $ul.appendChild(fragment)
+    // 方案 2 createDocumentFregment和requestAnimationFrame
+    const once = 100
+    let times = 0
+    function addChild () {
+        console.log(times * once)
+        if (times * once > count) return
+        const fragment = document.createDocumentFragment()
+        const dom = ''
+        for (let i = 0; i < once; i++) {
+            const li = document.createElement('li')
+            li.innerText = Math.floor(Math.random() * count)
+            fragment.appendChild(li)
+        }
+        $ul.appendChild(fragment)
+        times ++
+        window.requestAnimationFrame(addChild)
+    }
+    window.requestAnimationFrame(addChild)
+}
+function addDomOnce () {
+    // 方案1
+    const count = 1000
+    let $ul = document.querySelector('ul')
+    const fragment = document.createDocumentFragment()
+    for (let i = 0; i < count; i++) {
+        const li = document.createElement('li')
+        li.innerText = Math.floor(Math.random() * count)
+        fragment.appendChild(li)
+    }
+    $ul.appendChild(fragment)
+}
+
+// 滚动到顶部
+function scrollToTop () {
+    function scroll () {
+        let scrollY = document.body.scrollTop || document.documentElement.scrollTop
+        if (scrollY === 0) return
+        const scrollPx = Math.floor(scrollY/2)
+        document.body.scrollTop = document.documentElement.scrollTop = scrollPx
+        window.requestAnimationFrame(scroll)
+    }
+    window.requestAnimationFrame(scroll)
+}

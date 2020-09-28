@@ -4,34 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        .reflow{
-            /* width: 0;
-            border-width: 10px;
-            border-style: solid;
-            border-bottom-width: 17.3px;
-            border-color: transparent;
-            border-bottom-color: blue; */
-            /* display: none; */
-            width: 600px;
-            height: 600px;
-            background: red;
-        }
-        .next {
-            width: 600px;
-            height: 600px;
-            background: yellow;
-        }
-        p {
-            line-height: 50%;
-        }
-        .padding {
-            width: 30%;
-            height: 0;
-            padding-bottom: 30%;
-            background-color: yellow;
-        }
-    </style>
+    <link rel="stylesheet" href="./style/index.css">
 </head>
 <body>
     <ul>
@@ -60,17 +33,18 @@
     <script>
         console.log('3')
     </script> -->
-    <!-- <ul>
+    <ul>
       控件
     </ul>
-    <div class="reflow">
+    <button onclick="addDomOnce()">点击</button>
+    <div class="scrollTop" onclick="scrollToTop()">^</div>
+    <!-- <div class="reflow">
         <p>hello world</p>
     </div> -->
     <!-- <div class="next"></div> -->
-    <!-- <button onclick="clickHandle()">点击</button> -->
     <!-- <script src="./js/class.js"></script>
     <script src="./js/promise.js"></script>-->
-    <script src="./js/util.js"></script> 
+    <!-- <script src="./js/util.js"></script>  -->
     <!-- <script src="./js/code.js"></script> -->
     <!-- <script src="./js/leetCode.js"></script> -->
     <!-- <script src="./js/designPatterns.js"></script> -->
@@ -79,12 +53,12 @@
     <!-- <script src="./js/sort.js"></script> -->
     <!-- <script src="./js/nextTop.js"></script> -->
     <!-- <script src="./js/jzoffer.js"></script> -->
-    <!-- <script src="./js/dom.js"></script> -->
     <!-- <script src="./js/primary.js"></script> -->
     <!-- <script src="./js/top.js"></script> -->
     <!-- <script src="./js/watch.js"></script> -->
     <!-- <script src="./js/aliTopic.js"></script> -->
     <!-- <script src="./js/test.js"></script> -->
+    <script src="./js/dom.js"></script>
     <script>
         // function getTarget (arr, target) {
         //     for (let i = 0; i < arr.length; i++) {
@@ -232,7 +206,6 @@
         }
         
     </script>
-    <script src="./js/test2.js"></script>
     <!-- <script src="./js/test2.js"></script> -->
 </body>
 </html>
