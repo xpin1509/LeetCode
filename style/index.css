@@ -1,0 +1,31 @@
+
+.reflow{
+    /* width: 0;
+    border-width: 10px;
+    border-style: solid;
+    border-bottom-width: 17.3px;
+    border-color: transparent;
+    border-bottom-color: blue; */
+    /* display: none; */
+    width: 600px;
+    height: 600px;
+    background: red;
+}
+.next {
+    width: 600px;
+    height: 600px;
+    background: yellow;
+}
+p {
+    line-height: 50%;
+}
+.padding {
+    width: 30%;
+    height: 0;
+    padding-bottom: 30%;
+    background-color: yellow;
+}
+/* 图片懒加载 */
+.lazy-ui li{
+    height: 400px;
+}
