@@ -158,3 +158,14 @@ function lazy () {
     }
 }
 // document.addEventListener('DOMContentLoaded', lazy, false)
+/**
+ * JSONP function
+ */
+function say (msg) {
+    console.log(msg)
+}
+function jsonp () {
+    const script = document.createElement('script')
+    script.src = './js/test3.js'
+    document.body.appendChild(script)
+}

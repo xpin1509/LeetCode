@@ -178,3 +178,6 @@ class Event {
         })
     }
 }
+
+/**jsonp fun */
+// say('hello')
