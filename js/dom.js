@@ -1,3 +1,13 @@
+function dragstart (event) {
+    console.log(event)
+}
+function drag (event) {
+    console.log(event)
+}
+function dragdown (event) {
+    console.log(event)
+}
+
 // 详见知乎问题
 // https://www.zhihu.com/question/31809713/answer/53544875
 
@@ -127,3 +137,24 @@ function scrollToTop () {
     }
     window.requestAnimationFrame(scroll)
 }
+function lazy () {
+    const imgBox = Array.from(document.querySelectorAll('.lazy-ui li'))
+    if ('IntersectionObserver' in window) {
+        const obverse = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.intersectionRatio && entry.intersectionRatio > 0) {
+                    const img = entry.target.children[0]
+                    img.src = img.dataset.src
+                    // img.getAttribute('data-src')
+                    obverse.unobserve(entry.target)
+                }
+            })
+        }, {
+            threshold: [0]
+        })
+        imgBox.forEach(el => {
+            obverse.observe(el)
+        })
+    }
+}
+// document.addEventListener('DOMContentLoaded', lazy, false)

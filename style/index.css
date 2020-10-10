@@ -36,4 +36,11 @@ p {
     height: 0;
     padding-bottom: 30%;
     background-color: yellow;
+<<<<<<< HEAD
+=======
+}
+/* 图片懒加载 */
+.lazy-ui li{
+    height: 400px;
+>>>>>>> 9cb80c0e9a23a1bffa2b8a10d5405a44225adc8d
 }
