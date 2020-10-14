@@ -41,3 +41,18 @@ p {
 .lazy-ui li{
     height: 400px;
 }
+
+/* trainsform重合问题 */
+.trainsform {
+    width: 300px;
+    height: 300px;
+    margin: auto;
+}
+.trainsform1 {
+    transform: translate(0, 0);
+    background: #1890ff;
+}
+.trainsform2 {
+    transform: translate(0, -300px);
+    background: red;
+}
