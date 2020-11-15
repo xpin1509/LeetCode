@@ -179,5 +179,29 @@ class Event {
     }
 }
 
-/**jsonp fun */
-// say('hello')
+// 递归1， 100
+function plus (n) {
+    const sum = 0
+
+    const add = function (n, sum) {
+        if (n === 0) {
+            return sum
+        } else {
+            return add(n - 1, sum + n)
+        }
+    }
+    return add(n, sum)
+}
+
+// add(1)(2)(3)
+function add (n) {
+    let result = n
+    const plus = function (n) {
+        result += n
+        return plus
+    }
+    plus.toString = function () {
+        return result
+    }
+    return plus
+}
