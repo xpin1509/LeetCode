@@ -364,8 +364,8 @@ function myNew (fn, ...arg) {
 
 // instanceof
 function myInstance (left, right) {
-    while(left.__proto__ !== null) {
-        if (right.prototype === left.__proto__) {
+    while (left) {
+        if (left.__proto__ === right) {
             return true
         } else {
             left = left.__proto__
@@ -393,6 +393,32 @@ function add1 (num) {
     return _plus
 }
 
-// 快排
 const arr = [1,2,3,4,8,9,4,5,6]
+// 快排
+function quickSort (arr) {
+    if (arr.length < 2) return arr
+    const basic = arr[arr.length - 1]
+    let left = [], center = [], right = []
+    for (let i of arr) {
+        if (i == basic) {
+            center.push(i)
+        } else if (i > basic) {
+            right.push(i)
+        } else if (i < basic) {
+            left.push(i)
+        }
+    }
+    return [...quickSort(left), ...center, ...quickSort(right)]
+}
 // 冒泡
+function sort(arr) {
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = i + 1; j < arr.length; j++) {
+            if (arr[j] < arr[i]) {
+                const temp = arr[j]
+                arr[j] = arr[i]
+                arr[i] = temp
+            }
+        }
+    }
+}
