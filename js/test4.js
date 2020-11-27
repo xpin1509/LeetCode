@@ -393,6 +393,8 @@ function add1 (num) {
     return _plus
 }
 
-// 快排
 const arr = [1,2,3,4,8,9,4,5,6]
+// 快排
 // 冒泡
+// 归并
+// 希尔

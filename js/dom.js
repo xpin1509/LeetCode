@@ -169,3 +169,48 @@ function jsonp () {
     script.src = './js/test3.js'
     document.body.appendChild(script)
 }
+
+
+function obverseDom (id) {
+    // 选择需要观察变动的节点
+    const targetNode = document.getElementById(id);
+
+    // 观察器的配置（需要观察什么变动）
+    const config = { attributes: false, childList: true, subtree: true };
+
+    // 当观察到变动时执行的回调函数
+    const callback = function(mutationsList, observer) {
+        // Use traditional 'for loops' for IE 11
+        debugger
+        for(let mutation of mutationsList) {
+            if (mutation.type === 'childList') {
+                console.log('A child node has been added or removed.');
+            }
+            else if (mutation.type === 'attributes') {
+                console.log('The ' + mutation.attributeName + ' attribute was modified.');
+            }
+        }
+    };
+
+    // 创建一个观察器实例并传入回调函数
+    const observer = new MutationObserver(callback);
+
+    // 以上述配置开始观察目标节点
+    observer.observe(targetNode, config);
+
+    // // 之后，可停止观察
+    // observer.disconnect();
+}
+
+obverseDom('obverseDom')
+
+const $dom = document.querySelector('#obverseDom')
+const lists = []
+for (let i = 0; i < 20; i++) {
+    const text = document.createElement('p')
+    text.innerHTML = 'hello world'
+    $dom.appendChild(text)
+}
+const div = document.createElement('div')
+div.innerHTML = 'why'
+$dom.appendChild(div)
