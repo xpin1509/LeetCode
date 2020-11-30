@@ -201,15 +201,21 @@ function obverseDom (id) {
     // observer.disconnect();
 }
 
-obverseDom('obverseDom')
+// obverseDom('obverseDom')
 
-const $dom = document.querySelector('#obverseDom')
-const lists = []
-for (let i = 0; i < 20; i++) {
-    const text = document.createElement('p')
-    text.innerHTML = 'hello world'
-    $dom.appendChild(text)
+// const $dom = document.querySelector('#obverseDom')
+// const lists = []
+// for (let i = 0; i < 20; i++) {
+//     const text = document.createElement('p')
+//     text.innerHTML = 'hello world'
+//     $dom.appendChild(text)
+// }
+// const div = document.createElement('div')
+// div.innerHTML = 'why'
+// $dom.appendChild(div)
+
+
+function getClientRect (id) {
+    const node = document.getElementById(id)
+    return node.getBoundingClientRect()
 }
-const div = document.createElement('div')
-div.innerHTML = 'why'
-$dom.appendChild(div)
