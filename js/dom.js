@@ -181,7 +181,6 @@ function obverseDom (id) {
     // 当观察到变动时执行的回调函数
     const callback = function(mutationsList, observer) {
         // Use traditional 'for loops' for IE 11
-        debugger
         for(let mutation of mutationsList) {
             if (mutation.type === 'childList') {
                 console.log('A child node has been added or removed.');
