@@ -219,3 +219,4 @@ function getClientRect (id) {
     const node = document.getElementById(id)
     return node.getBoundingClientRect()
 }
+

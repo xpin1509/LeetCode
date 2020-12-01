@@ -56,3 +56,7 @@ p {
     transform: translate(0, -300px);
     background: red;
 }
+
+#obverseDom p {
+    color: red;
+}
