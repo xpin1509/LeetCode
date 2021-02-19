@@ -161,3 +161,41 @@ function lickQuick(arr) {
     }
     return [...quickSort(left), ...center, ...quickSort(right)]
 }
+
+/**
+ * 选择排序
+ * 在未排序序列中找到最小的元素放在队首，然后再从剩余的序列中鸡血寻找
+ * @param {Array} arr 
+ */
+function selecttionSort (arr) {
+    const len = arr.length
+    let minIndex
+    for (let i = 0; i < len; i++) {
+        minIndex = i
+        for (let j = i + 1; j < len; j++) {
+            if (arr[j] < arr[minIndex]) {
+                minIndex = j
+            }
+        }
+        const temp = arr[i]
+        arr[i] = arr[minIndex]
+        arr[minIndex] = temp
+    }
+    return arr
+}
+// 插入排序
+function insertionSort (arr) {
+    const len = arr.length
+    let preIndex, current
+    for (let i = 0; i < len; i++) {
+        preIndex = i - 1
+        current = arr[i]
+        while(preIndex >= 0 && arr[preIndex] > current) {
+            arr[preIndex + 1] = arr[preIndex]
+            preIndex --
+        }
+        arr[preIndex + 1] = current
+    }
+    return arr
+}
+// 快排(非递归)
