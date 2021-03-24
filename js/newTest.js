@@ -23,66 +23,72 @@ const flatArr = function (arr) {
 // 并发请求池 3
 const p1 = () => {
     return new Promise((resolve, reject) => {
-    setTimeout(()=> {
-        resolve(1)
         console.log(1)
-    }, 1000)
-})
+        setTimeout(()=> {
+            resolve('1r')
+        }, 1000)
+    })
 }
 const p2 = () => {
     return new Promise((resolve, reject) => {
-    setTimeout(()=> {
-        resolve(2)
         console.log(2)
-    }, 1500)
-})
+        setTimeout(()=> {
+            resolve('2r')
+        }, 1500)
+    })
 }
 const p3 = () => {
     return new Promise((resolve, reject) => {
-    setTimeout(()=> {
-        resolve(3)
         console.log(3)
-    }, 1000)
-})
+        setTimeout(()=> {
+            resolve('3r')
+        }, 1000)
+    })
 }
 const p4 = () => {
     return new Promise((resolve, reject) => {
+        console.log(4)
         setTimeout(()=> {
-            resolve(4)
-            console.log(4)
+            resolve('4r')
         }, 2000)
     })
 }
-
-const len = 3
-const pool = async (array) => {
-    const result = []
-}
-
-console.time()
-promiseAll = function (arr) {
+const p5 = () => {
     return new Promise((resolve, reject) => {
-        const result = []
-        for (let i = 0; i < arr.length; i++) {
-            arr[i]().then(res => {
-                result[i] = res
-                if (result.length === arr.length) {
-                    resolve(result)
-                }
-            }).catch(err => {
-                reject(err)
-            })
-        }
+        console.log(5)
+        setTimeout(()=> {
+            resolve('5r')
+        }, 2000)
     })
 }
+const len = 2
 
-// pool([p1, p2,p3,p4]).then((res) => {
-//     console.log(res)
-// })
+const pool = async (array) => {
+    let result = []
+    const times = Math.floor(array.length / len)
+    const left = array.length % len
+    for (let i = 0; i < times; i ++) {
+        const index = i * len
+        const tempArr = []
+        for (let j = index; j < (i + 1) * len; j ++) {
+            tempArr.push(array[j]())
+        }
+        const res = await Promise.all(tempArr)
+        result = result.concat(res)
+    }
+    const tempArr = []
+    const index = times * len
+    for (let i = 0; i < left; i ++) {
+        tempArr.push(array[index + i]())
+    }
+    const res = await Promise.all(tempArr)
+    result = result.concat(res)
+    return result
+}
 
 
-promiseAll([p1, p2,p3,p4]).then((res) => {
+pool([p1, p2, p3, p4, p5]).then((res) => {
     console.log(res)
-    console.timeEnd()
 })
+
 
