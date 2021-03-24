@@ -88,13 +88,13 @@ const promise2 = new MyPromise((resolve, reject) => {
     }, 2000)
     // }, 1000);
 })
-promise2.then(res => {
-    console.log('success： ' + res)
-    return res + '122'
-}).then(res => {
-    console.log('success： ' + res)
-})
-console.log('end')
+// promise2.then(res => {
+//     console.log('success： ' + res)
+//     return res + '122'
+// }).then(res => {
+//     console.log('success： ' + res)
+// })
+// console.log('end')
 // MyPromise.all(promise2, promise1).then(res => {
 //     console.log(res)
 // })
