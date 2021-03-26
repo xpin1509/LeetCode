@@ -67,7 +67,19 @@ MyPromise.prototype.then  = function (onFullFilled, onRejected) {
 }
 MyPromise.prototype.catch = function () {}
 MyPromise.prototype.finally = function () {}
-MyPromise.all = function () {}
+MyPromise.all = function (arr) {
+    return new Promise((resolve, reject) => {
+        const result = []
+        for (let i = 0; i < arr.length; i++) {
+            const p = arr[i]
+            p.then((res) => {
+                result[i] = res
+            }).catch(err => {
+                reject(err)
+            })
+        }
+    })
+}
 MyPromise.race = function (arr) {
     return new MyPromise((resolve, reject) => {
         arr.forEach(promise => {
@@ -80,21 +92,21 @@ MyPromise.resolve = function (res) {
         resolve(res)
     })
 }
-const promise2 = new MyPromise((resolve, reject) => {
-    // setTimeout(() => {
-    console.log('start')
-    setTimeout(() => {
-        resolve('data1')
-    }, 2000)
-    // }, 1000);
-})
-promise2.then(res => {
-    console.log('success： ' + res)
-    return res + '122'
-}).then(res => {
-    console.log('success： ' + res)
-})
-console.log('end')
+// const promise2 = new MyPromise((resolve, reject) => {
+//     // setTimeout(() => {
+//     console.log('start')
+//     setTimeout(() => {
+//         resolve('data1')
+//     }, 2000)
+//     // }, 1000);
+// })
+// promise2.then(res => {
+//     console.log('success： ' + res)
+//     return res + '122'
+// }).then(res => {
+//     console.log('success： ' + res)
+// })
+// console.log('end')
 // MyPromise.all(promise2, promise1).then(res => {
 //     console.log(res)
 // })
@@ -123,3 +135,51 @@ console.log('end')
 // P.all([p1(), p2()]).then(res => {
 //     console.log(res)
 // })
+
+
+function pool (arrP) {
+    const tempArr = arrP.splice(0, 3)
+    // while(tempArr.length) {
+    //     const p = tempArr[0]
+    //     p().then(res => {
+    //         // debugger
+    //         if (arrP.length) {
+    //             tempArr.push(arrP.shift())
+    //         }
+    //     })
+    // }
+}
+
+const p1 = () => {
+    return new Promise((r, j) => {
+        setTimeout(() => {
+            console.log(1)
+            r('1')
+        }, 1000)
+    })
+}
+const p2 = () => {
+    return new Promise((r, j) => {
+        setTimeout(() => {
+            console.log(2)
+            r('2')
+        }, 1000)
+    })
+}
+const p3 = () => {
+    return new Promise((r, j) => {
+        setTimeout(() => {
+            console.log(3)
+            r('3')
+        }, 1000)
+    })
+}
+const p4 = () => {
+    return new Promise((r, j) => {
+        setTimeout(() => {
+            console.log(4)
+            r('4')
+        }, 1000)
+    })
+}
+pool([p1, p2, p3, p4])
