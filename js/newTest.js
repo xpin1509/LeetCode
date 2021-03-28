@@ -61,9 +61,13 @@ const p5 = () => {
         }, 2000)
     })
 }
-const len = 2
 
-const pool = async (array) => {
+/**
+ * 请求池限制数
+ * @param {Array} array 
+ * @param {Number} len 
+ */
+const pool1 = async (array, len) => {
     let result = []
     const times = Math.floor(array.length / len)
     const left = array.length % len
@@ -86,9 +90,50 @@ const pool = async (array) => {
     return result
 }
 
+const len = 3
+const pool2 = async (array) => {
+    return new Promise((resolve, reject) => {
+        const result = [], total = array.length
+        // 少一个插一个
+        for (let i = 0; i < len; i++) {
+            doPromise()
+        }
+        function doPromise () {
+            const p = array.shift()
+            if (p) {
+                p().then((res) => {
+                    result.push(res)
+                    if (array.length) {
+                        doPromise()
+                    }
+                    if (total === result.length) {
+                        resolve(result)
+                    }
+                })
+            }
+        }
+    })
+}
 
-pool([p1, p2, p3, p4, p5]).then((res) => {
+pool2([p1, p2, p3, p4, p5]).then((res) => {
     console.log(res)
 })
 
 
+Promise.myAll = function (array) {
+    return new Promise((reolve, reject) => {
+        const resut = []
+        for (let i = 0; i < array.length; i++) {
+            const p = array[i]
+            p.then(el => {
+                resut[i] = el
+                if (resut.length = array.length) {
+                    reolve(resut)
+                }
+            }).catch(err => {
+                reject(err)
+            })
+        }
+    })
+}
+Promise.myAll([p1(), p2(), p3(), p4(), p5()])
