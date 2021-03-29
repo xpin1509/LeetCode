@@ -100,6 +100,14 @@ MyPromise.resolve = function (res) {
 //     }, 2000)
 //     // }, 1000);
 // })
+const promise2 = new MyPromise((resolve, reject) => {
+    // setTimeout(() => {
+    console.log('start')
+    setTimeout(() => {
+        resolve('data1')
+    }, 2000)
+    // }, 1000);
+})
 // promise2.then(res => {
 //     console.log('success： ' + res)
 //     return res + '122'
