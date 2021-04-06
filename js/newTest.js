@@ -137,6 +137,29 @@ Promise.myAll = function (array) {
 // Promise.myAll([p1(), p2(), p3(), p4(), p5()])
 
 
-// TODO
-const len = 3
-const pool3 = function () {}
+function add (m) {
+    const temp = function (n) {
+        return add(m + n)
+    }
+
+    temp.toString = function () {
+        return m
+    }
+
+    return temp
+}
+
+function add2 (m) {
+    let sum = m
+    const temp = function (n) {
+        sum += n
+        return temp
+    }
+
+    temp.toString = function () {
+        return sum
+    }
+
+    return temp
+}
+// console.log(add2(1)(2)(3)(4))
