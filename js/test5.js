@@ -8,19 +8,18 @@
 // 树
 // 所有遍历函数的入参都是树的根结点对象
 
-// DFS BFS
-function preorder(root) {
+function DFS(root) {
     // 递归边界，root 为空
     if (!root) {
         return
     }
 
-    // 输出当前遍历的结点值
-    console.log('当前遍历的结点值是：', root.val)
     // 递归遍历左子树 
     preorder(root.left)
     // 递归遍历右子树  
     preorder(root.right)
+    // 输出当前遍历的结点值
+    console.log('当前遍历的结点值是：', root.val)
 }
 
 function BFS(root) {
@@ -63,4 +62,19 @@ const root = {
     }
 }
 
-BFS(root)
+// var toLocaleLowerCase = function(x) { return x.toLocaleLowerCase(); };
+// var toUpperCase = function(x) { return x.toUpperCase(); };
+// var exclaim = function(x) { return x + '!'; };
+// var shout = compose(exclaim, toUpperCase, toLocaleLowerCase);
+
+function compose (...fnList) {
+    if (!fnList.length) return arg => arg
+
+    if (fnList.length === 1) return fnList[0]
+    return fnList.reduce((composed, cur) => {
+        return function (...arg) {
+            return composed(cur(...arg))
+        }
+    })
+}
+
