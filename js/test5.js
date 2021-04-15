@@ -78,3 +78,7 @@ function compose (...fnList) {
     })
 }
 
+// 1.正则转化 '3.26/2021' => '2021-3-26'
+function dateFormate (str) {
+    return str.replace(/(\d+)\.(\d+)\/(\d+)/, '$3-$1-$2')
+}
