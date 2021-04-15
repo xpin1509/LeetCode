@@ -5,6 +5,8 @@
 // RegExp.multiline	RegExp 对象是否具有标志 m
 // RegExp.source	正则表达式的源文本
 
+// $1 $2... 第一个子表达式, 第二个子表达式
+
 // RegExp 对象方法
 // compile	编译正则表达式
 // exec	检索字符串中指定的值。返回找到的值，并确定其位置。RegExpObject.exec(string),可反复调用
@@ -26,6 +28,23 @@
 // ["26", index: 2, input: "3.26/2021", groups: undefined]
 // ["2021", index: 5, input: "3.26/2021", groups: undefined]
 
+Date.prototype.Format = function (fmt) {
+    var o = {
+      'M+': this.getMonth() + 1,
+      'd+': this.getDate(),
+      'h+': this.getHours(),
+      'm+': this.getMinutes(),
+      's+': this.getSeconds(),
+      'q+': Math.floor((this.getMonth() + 3) / 3),
+      'S': this.getMilliseconds() };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+    for (var k in o) {
+      if (new RegExp('(' + k + ')').test(fmt)) {
+        fmt = fmt.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length));
+      }
+    }
+    return fmt;
+}
 
 // 1.正则转化 '3.26/2021' => '2021-3-26'
 const str = '3.26/2021'
@@ -50,46 +69,3 @@ function toLine (str) {
     // })
     return str.replace(/([A-Z])/g, '_$1').toLowerCase()
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// /* eslint-disable */
-// Date.prototype.Format = function (fmt) {
-//     var o = {
-//       'M+': this.getMonth() + 1,
-//       'd+': this.getDate(),
-//       'h+': this.getHours(),
-//       'm+': this.getMinutes(),
-//       's+': this.getSeconds(),
-//       'q+': Math.floor((this.getMonth() + 3) / 3),
-//       'S': this.getMilliseconds() };
-//     if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
-//     for (var k in o) {
-//       if (new RegExp('(' + k + ')').test(fmt)) {
-//         fmt = fmt.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length));
-//       }
-//     }
-//     return fmt;
-// }
