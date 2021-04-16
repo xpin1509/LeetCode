@@ -82,3 +82,31 @@ function compose (...fnList) {
 function dateFormate (str) {
     return str.replace(/(\d+)\.(\d+)\/(\d+)/, '$3-$1-$2')
 }
+
+
+// [1,2,3]全排列
+// 实现一个方法，给定任意一个数组，返回它的全排
+function allSort (arr) {
+
+    const result = []
+
+    function m (hased, left) {
+        if (hased.length === arr.length) {
+            result.push([...hased])
+            return
+        }
+        for (let i = 0; i < left.length; i++) {
+            const item = left[i]
+            const leftArr = left.filter(el => el !== left[i])
+            m([...hased, item], [...leftArr])
+        }
+    }
+    m([], arr)
+    return result
+}
+
+// 手机号格式化
+function formateTel (str) {
+    const reg = /^(\d{3})(\d{4})(\d{4})$/
+    return str.replace(reg, '$1-$2-$3')
+}
