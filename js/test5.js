@@ -104,9 +104,3 @@ function allSort (arr) {
     m([], arr)
     return result
 }
-
-// 手机号格式化
-function formateTel (str) {
-    const reg = /^(\d{3})(\d{4})(\d{4})$/
-    return str.replace(reg, '$1-$2-$3')
-}
