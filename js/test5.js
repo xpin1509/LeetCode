@@ -104,3 +104,15 @@ function allSort (arr) {
     m([], arr)
     return result
 }
+
+
+// reduce手写
+Array.prototype.myReduce = function (fn, initialState) {
+    const arr = this
+    const len = arr.length
+    let result = initialState
+    for (let i = 0; i < len; i++) {
+        result = fn(result, arr[i])
+    }
+    return result
+}
