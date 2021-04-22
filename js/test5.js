@@ -116,3 +116,6 @@ Array.prototype.myReduce = function (fn, initialState) {
     }
     return result
 }
+
+
+// add(1)(2)(3)
