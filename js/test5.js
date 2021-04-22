@@ -105,8 +105,14 @@ function allSort (arr) {
     return result
 }
 
-// 手机号格式化
-function formateTel (str) {
-    const reg = /^(\d{3})(\d{4})(\d{4})$/
-    return str.replace(reg, '$1-$2-$3')
+
+// reduce手写
+Array.prototype.myReduce = function (fn, initialState) {
+    const arr = this
+    const len = arr.length
+    let result = initialState
+    for (let i = 0; i < len; i++) {
+        result = fn(result, arr[i])
+    }
+    return result
 }
