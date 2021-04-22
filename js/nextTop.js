@@ -404,3 +404,48 @@ var isSameTree = function(p, q) {
     }
 };
 
+
+// https://leetcode-cn.com/problems/calculator-lcci/
+// 给定一个包含正整数、加(+)、减(-)、乘(*)、除(/)的算数表达式(括号除外)，计算其结果。
+// 表达式仅包含非负整数，+， - ，*，/ 四种运算符和空格  。 整数除法仅保留整数部分。
+// 输入: "3+2*2"
+// 输出: 7
+
+// 输入: " 3/2 "
+// 输出: 1
+
+// 输入: " 3 - 5 / 2 "
+// 输出: 5
+
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var calculate = function(s) {
+    const slist = s.split('').filter(el => el !== ' ')
+    for (let i = 0; i < slist.length; i++) {
+        const item = slist[i]
+        if (item === '*') {
+            const res = slist[i-1] * slist[i+1]
+            slist.splice(i-1, 3, res)
+            i = i- 2
+        } else if (item === '/') {
+            const res = parseInt(slist[i-1] / slist[i+1])
+            slist.splice(i-1, 3, res)
+            i = i- 2
+        }
+    }
+    for (let i = 0; i < slist.length; i++) {
+        const item = slist[i]
+        if (item === '+') {
+            slist.splice(i, 1)
+            i = i- 1
+        } else if (item === '-') {
+            const res = slist[i+1]
+            slist.splice(i, 2, '-' + res)
+        }
+    }
+    return slist.reduce((total, cur) => {
+        return Number(total) + Number(cur)
+    }, 0)
+};
