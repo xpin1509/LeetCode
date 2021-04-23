@@ -97,6 +97,32 @@ MyPromise.race = function (arr) {
         })
     })
 }
+MyPromise.allSettled = function (arr) {
+    return new Promise((resolve, reject) => {
+        const result = []
+        for (let i = 0; i < arr.length; i++) {
+            arr[i].then(res => {
+                const r = {
+                    status: 'fulfilled',
+                    value: res
+                }
+                result[i] = r
+                if (result.length === arr.length) {
+                    resolve(result)
+                }
+            }).catch(err => {
+                const r = {
+                    status: 'rejected',
+                    reason: err
+                }
+                result[i] = r
+                if (result.length === arr.length) {
+                    resolve(result)
+                }
+            })
+        }
+    })
+}
 MyPromise.resolve = function (res) {
     return new MyPromise((resolve, reject) => {
         resolve(res)
