@@ -66,7 +66,17 @@ MyPromise.prototype.then  = function (onFullFilled, onRejected) {
     })
 }
 MyPromise.prototype.catch = function () {}
-MyPromise.prototype.finally = function () {}
+MyPromise.prototype.finally = function (callback) {
+    return this.then((value) => {
+        return Promise.resolve(callback()).then(() => {
+            return value
+        })
+    }, err => {
+        return Promise.resolve(callback()).then(() => {
+            throw err
+        })
+    })
+}
 MyPromise.all = function (arr) {
     return new Promise((resolve, reject) => {
         const result = []
