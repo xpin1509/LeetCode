@@ -414,7 +414,7 @@ var isSameTree = function(p, q) {
 // 输入: " 3/2 "
 // 输出: 1
 
-// 输入: " 3 - 5 / 2 "
+// 输入: " 13 - 5 / 2 "
 // 输出: 5
 
 /**
@@ -422,7 +422,8 @@ var isSameTree = function(p, q) {
  * @return {number}
  */
 var calculate = function(s) {
-    const slist = s.split('').filter(el => el !== ' ')
+    s = s.replace(/((\d+)|(\D))/g, " $1 ")
+    const slist = s.split(' ').filter(el => el !== '' && el !== ' ')
     for (let i = 0; i < slist.length; i++) {
         const item = slist[i]
         if (item === '*') {
