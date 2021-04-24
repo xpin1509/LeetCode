@@ -125,7 +125,7 @@ function diff (arr1, arr2) {
     const map = new Map()
     for (let i of arr1) {
         if (Array.isArray(i)) {
-            const arr = [...new Set(i)].sort((a, b) => a - b)
+            const arr = [...new Set(i)] //.sort((a, b) => a - b)
             map.set(arr.join(','), i)
         } else {
             map.set(i, i)
@@ -134,7 +134,7 @@ function diff (arr1, arr2) {
     for (let i of arr2) {
         let key = i
         if (Array.isArray(i)) {
-            const arr = [...new Set(i)].sort((a, b) => a - b)
+            const arr = [...new Set(i)] //.sort((a, b) => a - b)
             key = arr.join(',')
         }
         if (map.has(key)) {
