@@ -66,7 +66,17 @@ MyPromise.prototype.then  = function (onFullFilled, onRejected) {
     })
 }
 MyPromise.prototype.catch = function () {}
-MyPromise.prototype.finally = function () {}
+MyPromise.prototype.finally = function (callback) {
+    return this.then((value) => {
+        return Promise.resolve(callback()).then(() => {
+            return value
+        })
+    }, err => {
+        return Promise.resolve(callback()).then(() => {
+            throw err
+        })
+    })
+}
 MyPromise.all = function (arr) {
     return new Promise((resolve, reject) => {
         const result = []
@@ -87,6 +97,32 @@ MyPromise.race = function (arr) {
         })
     })
 }
+MyPromise.allSettled = function (arr) {
+    return new Promise((resolve, reject) => {
+        const result = []
+        for (let i = 0; i < arr.length; i++) {
+            arr[i].then(res => {
+                const r = {
+                    status: 'fulfilled',
+                    value: res
+                }
+                result[i] = r
+                if (result.length === arr.length) {
+                    resolve(result)
+                }
+            }).catch(err => {
+                const r = {
+                    status: 'rejected',
+                    reason: err
+                }
+                result[i] = r
+                if (result.length === arr.length) {
+                    resolve(result)
+                }
+            })
+        }
+    })
+}
 MyPromise.resolve = function (res) {
     return new MyPromise((resolve, reject) => {
         resolve(res)
@@ -100,14 +136,11 @@ MyPromise.resolve = function (res) {
 //     }, 2000)
 //     // }, 1000);
 // })
-const promise2 = new MyPromise((resolve, reject) => {
-    // setTimeout(() => {
-    console.log('start')
-    setTimeout(() => {
-        resolve('data1')
-    }, 2000)
-    // }, 1000);
-})
+// const promise2 = new MyPromise((resolve, reject) => {
+//     setTimeout(() => {
+//         resolve('data1')
+//     }, 2000)
+// })
 // promise2.then(res => {
 //     console.log('success： ' + res)
 //     return res + '122'
@@ -145,49 +178,92 @@ const promise2 = new MyPromise((resolve, reject) => {
 // })
 
 
-function pool (arrP) {
-    const tempArr = arrP.splice(0, 3)
-    // while(tempArr.length) {
-    //     const p = tempArr[0]
-    //     p().then(res => {
-    //         // debugger
-    //         if (arrP.length) {
-    //             tempArr.push(arrP.shift())
-    //         }
-    //     })
-    // }
-}
+// function pool (arrP) {
+//     const tempArr = arrP.splice(0, 3)
+//     while(tempArr.length) {
+//         const p = tempArr[0]
+//         p().then(res => {
+//             // debugger
+//             if (arrP.length) {
+//                 tempArr.push(arrP.shift())
+//             }
+//         })
+//     }
+// }
 
-const p1 = () => {
-    return new Promise((r, j) => {
-        setTimeout(() => {
-            console.log(1)
-            r('1')
-        }, 1000)
-    })
-}
-const p2 = () => {
-    return new Promise((r, j) => {
-        setTimeout(() => {
-            console.log(2)
-            r('2')
-        }, 1000)
-    })
-}
-const p3 = () => {
-    return new Promise((r, j) => {
-        setTimeout(() => {
-            console.log(3)
-            r('3')
-        }, 1000)
-    })
-}
-const p4 = () => {
-    return new Promise((r, j) => {
-        setTimeout(() => {
-            console.log(4)
-            r('4')
-        }, 1000)
-    })
-}
-pool([p1, p2, p3, p4])
+// const p1 = () => {
+//     return new Promise((r, j) => {
+//         setTimeout(() => {
+//             console.log(1)
+//             r('1')
+//         }, 1000)
+//     })
+// }
+// const p2 = () => {
+//     return new Promise((r, j) => {
+//         setTimeout(() => {
+//             console.log(2)
+//             r('2')
+//         }, 1000)
+//     })
+// }
+// const p3 = () => {
+//     return new Promise((r, j) => {
+//         setTimeout(() => {
+//             console.log(3)
+//             r('3')
+//         }, 1000)
+//     })
+// }
+// const p4 = () => {
+//     return new Promise((r, j) => {
+//         setTimeout(() => {
+//             console.log(4)
+//             r('4')
+//         }, 1000)
+//     })
+// }
+// pool([p1, p2, p3, p4])
+
+
+// console.time()
+// const promise1 = new Promise(function(resolve, reject) {
+//     setTimeout(() => reject(new Error('失败')), 3000)
+// });
+
+// const promise2 = new Promise(function(resolve, reject) {
+//     setTimeout(() => resolve(promise1), 1000)
+// });
+
+// promise2.then(res => {
+//     console.log(res)
+// }).catch(err => {
+//     console.log(err)
+// }).finally(() => {
+//     console.timeEnd()
+// })
+
+console.time()
+const promise1 = () => new Promise(function(resolve, reject) {
+    setTimeout(() => resolve('第二个'), 2000)
+});
+
+const promise2 = () => new Promise(function(resolve, reject) {
+    setTimeout(() => resolve('success'), 1000)
+});
+var peddings
+
+const result = promise2().then(res => {
+    peddings = promise1()
+
+    return peddings
+})
+result.then(res => {
+    console.log(res)
+    console.log(Date.now())
+})
+// window.pedding.then(res => {
+//     console.log(res, 'window')
+//     console.log(Date.now())
+// })
+
