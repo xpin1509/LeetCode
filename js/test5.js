@@ -118,4 +118,46 @@ Array.prototype.myReduce = function (fn, initialState) {
 }
 
 
-// add(1)(2)(3)
+function curry1 (fn) {
+    const arg = [].slice.call(arguments, 1)
+    return function () {
+        const leftArg = [].slice.call(arguments)
+        return fn.apply(this, arg.concat(leftArg))
+    }
+}
+
+
+// add(1)(2)
+function curry2 (fn) {
+    var len = fn.length
+    return function reply () {
+        var innerLength = arguments.length
+        var args = [].slice.call(arguments)
+
+        if (innerLength >= len) {
+            return fn.apply(undefined, args)
+        } else {
+            return function () {
+                var innerArgs = [].slice.call(arguments)
+                var allArgs = args.concat(innerArgs)
+
+                return reply.apply(undefined, allArgs)
+            }
+        }
+    }
+}
+
+
+function add (init) {
+    let total = 0
+    function _add (arg) {
+        total = arg + total
+        return _add
+    }
+
+    _add.toString = function () {
+        return total
+    }
+
+    return _add(init)
+}
