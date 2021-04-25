@@ -139,3 +139,96 @@ function timeBitmapToRanges(timeStr) {
 }
 // console.log(timeBitmapToRanges('110000000000000000000000000000000000000000000000'))
 console.log(timeBitmapToRanges('110010000000000000000000000000000000000000000000'))
+
+
+// =====================================================
+// 欢迎参加有赞前端 Coding 面试
+// =====================================================
+// 界面介绍：
+//   上方设置按钮可以切换语言、字体大小、主题
+//   右侧控制台可以显示代码执行结果，可用于编码过程中的 DEBUG
+// =====================================================
+// Coding 须知：
+//   本次 Coding 时间限制为 45 分钟，共 3 道题，请量力答题
+// =====================================================
+
+
+/**
+ * 1. 实现一个对象深拷贝的方法？尽可能考虑特殊情况，考虑下循环引用，递归爆栈的问题？
+ */
+
+function deepCopy(obj, wp = new WeakMap()) {
+    
+    if (typeof obj !== 'object') {
+        return obj
+    }
+
+    if (obj instanceof RegExp) return new RegExp(obj)
+
+    if (obj instanceof Date) return new Date(obj)
+
+    if (wp.has(obj)) return wp.get(obj)
+
+    const result = Array.isArray(obj) ? [] : {}
+
+    for (let i in obj) {
+        if (typeof obj[i] === 'object') {
+            result[i] = deepCopy(obj[i], wp)
+        } else {
+            result[i] = obj[i]
+        }
+    }
+    
+    return result
+}
+
+/**
+ * 2. 实现 getValue 函数来获取path对应的值
+ */
+
+var object = { 'a': [{ 'b': { 'c': 3 } }] }; // path: 'a[0].b.c'
+var array = [{ "a": { 'b': [1] } }]; // path: '[0].a.b[0]'
+
+function getValue(obj, path, defaultValue) {
+    const arr = path.split('.')
+    let result = defaultValue
+    while (arr.length) {
+        let item = arr.pop()
+
+        const reg = /(\w)(\[\d+\])/.test(item)
+        
+
+        if (reg) {
+            
+            item = item.replace(/(\w)\[(\d+)\]/, '$1-$2')
+
+            const [alp, index] = item.split('-')
+
+            result = item[alp][index]
+        } else {
+            result = obj[item]
+        }
+        
+    }
+    return result
+}
+
+console.log(getValue(object, 'a[0].b.c', 0));  // 输出3
+// console.log(getValue(array, '[0].a.b[0]', 12)); // 输出 1
+// console.log(getValue(array, '[0].a.b[0].c', 12));  // 输出 12
+
+
+/**
+ * 3. 实现一个信息脱敏的方法， 如：手机号信息脱敏 15924167134 -> 159****7134, 可以设置脱敏的起始位置，
+ * 并考虑如何解决emoji等特殊字符。
+ */
+ // 哈哈哈😝😝，😝 -> 哈哈***😝
+function parser(str, start, end) {
+    const strList = str.split('')
+    for (let i = 0; i < strList.length; i++) {
+        if (i >= start && i <= end) {
+            strList.splice(i, 1, '*')
+        }
+    }
+    return strList.join('')
+}

@@ -161,3 +161,46 @@ function add (init) {
 
     return _add(init)
 }
+// add(1)(2)(3)
+
+
+function diff (arr1, arr2) {
+    const map = new Map()
+    for (let i of arr1) {
+        if (Array.isArray(i)) {
+            const arr = [...new Set(i)] //.sort((a, b) => a - b)
+            map.set(arr.join(','), i)
+        } else {
+            map.set(i, i)
+        }
+    }
+    for (let i of arr2) {
+        let key = i
+        if (Array.isArray(i)) {
+            const arr = [...new Set(i)] //.sort((a, b) => a - b)
+            key = arr.join(',')
+        }
+        if (map.has(key)) {
+            map.delete(key)
+        } else {
+            map.set(key, i)
+        }
+    }
+
+    const result = []
+    for (let key of map.keys()) {
+        const item = map.get(key)
+        result.push(item)
+    }
+    return result
+  }
+  
+//   console.log(diff([1,2],[2,1]));
+
+//   console.log(diff([1,2,1],[2,1,1,2])); //=>[]
+
+//   console.log(diff([1, [2,3], 4], [[1,2], [2,3], 3, 4]));
+  
+//   console.log(diff([[1,2,3],[3,2,1],1,2,3], [2,3,1])); // => [[1,2,3],[3,2,1]]
+  
+
