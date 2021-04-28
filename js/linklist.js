@@ -53,6 +53,7 @@ var levelOrder = function(root) {
         const resItem = []
         const items = [...queue]
         const leftLevel = []
+
         while (items.length) {
             const item = items.shift()
             resItem.push(item.val)
@@ -70,14 +71,67 @@ var levelOrder = function(root) {
     return result
 };
 
-// const node = new TreeNode(3)
-// node.left = new TreeNode(9)
-// node.left.left = null
-// node.left.right = null
-// node.right = new TreeNode(20)
-// node.right.left = new TreeNode(15)
-// node.right.left.left = null
-// node.right.left.right = null
-// node.right.right = new TreeNode(7)
-// node.right.right.right = null
-// node.right.right.left = null
+// 144. 二叉树的前序遍历
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var preorderTraversal = function(root) {
+    if (!root) return []
+    const queue = []
+    const result = []
+    queue.push(root)
+    while (queue.length) {
+        const item = queue.pop()
+        result.push(item.val)
+
+        if (item.right) queue.push(item.right)
+        if (item.left) queue.push(item.left)
+    }
+
+    return result
+};
+
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var inorderTraversal = function(root) {
+    const result = []
+    const traverse = root => {
+        if(root === null) return;
+        traverse(root.left)
+        result.push(root.val)
+        traverse(root.right)
+        
+    }
+
+    traverse(root)
+    return result
+};
+const node = new TreeNode(1)
+node.right = new TreeNode(2)
+node.right.left = new TreeNode(3)
+node.right.left.left = null
+node.right.left.right = null
+node.right.right = null
+
+console.log(inorderTraversal(node))
+
+/**145. 二叉树的后序遍历
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+ var postorderTraversal = function(root) {
+    const result = []
+    const traverse = root => {
+        if(root === null) return;
+        traverse(root.left)
+        
+        traverse(root.right)
+        result.push(root.val)
+    }
+
+    traverse(root)
+    return result
+};
