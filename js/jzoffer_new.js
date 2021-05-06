@@ -133,14 +133,84 @@ var minArray = function(numbers) {
 // 输出：false
 
 /**
+ * 超时了，TODO
  * @param {character[][]} board
  * @param {string} word
  * @return {boolean}
  */
 var exist = function(board, word) {
+    if (!board.length) return false
+    const wid = board.length
+    const hig = board[0].length
+    const result = []
+    function combin (target, left) {
+        if (target.length === word.length) {
+            result.push(target)
+            return
+        }
+        if (!left.length) return
+        for (let i = 0; i < left.length; i++) {
+            const cur = left[i]
+            const result = [...target, cur]
+            const index = result.length
+            combin(result, findLeft(...cur.split(','), index, result))
+        }
+    }
+    const left = []
+    for (let i = 0; i < wid; i++) {
+        for (let j = 0; j < hig; j++) {
+            if (board[i][j] === word[0]) {
+                left.push(`${i},${j}`)
+            }
+        }
+    }
+    combin([], left)
 
+    function findLeft (w, h, index, setted) {
+        w = Number(w) 
+        h = Number(h)
+        const map = {}
+        setted.map(el => {
+            map[el] = 1
+        })
+        const result = []
+        if (board[w - 1] && board[w - 1][h] && word[index] === board[w - 1][h] && !map[`${w - 1},${h}`]) {
+            result.push(`${w - 1},${h}`)
+        }
+        if (board[w + 1] && board[w + 1][h] && word[index] === board[w + 1][h] && !map[`${w + 1},${h}`]) {
+            result.push(`${w + 1},${h}`)
+        }
+        if (board[w] && board[w][h - 1] && word[index] === board[w][h - 1] && !map[`${w},${h - 1}`]) {
+            result.push(`${w},${h - 1}`)
+        }
+        if (board[w] && board[w][h + 1] && word[index] === board[w][h + 1] && !map[`${w},${h + 1}`]) {
+            result.push(`${w},${h + 1}`)
+        }
+        
+        return result
+    }
+    return !!result.length
 };
 
+// 剑指 Offer 13. 机器人的运动范围
+// 地上有一个m行n列的方格，从坐标 [0,0] 到坐标 [m-1,n-1] 。
+// 一个机器人从坐标 [0, 0] 的格子开始移动，它每次可以向左、右、上、下移动一格（不能移动到方格外），
+// 也不能进入行坐标和列坐标的数位之和大于k的格子。例如，当k为18时，机器人能够进入方格 [35, 37] ，因为3+5+3+7=18。但它不能进入方格 [35, 38]，因为3+5+3+8=19。请问该机器人能够到达多少个格子？
+
+// 输入：m = 2, n = 3, k = 1
+// 输出：3
+
+// 输入：m = 3, n = 1, k = 0
+// 输出：1
+/**
+ * @param {number} m
+ * @param {number} n
+ * @param {number} k
+ * @return {number}
+ */
+var movingCount = function(m, n, k) {
+
+};
 
 // 剑指 Offer 15. 二进制中1的个数
 // 请实现一个函数，输入一个整数（以二进制串形式），输出该数二进制表示中 1 的个数。
@@ -236,4 +306,61 @@ var deleteNode = function(head, val) {
 
     if (cur) pre.next = cur.next
     return head
+};
+
+// 剑指 Offer 21. 调整数组顺序使奇数位于偶数前面
+// 输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有奇数位于数组的前半部分，所有偶数位于数组的后半部分。
+// 输入：nums = [1,2,3,4]
+// 输出：[1,3,2,4] 
+// 注：[3,1,2,4] 也是正确的答案之一。
+
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+ var exchange = function(nums) {
+    const odd = []
+    const even = []
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i] % 2 === 0) {
+            even.push(nums[i])
+        } else if (nums[i] % 2 === 1) {
+            odd.push(nums[i])
+        }
+    }
+    return [...odd, ...even]
+};
+
+// 剑指 Offer 22. 链表中倒数第k个节点
+// 输入一个链表，输出该链表中倒数第k个节点。为了符合大多数人的习惯，本题从1开始计数，即链表的尾节点是倒数第1个节点。
+
+// 例如，一个链表有 6 个节点，从头节点开始，它们的值依次是 1、2、3、4、5、6。这个链表的倒数第 3 个节点是值为 4 的节点。
+
+// 给定一个链表: 1->2->3->4->5, 和 k = 2.
+
+// 返回链表 4->5.
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} k
+ * @return {ListNode}
+ */
+var getKthFromEnd = function(head, k) {
+    let low = head
+    let fast = head
+    let n = 0
+    while (fast) {
+        fast = fast.next
+        if (n >= k) {
+            low = low.next
+        }
+        n++
+    }
+    return low
 };
