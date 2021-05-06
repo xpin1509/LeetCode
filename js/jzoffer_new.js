@@ -340,13 +340,6 @@ var deleteNode = function(head, val) {
 
 // 返回链表 4->5.
 /**
- * Definition for singly-linked list.
- * function ListNode(val) {
- *     this.val = val;
- *     this.next = null;
- * }
- */
-/**
  * @param {ListNode} head
  * @param {number} k
  * @return {ListNode}
@@ -363,4 +356,52 @@ var getKthFromEnd = function(head, k) {
         n++
     }
     return low
+};
+
+// 剑指 Offer 24. 反转链表
+// 定义一个函数，输入一个链表的头节点，反转该链表并输出反转后链表的头节点。
+
+// 输入: 1->2->3->4->5->NULL
+// 输出: 5->4->3->2->1->NULL
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var reverseList = function(head) {
+    let pre = null
+    let cur = head
+    while (cur) {
+        const temp = cur.next
+        cur.next = pre
+        prev = cur
+        cur = temp
+    }
+    return pre
+};
+
+// 剑指 Offer 25. 合并两个排序的链表
+// 输入两个递增排序的链表，合并这两个链表并使新链表中的节点仍然是递增排序的。
+
+// 输入：1->2->4, 1->3->4
+// 输出：1->1->2->3->4->4
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+var mergeTwoLists = function(l1, l2) {
+    let head = new ListNode()
+    let cur = head
+    while (l1 && l2) {
+        if (l1.val < l2.val) {
+            cur.next = l1
+            l1 = l1.next
+        } else {
+            cur.next = l2
+            l2 = l2.next
+        }
+        cur = cur.next
+    }
+    cur.next = l1 != null ? l1 : l2
+    return head.next
 };
