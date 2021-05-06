@@ -45,7 +45,22 @@ var reversePrint = function (head) {
  * @param {number[]} inorder
  * @return {TreeNode}
  */
-var buildTree = function (preorder, inorder) {};
+var buildTree = function (preorder, inorder) {
+    if (!preorder.length || !inorder.length) {
+        return null
+    }
+
+    const rootVal = preorder[0]
+    const node = new TreeNode(rootVal)
+
+    const index = inorder.findIndex(e => rootVal === e)
+
+    node.left = buildTree(preorder.slice(1, index + 1), inorder.slice(0, index))
+
+    node.right = buildTree(preorder.slice(index + 1), inorder.slice(index + 1))
+
+    return node
+};
 
 // 剑指 Offer 09. 用两个栈实现队列
 // 用两个栈实现一个队列。队列的声明如下，请实现它的两个函数 appendTail 和 deleteHead ，分别完成在队列尾部插入整数和在队列头部删除整数的功能。(若队列中没有元素，deleteHead 操作返回 -1 )
@@ -102,6 +117,28 @@ var minArray = function(numbers) {
         }
     }
     return min
+};
+
+// 剑指 Offer 12. 矩阵中的路径
+// 给定一个 m x n 二维字符网格 board 和一个字符串单词 word 。如果 word 存在于网格中，返回 true ；否则，返回 false 。
+
+// 单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。
+
+// 例如，在下面的 3×4 的矩阵中包含单词 "ABCCED"（单词中的字母已标出）。
+
+// 输入：board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
+// 输出：true
+
+// 输入：board = [["a","b"],["c","d"]], word = "abcd"
+// 输出：false
+
+/**
+ * @param {character[][]} board
+ * @param {string} word
+ * @return {boolean}
+ */
+var exist = function(board, word) {
+
 };
 
 
