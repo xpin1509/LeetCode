@@ -717,3 +717,106 @@ var levelOrder = function(root) {
     }
     return result
 };
+
+// 剑指 Offer 39. 数组中出现次数超过一半的数字
+// 数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。
+
+// 你可以假设数组是非空的，并且给定的数组总是存在多数元素。
+
+//  
+// 输入: [1, 2, 3, 2, 2, 2, 5, 4, 2]
+// 输出: 2
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var majorityElement = function(nums) {
+    const map = new Map()
+
+    const len = nums.length / 2
+
+    for (let i of nums) {
+        if (map.has(i)) {
+            const before = map.get(i)
+            map.set(i, before + 1)
+        } else {
+            map.set(i, 1)
+        }
+    }
+    for (let [key, value] of map) {
+        if (value > len) {
+            return key
+        }
+    }
+};
+
+
+// 剑指 Offer 40. 最小的k个数
+// 输入整数数组 arr ，找出其中最小的 k 个数。例如，输入4、5、1、6、2、7、3、8这8个数字，则最小的4个数字是1、2、3、4。
+// 示例 1：
+
+// 输入：arr = [3,2,1], k = 2
+// 输出：[1,2] 或者 [2,1]
+// 示例 2：
+
+// 输入：arr = [0,1,2,1], k = 1
+// 输出：[0]
+/**
+ * @param {number[]} arr
+ * @param {number} k
+ * @return {number[]}
+ */
+var getLeastNumbers = function(arr, k) {
+    if (k === 0 || arr.length === 0) return []
+
+    class Queue {
+        constructor (k) {
+            this.length = k
+            this.list = []
+        }
+        insert (x) {
+            // if (result.getLast() !== null) {
+
+            //     if (result.isFulled()) {
+            //         if (i < result.getLast()) {
+                        
+            //         }
+            //     } else {
+            //         result.insert(i)
+            //     }
+            // } else {
+            //     result.push(i)
+            // }
+            // for (let i = 0; i < this.list.length; i++) {
+            //     const item = this.list[i]
+            //     if (x <= item) {
+            //         this.list.splice(i, 0, x)
+            //         break
+            //     }
+            // }
+            // if (this.list.length > this.length) {
+            //     this.list.pop()
+            // }
+        }
+        isFulled () {
+            return this.list.length === this.length
+        }
+        getLast () {
+            return this.list.length ? this.list[this.list.length - 1] : null
+        }
+        getVal () {
+            return this.list
+        }
+    }
+
+    const result = new Queue(k)
+
+    for (let i of arr) {
+        result.insert(i)
+    }
+
+    return result.getVal()
+};
+
+
+// console.log(getLeastNumbers([0,0,1,2,4,2,2,3,1,4], 8))
