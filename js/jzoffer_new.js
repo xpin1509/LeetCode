@@ -405,3 +405,98 @@ var mergeTwoLists = function(l1, l2) {
     cur.next = l1 != null ? l1 : l2
     return head.next
 };
+
+
+// 剑指 Offer 27. 二叉树的镜像
+// 请完成一个函数，输入一个二叉树，该函数输出它的镜像。
+
+// 例如输入：
+
+//      4
+//    /   \
+//   2     7
+//  / \   / \
+// 1   3 6   9
+// 镜像输出：
+
+//      4
+//    /   \
+//   7     2
+//  / \   / \
+// 9   6 3   1
+
+// 输入：root = [4,2,7,1,3,6,9]
+// 输出：[4,7,2,9,6,3,1]
+/**
+ * @param {TreeNode} root
+ * @return {TreeNode}
+ */
+ var mirrorTree = function(root) {
+    if (!root) return null
+    const right = root.right
+
+    const left = root.left
+
+    root.left = mirrorTree(right)
+
+    root.right = mirrorTree(left)
+
+    return root
+};
+
+// 剑指 Offer 28. 对称的二叉树
+// 请实现一个函数，用来判断一棵二叉树是不是对称的。如果一棵二叉树和它的镜像一样，那么它是对称的。
+
+// 例如，二叉树 [1,2,2,3,4,4,3] 是对称的。
+
+//     1
+//    / \
+//   2   2
+//  / \ / \
+// 3  4 4  3
+// 但是下面这个 [1,2,2,null,3,null,3] 则不是镜像对称的:
+
+//     1
+//    / \
+//   2   2
+//    \   \
+//    3    3
+
+// 输入：root = [1,2,2,3,4,4,3]
+// 输出：true
+
+// 输入：root = [1,2,2,null,3,null,3]
+// 输出：false
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+var isSymmetric = function(root) {
+    if (root === null) return true
+    function recur (left, right) {
+        if (left === null && right === null) return true
+
+        if (left === null || right === null || right.val !== left.val) return false
+
+        return recur(left.left, right.right) && recur(left.right, right.left)
+    }
+    return recur(root.left, root.right)
+};
+
+// 剑指 Offer 29. 顺时针打印矩阵
+// 输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字。
+// 示例 1：
+
+// 输入：matrix = [[1,2,3],[4,5,6],[7,8,9]]
+// 输出：[1,2,3,6,9,8,7,4,5]
+// 示例 2：
+
+// 输入：matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
+// 输出：[1,2,3,4,8,12,11,10,9,5,6,7]
+// /**
+//  * @param {number[][]} matrix
+//  * @return {number[]}
+//  */
+//  var spiralOrder = function(matrix) {
+
+// };
