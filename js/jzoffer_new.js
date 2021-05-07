@@ -493,10 +493,227 @@ var isSymmetric = function(root) {
 
 // 输入：matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
 // 输出：[1,2,3,4,8,12,11,10,9,5,6,7]
-// /**
-//  * @param {number[][]} matrix
-//  * @return {number[]}
-//  */
-//  var spiralOrder = function(matrix) {
+/**
+ * @param {number[][]} matrix
+ * @return {number[]}
+ */
+ var spiralOrder = function(matrix) {
 
-// };
+};
+
+
+// 剑指 Offer 30. 包含min函数的栈
+// 定义栈的数据结构，请在该类型中实现一个能够得到栈的最小元素的 min 函数在该栈中，
+// 调用 min、push 及 pop 的时间复杂度都是 O(1)。
+// 例:
+
+// MinStack minStack = new MinStack();
+// minStack.push(-2);
+// minStack.push(0);
+// minStack.push(-3);
+// minStack.min();   --> 返回 -3.
+// minStack.pop();
+// minStack.top();      --> 返回 0.
+// minStack.min();   --> 返回 -2.
+
+/**
+ * initialize your data structure here.
+ */
+var MinStack = function() {
+    this.stack = []
+};
+
+/** 
+ * @param {number} x
+ * @return {void}
+ */
+MinStack.prototype.push = function(x) {
+    this.stack.unshift(x)
+};
+
+/**
+ * @return {void}
+ */
+MinStack.prototype.pop = function() {
+    this.stack.shift()
+};
+
+/**
+ * @return {number}
+ */
+MinStack.prototype.top = function() {
+    return this.stack[0]
+};
+
+/**
+ * @return {number}
+ */
+MinStack.prototype.min = function() {
+    let min = this.top()
+    for (let i of this.stack) {
+        if (i < min) {
+            min = i
+        }
+    }
+    return min
+};
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * var obj = new MinStack()
+ * obj.push(x)
+ * obj.pop()
+ * var param_3 = obj.top()
+ * var param_4 = obj.min()
+ */
+
+// 剑指 Offer 32 - I. 从上到下打印二叉树
+// 从上到下打印出二叉树的每个节点，同一层的节点按照从左到右的顺序打印。
+//  
+// 给定二叉树: [3,9,20,null,null,15,7],
+
+//     3
+//    / \
+//   9  20
+//     /  \
+//    15   7
+
+// [3,9,20,15,7]
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var levelOrder = function(root) {
+    if (!root) return []
+    const result = []
+
+    let treeLeft = [root]
+
+    while (treeLeft.length) {
+        const temp = []
+        const res = []
+        for (let i of treeLeft) {
+            res.push(i.val)
+            if (i.left) {
+                temp.push(i.left)
+            }
+    
+            if (i.right) {
+                temp.push(i.right)
+            }
+        }
+        treeLeft = temp
+        result.push(res)
+    }
+    return result
+};
+
+
+//  剑指 Offer 32 - II. 从上到下打印二叉树 II
+//  从上到下按层打印二叉树，同一层的节点按从左到右的顺序打印，每一层打印到一行。
+
+// 给定二叉树: [3,9,20,null,null,15,7],
+
+//     3
+//    / \
+//   9  20
+//     /  \
+//    15   7
+// 返回其层次遍历结果：
+
+// [
+//   [3],
+//   [9,20],
+//   [15,7]
+// ]
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[][]}
+ */
+var levelOrder = function(root) {
+    if (!root) return []
+    let result = []
+
+    let treeLeft = [root]
+
+    while (treeLeft.length) {
+        const temp = []
+        const res = []
+        for (let i of treeLeft) {
+            res.push(i.val)
+            if (i.left) {
+                temp.push(i.left)
+            }
+    
+            if (i.right) {
+                temp.push(i.right)
+            }
+        }
+        treeLeft = temp
+        result = result.concat(res)
+    }
+    return result
+};
+
+// 剑指 Offer 32 - III. 从上到下打印二叉树 III
+// 请实现一个函数按照之字形顺序打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右到左的顺序打印，第三行再按照从左到右的顺序打印，其他行以此类推。
+
+// 给定二叉树: [3,9,20,null,null,15,7],
+
+//     3
+//    / \
+//   9  20
+//     /  \
+//    15   7
+// 返回其层次遍历结果：
+
+// [
+//   [3],
+//   [20,9],
+//   [15,7]
+// ]
+/**
+ * @param {TreeNode} root
+ * @return {number[][]}
+ */
+var levelOrder = function(root) {
+    if (!root) return []
+    let result = []
+
+    let treeLeft = [root]
+    let i = 0
+
+    while (treeLeft.length) {
+        const temp = []
+        const res = []
+        for (let i of treeLeft) {
+            res.push(i.val)
+            if (i.left) {
+                temp.push(i.left)
+            }
+    
+            if (i.right) {
+                temp.push(i.right)
+            }
+        }
+        treeLeft = temp
+        result.push(i % 2 === 1 ? res.reverse() : res)
+        i++
+    }
+    return result
+};
