@@ -774,35 +774,30 @@ var getLeastNumbers = function(arr, k) {
             this.length = k
             this.list = []
         }
+        doPush (x) {
+            // 满了且大于最后一个，退出
+            if (this.list.length === this.length && x > this.list[this.list.length - 1]) {
+                return
+            } else if (this.list.length === this.length && x < this.list[this.list.length - 1]) {
+                // 满了，不大于最后一个，按次序插入，删掉最后一个
+                this.insert(x)
+                this.pop()
+            } else if (this.list.length < this.length) {
+                // 不满找到，大于的地方插入、
+                this.insert(x)
+            }
+        }
         insert (x) {
-            // if (result.getLast() !== null) {
-
-            //     if (result.isFulled()) {
-            //         if (i < result.getLast()) {
-                        
-            //         }
-            //     } else {
-            //         result.insert(i)
-            //     }
-            // } else {
-            //     result.push(i)
-            // }
-            // for (let i = 0; i < this.list.length; i++) {
-            //     const item = this.list[i]
-            //     if (x <= item) {
-            //         this.list.splice(i, 0, x)
-            //         break
-            //     }
-            // }
-            // if (this.list.length > this.length) {
-            //     this.list.pop()
-            // }
+            for (let i = 0; i < this.list.length; i++) {
+                const item = this.list[i]
+                if (x <= item) {
+                    return this.list.splice(i, 0, x)
+                }
+            }
+            return this.list.push(x)
         }
-        isFulled () {
-            return this.list.length === this.length
-        }
-        getLast () {
-            return this.list.length ? this.list[this.list.length - 1] : null
+        pop () {
+            this.list.pop()
         }
         getVal () {
             return this.list
@@ -812,14 +807,12 @@ var getLeastNumbers = function(arr, k) {
     const result = new Queue(k)
 
     for (let i of arr) {
-        result.insert(i)
+        result.doPush(i)
     }
 
     return result.getVal()
 };
 
-
-// console.log(getLeastNumbers([0,0,1,2,4,2,2,3,1,4], 8))
 
 // 剑指 Offer 42. 连续子数组的最大和
 // 输入一个整型数组，数组中的一个或连续多个整数组成一个子数组。求所有子数组的和的最大值。
