@@ -912,3 +912,203 @@ var search = function(nums, target) {
     if (map.has(target)) return map.get(target)
     return 0
 };
+
+
+// 剑指 Offer 53 - II. 0～n-1中缺失的数字
+// 一个长度为n-1的递增排序数组中的所有数字都是唯一的，并且每个数字都在范围0～n-1之内。
+// 在范围0～n-1内的n个数字中有且只有一个数字不在该数组中，请找出这个数字。
+
+// 输入: [0,1,3]
+// 输出: 2
+
+// 输入: [0,1,2,3,4,5,6,7,9]
+// 输出: 8
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var missingNumber = function(nums) {
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i] !== i) return i
+    }
+    return nums.length ? nums[nums.length - 1] + 1 : 0
+};
+
+// 剑指 Offer 54. 二叉搜索树的第k大节点
+// 给定一棵二叉搜索树，请找出其中第k大的节点。
+
+// 输入: root = [3,1,4,null,2], k = 1
+//    3
+//   / \
+//  1   4
+//   \
+//    2
+// 输出: 4
+
+// 输入: root = [5,3,6,2,4,null,null,1], k = 3
+//        5
+//       / \
+//      3   6
+//     / \
+//    2   4
+//   /
+//  1
+// 输出: 4
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} k
+ * @return {number}
+ */
+ var kthLargest = function(root, k) {
+
+};
+
+
+// 剑指 Offer 55 - I. 二叉树的深度
+// 输入一棵二叉树的根节点，求该树的深度。
+// 从根节点到叶节点依次经过的节点（含根、叶节点）形成树的一条路径，最长路径的长度为树的深度。
+
+// 给定二叉树 [3,9,20,null,null,15,7]
+
+//     3
+//    / \
+//   9  20
+//     /  \
+//    15   7
+// 返回它的最大深度 3 。
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var maxDepth = function(root) {
+    if (!root) return 0;
+    return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1
+};
+
+
+// 剑指 Offer 55 - II. 平衡二叉树
+// 输入一棵二叉树的根节点，判断该树是不是平衡二叉树。如果某二叉树中任意节点的左右子树的深度相差不超过1，那么它就是一棵平衡二叉树。
+
+// 给定二叉树 [3,9,20,null,null,15,7]
+
+//     3
+//    / \
+//   9  20
+//     /  \
+//    15   7
+// 返回 true 。
+
+// 给定二叉树 [1,2,2,3,3,null,null,4,4]
+
+//        1
+//       / \
+//      2   2
+//     / \
+//    3   3
+//   / \
+//  4   4
+//  返回 false 。
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+var isBalanced = function(root) {
+    function recur (root) {
+        if (!root) return 0
+        const left = recur(root.left)
+        if (left === -1) return -1
+        const right = recur(root.right)
+        if (right === -1) return -1
+        return Math.abs(left - right) < 2 ? Math.max(left, right) + 1 : -1
+    }
+
+    return recur(root) !== -1
+};
+
+
+// 剑指 Offer 57. 和为s的两个数字
+// 输入一个递增排序的数组和一个数字s，在数组中查找两个数，使得它们的和正好是s。如果有多对数字的和等于s，则输出任意一对即可。
+
+// 输入：nums = [2,7,11,15], target = 9
+// 输出：[2,7] 或者 [7,2]
+// 示例 2：
+
+// 输入：nums = [10,26,30,31,47,60], target = 40
+// 输出：[10,30] 或者 [30,10]
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+var twoSum = function(nums, target) {
+    // if (nums.length < 2) return [];
+    // for (var i = 0; i < nums.length; i++) {
+    //     if (nums[i] >= target) continue
+    //     for (let j = 0; j < nums.length; j++) {
+    //         if (nums[i] + nums[j]=== target) {
+    //             return [nums[i], nums[j]]
+    //         } else if (nums[i] + nums[j] > target) {
+    //             break
+    //         }
+    //     }
+    // }
+    // return []
+    let i = 0; j = nums.length - 1;
+    while (i < j) {
+        let s = nums[i] + nums[j]
+        if (s < target) {
+            i++
+        } else if (s > target){
+            j --
+        } else {
+            return [nums[i], nums[j]]
+        }
+    }
+    return []
+};
+
+// 剑指 Offer 57 - II. 和为s的连续正数序列
+// 输入一个正整数 target ，输出所有和为 target 的连续正整数序列（至少含有两个数）。
+
+// 序列内的数字由小到大排列，不同序列按照首个数字从小到大排列。
+
+// 输入：target = 9
+// 输出：[[2,3,4],[4,5]]
+
+// 输入：target = 15
+// 输出：[[1,2,3,4,5],[4,5,6],[7,8]]
+/**
+ * @param {number} target
+ * @return {number[][]}
+ */
+var findContinuousSequence = function(target) {
+    const result = []
+    function combin (current, left) {
+        const total = current.reduce((total, cur) => total + cur, 0);
+        if (total === target) {
+            return result.push(current)
+        }
+        combin([...current, cur], left.filter(el => el > cur))
+    }
+    combin([], getLeftNum(1, 9))
+
+    function getLeftNum (start, end) {
+        const result = []
+        for (let i = start; i < end; i++) {
+            result.push(i)
+        }
+        return result
+    }
+
+    return result
+};
+
+// console.log(findContinuousSequence(9))
