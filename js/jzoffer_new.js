@@ -1151,3 +1151,164 @@ var reverseWords = function(s) {
     const alphaArr = s.split(' ').filter(el => el !== '');
     return alphaArr.reverse().join(' ')
 };
+
+
+// 剑指 Offer 58 - II. 左旋转字符串
+// 字符串的左旋转操作是把字符串前面的若干个字符转移到字符串的尾部。请定义一个函数实现字符串左旋转操作的功能。
+// 比如，输入字符串"abcdefg"和数字2，该函数将返回左旋转两位得到的结果"cdefgab"。
+//  
+// 输入: s = "abcdefg", k = 2
+// 输出: "cdefgab"
+
+// 输入: s = "lrloseumgh", k = 6
+// 输出: "umghlrlose"
+/**
+ * @param {string} s
+ * @param {number} n
+ * @return {string}
+ */
+var reverseLeftWords = function(s, n) {
+    const sArr = s.split('')
+    while (n--) {
+        const char = sArr.shift()
+        sArr.push(char)
+    }
+    return sArr.join('')
+};
+
+// 剑指 Offer 61. 扑克牌中的顺子
+// 从扑克牌中随机抽5张牌，判断是不是一个顺子，即这5张牌是不是连续的。
+// 2～10为数字本身，A为1，J为11，Q为12，K为13，而大、小王为 0 ，可以看成任意数字。A 不能视为 14。
+
+// 输入: [1,2,3,4,5]
+// 输出: True
+//  
+// 输入: [0,0,1,2,5]
+// 输出: True
+
+// 数组长度为 5 
+// 数组的数取值为 [0, 13] .
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var isStraight = function(nums) {
+    nums = nums.filter(el => el)
+    if (nums.length === 5) {
+        let origin = nums[0]
+        for (let i = 1; i < nums.length; i++) {
+            if (nums[i] - origin === 1) {
+                origin = nums[i]
+            } else {
+                return false
+            }
+        }
+        return true
+    // } else {
+
+    }
+    return true
+};
+
+
+
+// 剑指 Offer 62. 圆圈中最后剩下的数字
+// 0,1,···,n-1这n个数字排成一个圆圈，从数字0开始，每次从这个圆圈里删除第m个数字（删除后从下一个数字开始计数）。求出这个圆圈里剩下的最后一个数字。
+
+// 例如，0、1、2、3、4这5个数字组成一个圆圈，从数字0开始每次删除第3个数字，则删除的前4个数字依次是2、0、4、1，因此最后剩下的数字是3。
+
+
+// 输入: n = 5, m = 3
+// 输出: 3
+
+// 输入: n = 10, m = 17
+// 输出: 2
+/**
+ * @param {number} n
+ * @param {number} m
+ * @return {number}
+ */
+ var lastRemaining = function(n, m) {
+
+};
+
+// 剑指 Offer 65. 不用加减乘除做加法
+// 写一个函数，求两个整数之和，要求在函数体内不得使用 “+”、“-”、“*”、“/” 四则运算符号。
+
+// 输入: a = 1, b = 1
+// 输出: 2
+
+// a, b 均可能是负数或 0
+// 结果不会溢出 32 位整数
+/**
+ * @param {number} a
+ * @param {number} b
+ * @return {number}
+ */
+ var add = function(a, b) {
+
+};
+
+// 剑指 Offer 68 - I. 二叉搜索树的最近公共祖先
+// 给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。
+
+// 百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”
+
+// 例如，给定如下二叉搜索树:  root = [6,2,8,0,4,7,9,null,null,3,5]
+
+
+// 输入: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 8
+// 输出: 6 
+// 解释: 节点 2 和节点 8 的最近公共祖先是 6。
+
+// 输入: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 4
+// 输出: 2
+// 解释: 节点 2 和节点 4 的最近公共祖先是 2, 因为根据定义最近公共祖先节点可以为节点本身。
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {TreeNode} p
+ * @param {TreeNode} q
+ * @return {TreeNode}
+ */
+ var lowestCommonAncestor = function(root, p, q) {
+    
+};
+
+
+// 剑指 Offer 68 - II. 二叉树的最近公共祖先
+// 给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
+
+// 百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”
+
+// 例如，给定如下二叉树:  root = [3,5,1,6,2,0,8,null,null,7,4]
+
+// 输入: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
+// 输出: 3
+// 解释: 节点 5 和节点 1 的最近公共祖先是节点 3。
+
+// 输入: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4
+// 输出: 5
+// 解释: 节点 5 和节点 4 的最近公共祖先是节点 5。因为根据定义最近公共祖先节点可以为节点本身。
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {TreeNode} p
+ * @param {TreeNode} q
+ * @return {TreeNode}
+ */
+ var lowestCommonAncestor = function(root, p, q) {
+    
+};
