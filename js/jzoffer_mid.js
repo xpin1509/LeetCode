@@ -28,3 +28,34 @@ var singleNumbers = function(nums) {
     })
     return result
 };
+
+// 剑指 Offer 56 - II. 数组中数字出现的次数 II
+// 在一个数组 nums 中除一个数字只出现一次之外，其他数字都出现了三次。请找出那个只出现一次的数字。
+
+// 输入：nums = [3,4,3,3]
+// 输出：4
+
+// 输入：nums = [9,1,7,9,7,9,7]
+// 输出：1
+
+// 1 <= nums.length <= 10000
+// 1 <= nums[i] < 2^31
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+ var singleNumber = function(nums) {
+    const map = new Map();
+    for (let item of nums) {
+        const value = map.get(item)
+        if (value) {
+            map.set(item, value + 1)
+        } else {
+            map.set(item, 1)
+        }
+    }
+    for (let el of map.entries()) {
+        const [key, value] = el
+        if (value === 1) return key
+    }
+};
