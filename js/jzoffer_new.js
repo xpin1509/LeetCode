@@ -1257,7 +1257,7 @@ var isStraight = function(nums) {
  * @param {number} m
  * @return {number}
  */
- var lastRemaining = function(n, m) {
+var lastRemaining = function(n, m) {
 
 };
 
@@ -1274,8 +1274,14 @@ var isStraight = function(nums) {
  * @param {number} b
  * @return {number}
  */
- var add = function(a, b) {
-
+var add = function(a, b) {
+    while (b) {
+        let c = (a & b) << 1;
+        debugger
+        a ^= b
+        b = c
+    }
+    return a
 };
 
 // 剑指 Offer 68 - I. 二叉搜索树的最近公共祖先
