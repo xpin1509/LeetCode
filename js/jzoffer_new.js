@@ -1195,6 +1195,39 @@ var reverseLeftWords = function(s, n) {
 var isStraight = function(nums) {
     nums = nums.filter(el => el)
     if (nums.length === 5) {
+        return isCorrect(nums)
+    } else {
+        const result = []
+        function combin (target, left) {
+            if (target.length > 5) return false
+            if (target.length === 5 && isCorrect(target)) {
+                result.push(target)
+            }
+            for (let item of left) {
+                if (target.length > 4) break
+                combin([...target, item], left.filter(el => el !== item))
+            }
+        }
+        combin(nums, getLeftNum(nums))
+        return !!result.length
+    }
+    
+    function getLeftNum (num) {
+        const result = []
+        for (let i = 1; i < 14; i++) {
+            if (!num.includes(i)) {
+                result.push(i)
+            }
+        }
+        return result
+    }
+    /**
+     * 判断是顺子
+     * @param {Array} nums 5位的数组
+     * @returns 
+     */
+    function isCorrect (nums) {
+        nums = nums.sort((a, b) => a - b)
         let origin = nums[0]
         for (let i = 1; i < nums.length; i++) {
             if (nums[i] - origin === 1) {
@@ -1204,12 +1237,8 @@ var isStraight = function(nums) {
             }
         }
         return true
-    // } else {
-
     }
-    return true
 };
-
 
 
 // 剑指 Offer 62. 圆圈中最后剩下的数字
