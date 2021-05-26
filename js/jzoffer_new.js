@@ -1258,7 +1258,24 @@ var isStraight = function(nums) {
  * @return {number}
  */
 var lastRemaining = function(n, m) {
+    // timeout 超时
+    // let i = 0
+    // const s = new Array(n).fill(1).map((el, index) => index)
+    // while (s.length > 1) {
+    //     const index = i + m > s.length ? (i + m) % s.length - 1 < 0 ? s.length + (i + m) % s.length - 1 : (i + m) % s.length - 1 : i + m - 1
+    //     s.splice(index, 1)
+    //     i = index
+    // }
+    // return s[0]
 
+    return f(n, m)
+    function f(n, m) {
+        if (n == 1) {
+            return 0;
+        }
+        let x = f(n - 1, m);
+        return (m + x) % n;
+    }
 };
 
 // 剑指 Offer 65. 不用加减乘除做加法
@@ -1277,7 +1294,6 @@ var lastRemaining = function(n, m) {
 var add = function(a, b) {
     while (b) {
         let c = (a & b) << 1;
-        debugger
         a ^= b
         b = c
     }
@@ -1312,8 +1328,15 @@ var add = function(a, b) {
  * @param {TreeNode} q
  * @return {TreeNode}
  */
- var lowestCommonAncestor = function(root, p, q) {
-    
+var lowestCommonAncestor = function(root, p, q) {
+    while (root) {
+        if (root.val < p.val && root.val < q.val) {
+            root = root.right
+        } else if (root.val > p.val && root.val > q.val) {
+            root = root.left
+        } else break
+    }
+    return root
 };
 
 
@@ -1344,6 +1367,11 @@ var add = function(a, b) {
  * @param {TreeNode} q
  * @return {TreeNode}
  */
- var lowestCommonAncestor = function(root, p, q) {
-    
+var lowestCommonAncestor = function(root, p, q) {
+    if (root === null || p === root || q === root) return root
+    let left = lowestCommonAncestor(root.left, p, q)
+    let right = lowestCommonAncestor(root.right, p, q)
+    if (left === null) return right
+    if (right === null) return left
+    return root
 };
