@@ -196,7 +196,6 @@ function getValue(obj, path, defaultValue) {
         let item = arr.pop()
 
         const reg = /(\w)(\[\d+\])/.test(item)
-        
 
         if (reg) {
             

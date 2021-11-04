@@ -115,11 +115,11 @@ function throttle (fn, delay) {
     var timmer = null
     return function (...arg) {
         const _this = this
-        if (!timer) {
+        if (!timmer) {
             fn.call(_this, ...arg)
         }
         timmer = setTimeout(() => {
-            clearTimeout(timer)
+            clearTimeout(timmer)
             timer = null
         })
     }
