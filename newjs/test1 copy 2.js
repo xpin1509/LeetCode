@@ -11,20 +11,16 @@
 // 交换两个变量的值
 // 请手写一下map、instanceof、Promise
 
-// 并发请求限制
-// 随机算法
 // 请实现plus(1)(2)(3)(4)等于10？
 // 十大排序算法
 // LRU 缓存函数
-// 二叉树题：最大深度，最小深度，二叉搜索树，DFS，BFS
-// 链表题：反转链表，合并两个有序链表
+// 二叉树题：最大深度，二叉搜索树，DFS，BFS
+// 链表题：反转链表
 // 数据结构与算法，实现队列 栈 
 // 模拟Object.create
 // 解析 URL Params 为对象
 // 转化为驼峰命名
 // 实现千位分隔符
-// 斐波那契
-// 列表变层级关系
 
 function throttle (fn, time) {
     var timeid = null;
@@ -178,21 +174,17 @@ class Promise1 {
         this.onreject = []
         const _this = this
         function resolve (value) {
-            setTimeout(() => {
-                _this.status = 'resolved'
-                _this.value = value
-                _this.onresolve.forEach((e) => {
-                    e.call(_this, _this.value)
-                })
+            _this.status = 'resolved'
+            _this.value = value
+            _this.onresolve.forEach((e) => {
+                e.call(_this, _this.value)
             })
         }
         function reject (err) {
-            setTimeout(() => {
-                _this.status = 'rejected'
-                _this.error = err
-                _this.onreject.forEach((e) => {
-                    e.call(_this, _this.error)
-                })
+            _this.status = 'rejected'
+            _this.error = err
+            _this.onreject.forEach((e) => {
+                e.call(_this, _this.error)
             })
         }
         executor(resolve, reject)

@@ -13,4 +13,3 @@ window.addEventListener('popState', popStateChange)
 function popStateChange (e) {
     console.log('popStateChange', e)
 }
-
