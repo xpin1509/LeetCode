@@ -10,21 +10,20 @@
 // 实现一个队列
 // 交换两个变量的值
 // 请手写一下map、instanceof、Promise
-
-// 并发请求限制
+// 斐波那契 递归，迭代法
 // 随机算法
+// 解析 URL Params 为对象
+// 转化为驼峰命名
+
+// TODO:
+// 并发请求限制
 // 请实现plus(1)(2)(3)(4)等于10？
 // 十大排序算法
 // LRU 缓存函数
+// 数据结构
 // 二叉树题：最大深度，最小深度，二叉搜索树，DFS，BFS
 // 链表题：反转链表，合并两个有序链表
-// 数据结构与算法，实现队列 栈 
-// 模拟Object.create
-// 解析 URL Params 为对象
-// 转化为驼峰命名
-// 实现千位分隔符
-// 斐波那契
-// 列表变层级关系
+// 实现队列 栈 
 
 function throttle (fn, time) {
     var timeid = null;
@@ -53,7 +52,7 @@ function debounce (fn, time) {
 function myNew (fn, ...arg) {
     const result = Object.create(fn.prototype)
 
-    fn.call(result, ...arg)
+    fn.apply(result, arg)
 
     return result
 }
@@ -258,3 +257,117 @@ Promise.finally = function (list) {
         }))
     })
 }
+
+// 斐波那契 递归，迭代法
+function fibonacci (n) {
+    if (n <= 2) return 1
+
+    const result= [1, 1]
+
+    for (let i = 2; i < n; i++) {
+        result[i] = result[i - 1] + result[i - 2]
+    }
+
+    return result[n-1]
+}
+
+// 随机算法
+function random (m, n) {
+    return  Math.floor(Math.random() * (n - m + 1)) + m
+}
+
+// 驼峰互转
+function undertoCaml (str) {
+    return str.replace(/(_\w)/g, function (s) {
+        return s.toUpperCase().replace(/_/, '')
+    })
+}
+function camleTounder (str) {
+    return str.replace(/([A-Z])/g, '_$1').toLowerCase()
+}
+
+// 列表变层级关系
+const listToTreeData = [
+    {id: 1, parentId: null, name: "1"},
+    {id: 2, parentId: 1, name: "2"},
+    {id: 3, parentId: 2, name: "3"},
+    {id: 4, parentId: 2, name: "4"},
+    {id: 5, parentId: 3, name: "5"},
+    {id: 6, parentId: 1, name: "6"},
+    {id: 7, parentId: 3, name: "7"},
+    {id: 8, parentId: 2, name: "8"}
+];
+function listToTree (data) {
+    for (let i = 0; i < data.length; i ++) {
+        for (let j = 0; j < data.length; j++) {
+            if (data[i].parentId === data[j].id) {
+                data[j].child ? data[j].child.push(data[i]) : (data[j].child = [data[i]])
+            }
+        }
+    }
+    return data.filter(el => el.parentId === null)
+}
+
+// 模拟Object.create
+function createObj (obj, attrs = {}) {
+    const newObj = {};
+    newObj.__proto__ = obj;
+    Object.keys(attrs).forEach(key => {
+        newObj[key] = attrs[key]
+    })
+    return newObj;
+}
+
+
+// LRU 缓存函数
+class LRU {
+    constructor (size = 10) {
+        this.list = []
+        this.size = size
+    };
+    push (type) {
+        this.filter(type)
+        this.list.push(type)
+        if (this.list.length > this.size) {
+            this.shift()
+        }
+    };
+    shift () {
+        this.list.shift()
+    }
+    filter (type) {
+        this.list = this.list.filter(el => el !== type)
+    };
+    get (type) {
+        const result = this.list.find(type)
+        this.push(type)
+        return result
+    }
+}
+
+// 实现千位分隔符
+function toLocaleString (str) {
+    // 小数情况
+    // 其余情况写个正则，或者用函数表示
+    return str.toLocaleString()
+}
+
+// 手写reduce
+Array.prototype.myReduce = function (fn, r) {
+    const arr = this
+    let result = r
+
+    for (let i = 0; i < arr.length; i++) {
+        result = fn(result, arr[i])
+    }
+    return result
+} 
+
+// 并发请求限制
+// 请实现plus(1)(2)(3)(4)等于10？
+// Promise.finally
+// 柯里化
+// 十大排序算法
+// 二叉树题：最大深度，最小深度，二叉搜索树，DFS，BFS，监测二叉树是否相同
+// 链表题：反转链表，合并两个有序链表
+// 实现队列 栈 
