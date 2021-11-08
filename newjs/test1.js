@@ -209,18 +209,22 @@ class Promise1 {
             }
         }) 
     }
+
+    finally (onfinally) {
+        return this.then(value => {
+            return Promise.resolve(onfinally()).then(() => value)
+        }, err => {
+            return Promise.resolve(onfinally()).then(() => { throw err })
+        })
+    }
+
+    catch (onRejected) {
+        return this.then(undefined, onRejected)
+    }
 }
 
-// new Promise1((resolve, reject) => {
-//     resolve(1)
-// }).then(res => {
-//     console.log(1)
-// }, (e) => {
-//     console.error(e)
-// })
-
-Promise.race = function (list) {
-    return new Promise(function (resolve, reject) {
+Promise1.race = function (list) {
+    return new Promise1(function (resolve, reject) {
         for (let i of list) {
             p.then((res) => {
                 resolve(res)
@@ -230,8 +234,8 @@ Promise.race = function (list) {
         }
     })
 }
-Promise.all = function (list) {
-    return new Promise(function (resolve, reject) {
+Promise1.all = function (list) {
+    return new Promise1(function (resolve, reject) {
         const result = []
         for (let i = 0; i < list.length; i++) {
             list[i].then((res) => {
@@ -243,18 +247,6 @@ Promise.all = function (list) {
                 return reject(err)
             })
         }
-    })
-}
-// TODO
-Promise.finally = function (list) {
-    return this.then(value => {
-        return Promise.resolve(callback().then(e => {
-            return value
-        }))
-    }, err => {
-        return Promise.resolve(callback().then(e => {
-            return err
-        }))
     })
 }
 
@@ -363,11 +355,10 @@ Array.prototype.myReduce = function (fn, r) {
     return result
 } 
 
+// 二叉树题：二叉树遍历的姿势，DFS，BFS，最大深度，最小深度，二叉搜索树，检测二叉树是否相同，反转二叉树
+// 链表题：反转链表，合并两个有序链表，判断循环链表，删除倒数n个节点
 // 并发请求限制
-// 请实现plus(1)(2)(3)(4)等于10？
-// Promise.finally
 // 柯里化
+// 请实现plus(1)(2)(3)(4)等于10？
 // 十大排序算法
-// 二叉树题：最大深度，最小深度，二叉搜索树，DFS，BFS，监测二叉树是否相同
-// 链表题：反转链表，合并两个有序链表
 // 实现队列 栈 
