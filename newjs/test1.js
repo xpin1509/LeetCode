@@ -355,11 +355,51 @@ Array.prototype.myReduce = function (fn, r) {
     return result
 } 
 
-// 二叉树题：二叉树遍历的姿势，DFS，BFS，最大深度，最小深度，二叉搜索树，检测二叉树是否相同，反转二叉树
-// 链表题：反转链表，合并两个有序链表，判断循环链表，删除倒数n个节点
 // 并发请求限制
-// 请实现plus(1)(2)(3)(4)等于10？
+function limitAsync (list, n) {
+    const temArr = list.splice(0, n);
+    while (temArr.length) {
+        const item = temArr.pop();
+        Promise.resolve(item.call()).finally(() => {
+            if (list.length) {
+                const leftItem = list.pop()
+                temArr.push(leftItem.call())
+            }
+        })
+    }
+}
+
+const node = {
+    left: {
+        left: null,
+        right: null
+    },
+    right: {
+        left: 1,
+        right: null
+    }
+}
+
 // 十大排序算法
 // 实现队列 栈
 // compose函数
 // 柯里化
+
+// // 请实现plus(1)(2)(3)(4)等于10？
+// function add (n) {
+//     let result = 0
+//     function fn (m) {
+//         result = n + m
+//         return fn
+//     };
+
+//     fn.toString = function () {
+//         return result;
+//     }
+//     return fn
+// }
+
+// plus(3)(4)(5) // 12
+// add(3)(6)(9)(25); // 43
+// console.log(plus())
+
