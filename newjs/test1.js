@@ -369,19 +369,7 @@ function limitAsync (list, n) {
     }
 }
 
-const node = {
-    left: {
-        left: null,
-        right: null
-    },
-    right: {
-        left: 1,
-        right: null
-    }
-}
-
 // 十大排序算法
-// 实现队列 栈
 // compose函数
 // 柯里化
 

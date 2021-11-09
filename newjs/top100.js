@@ -38,7 +38,22 @@
  ********************************/
 // 全排列
 // 输入: nums = [1,2,3]
+function allSort (arr) {
+    const result = [];
+    function combin (target, left) {
+        if (target.length === arr.length) {
+            result.push(target)
+            return
+        }
 
+        for (let i = 0; i < left.length; i++) {
+            const cur = left[i]
+            combin([...target, cur], left.filter(el => el !== cur))
+        }
+    }
+    combin([], arr) 
+    return result
+}
 
 /********************************
  * 数组
@@ -101,6 +116,7 @@ const twoSum = function(nums, target) {
 
 /********************************
  * 栈和队列
+ * 实现队列 栈
  ********************************/
 // 1.“有效括号”问题
 // 给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串，判断字符串是否有效。
@@ -116,7 +132,7 @@ const twoSum = function(nums, target) {
  * 树
  * 判断平衡二叉树，最小深度，二叉搜索树，检测二叉树是否相同
  ********************************/
- const root = {
+ const rootNode = {
     val: "A",
     left: {
       val: "B",
