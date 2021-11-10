@@ -369,25 +369,40 @@ function limitAsync (list, n) {
     }
 }
 
-// 十大排序算法
+// // 请实现plus(1)(2)(3)(4)等于10？
+function add (n) {
+    let result = n
+    function fn (m) {
+        result = result + m
+        return fn
+    };
+
+    fn.toString = function () {
+        return result;
+    }
+    return fn
+}
+
+// Picker, MockRequired, Partial
+type Picker<T, P extends keyof T> = {
+    [K in P]: T[K]
+}
+type MockRequired<T> = {
+    [K in keyof T] -?: T[K]
+}
+type Partial1<T> = {
+    [K in keyof T]?: T[K]
+}
+// interface Mock {
+//     name: string;
+//     age: number;
+//     sex?: string;
+// }
+// type RequireKey = 'name' | 'age'
+// const xubin: Picker<Mock, RequireKey> = {
+//     name: undefined,
+//     age: undefined
+// } 
+
 // compose函数
 // 柯里化
-
-// // 请实现plus(1)(2)(3)(4)等于10？
-// function add (n) {
-//     let result = 0
-//     function fn (m) {
-//         result = n + m
-//         return fn
-//     };
-
-//     fn.toString = function () {
-//         return result;
-//     }
-//     return fn
-// }
-
-// plus(3)(4)(5) // 12
-// add(3)(6)(9)(25); // 43
-// console.log(plus())
-
