@@ -383,26 +383,5 @@ function add (n) {
     return fn
 }
 
-// Picker, MockRequired, Partial
-type Picker<T, P extends keyof T> = {
-    [K in P]: T[K]
-}
-type MockRequired<T> = {
-    [K in keyof T] -?: T[K]
-}
-type Partial1<T> = {
-    [K in keyof T]?: T[K]
-}
-// interface Mock {
-//     name: string;
-//     age: number;
-//     sex?: string;
-// }
-// type RequireKey = 'name' | 'age'
-// const xubin: Picker<Mock, RequireKey> = {
-//     name: undefined,
-//     age: undefined
-// } 
-
 // compose函数
 // 柯里化
