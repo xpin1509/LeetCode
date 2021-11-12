@@ -1,5 +1,3 @@
-
-
 /********************************
  * 
  * 数据结构与算法
@@ -55,25 +53,22 @@ function allSort (arr) {
 }
 /***************递归*****************/
 // 计算阶乘
-// function factorial (n) {
-//     if (n <= 2) {
-//         return n
-//     }
-//     console.trace();
-//     return n * factorial(n - 1)
-// }
-
-// TODO
-// 尾调用优化
-function factorial(n, total) {
-    if (n === 1) {
-        return 1;
-    }
-    console.trace();
-    return factorial(n - 1, n * total);
+function factorial (n) {
+    if( n <= 1 ) {
+        return n
+    };
+    console.trace()
+    return factorial(n - 1) * n;
 }
-  
-factorial(5, 1) // 120
+
+// 尾调用优化
+// 递归函数在调用自身后直接传回其值，而不对其"运算"
+function factorial1(n, total = 1) {
+    if (n === 1) {
+        return total;
+    }
+    return factorial1(n - 1, n * total);
+}
 
 // 数据结构
 
