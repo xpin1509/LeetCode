@@ -384,4 +384,23 @@ function add (n) {
 }
 
 // compose函数
+function compose (...fn) {
+    if (fn.length === 0) {
+        return arg => arg
+    } else if (fn.length === 1) {
+        return fn[0]
+    } else {
+        return fn.reverse().reduce((a, b) => {
+            return (...args) => {
+                return b(a(...args))
+            }
+        })
+    }
+}
+
 // 柯里化
+function curry (fn, ...args) {
+    return function (...arg2) {
+        return fn.apply(null, [...args, ...arg2])
+    }
+}

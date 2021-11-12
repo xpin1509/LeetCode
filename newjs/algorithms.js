@@ -8,36 +8,31 @@
 
 /***************动态规划DP*****************/
 // 最小硬币找零
-// function minCoinChange (coins, amount) {
-//     const cache = [];
-//     const makeChange = (value) => {
-//         if (!value) {
-//             return []
-//         }
-//         if (cache[value]) {
-//             return cache[value]
-//         }
-//         let min = []
-//         let newMin;
-//         let newAmount;
-//         for (let i = 0; i < coins.length; i++) {
-//             const coin = coins[i];
-//             newAmount = value - coin;
-//             if (newAmount >= 0) {
-//                 newMin = makeChange(newAmount)
-//             }
-//             if (newAmount >= 0 && 
-//                 (newMin.length < min.length - 1 || !min.length) && 
-//                 (newMin.length || !newAmount)) {
-//                     min = [coin].concat(newMin);
-//                     console.log('new Min' + min + ' for ' + amount)
-//                 }
-//         }
-//         return (cache[value] = min)
-//     }
-//     return makeChange(amount)
-// }
-// console.log(minCoinChange([1, 5, 10, 25], 36))
+function minCoinChange (coins, amount) {
+    // if (!amount) {
+    //     return []
+    // }
+    // const cache = [];
+    // function minVal (val) {
+    //     for (let i = 0; i < coins.length; i++) {
+    //         const newAmount = val - coins[i];
+    //         let min = []
+    //         let newMin = [];
+    //         if (newAmount >= 0 && 
+    //             (newMin.length < min.length - 1 || !min.length) && 
+    //             (newMin.length || !newAmount)) {
+    //                 min = [coins[i], newMin];
+    //         }
+    //     }
+    //     return (cache[value] = min)
+    // } 
+
+    // minVal(amount)
+
+    // return cache[amount]
+}
+
+// console.log(minCoinChange([1,5,10,25], 36))
 
 /***************回溯*****************/
 // 全排列
@@ -60,23 +55,25 @@ function allSort (arr) {
 }
 /***************递归*****************/
 // 计算阶乘
-function factorial (n) {
-    if (n <= 2) {
-        debugger
-        return n
-    }
-    return n * factorial(n - 1)
-}
+// function factorial (n) {
+//     if (n <= 2) {
+//         return n
+//     }
+//     console.trace();
+//     return n * factorial(n - 1)
+// }
 
 // TODO
 // 尾调用优化
-// function factorial1 (n, total) {
-//     if (n <= 2) {
-//         debugger
-//         return n
-//     }
-//     return factorial1(n - 1, total * n)
-// }
+function factorial(n, total) {
+    if (n === 1) {
+        return 1;
+    }
+    console.trace();
+    return factorial(n - 1, n * total);
+}
+  
+factorial(5, 1) // 120
 
 // 数据结构
 
@@ -104,6 +101,44 @@ const twoSum = function(nums, target) {
 // 3.三数求和问题
 // 给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。
 // 给定数组 nums = [-1, 0, 1, 2, -1, -4]， 满足要求的三元组集合为： [ [-1, 0, 1], [-1, -1, 2] ]
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var threeSum = function(nums) {
+    nums = nums.sort((a, b) => a - b)
+
+    if (nums.length < 3) return []
+    const result = []
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i] > 0) {
+            return result
+        }
+
+        if (i > 0 && nums[i] === nums[i - 1]) {
+            continue
+        }
+        
+        var L = i + 1, R = nums.length - 1
+        
+        while (L < R) {
+            const sum = nums[i] + nums[L] + nums[R]
+            if (sum === 0) {
+                result.push([nums[i], nums[L], nums[R]])
+                while (nums[L] === nums[L+1] && L < R) L++;
+                while (nums[R] === nums[R-1] && L < R) R--;
+
+                L++
+                R--
+            } else if (sum < 0) {
+                L ++
+            } else if (sum > 0) {
+                R--
+            }
+        }
+    }
+    return result
+};
 
 /***************字符串*****************/
 // 检测回文
