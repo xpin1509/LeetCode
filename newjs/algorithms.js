@@ -7,30 +7,30 @@
 /***************动态规划DP*****************/
 // 最小硬币找零
 function minCoinChange (coins, amount) {
-    // if (!amount) {
-    //     return []
-    // }
-    // const cache = [];
-    // function minVal (val) {
-    //     for (let i = 0; i < coins.length; i++) {
-    //         const newAmount = val - coins[i];
-    //         let min = []
-    //         let newMin = [];
-    //         if (newAmount >= 0 && 
-    //             (newMin.length < min.length - 1 || !min.length) && 
-    //             (newMin.length || !newAmount)) {
-    //                 min = [coins[i], newMin];
-    //         }
-    //     }
-    //     return (cache[value] = min)
-    // } 
+    if (!amount) {
+        return []
+    }
+    const cache = [];
+    function minVal (val) {
+        let min = []
+        let newMin = [];
+        for (let i = 0; i < coins.length; i++) {
+            const newAmount = val - coins[i];
+            if (newAmount >= 0) {
+                newMin = minVal(newAmount)
+            }
+            
+            if (newAmount >= 0 && 
+                (newMin.length < min.length - 1 || !min.length) && 
+                (newMin.length || !newAmount)) {
+                min = [coins[i], ...newMin];
+            }
+        }
+        return (cache[val] = min)
+    }
 
-    // minVal(amount)
-
-    // return cache[amount]
+    return minVal(amount)
 }
-
-// console.log(minCoinChange([1,5,10,25], 36))
 
 /***************回溯*****************/
 // 全排列
@@ -62,7 +62,8 @@ function factorial (n) {
 }
 
 // 尾调用优化
-// 递归函数在调用自身后直接传回其值，而不对其"运算"
+// 递归函数在调用自身后直接传回其值，而不对其"运算"（return语句不能包含表达式）
+// 遗憾的是，大多数编程语言没有针对尾递归做优化，所以，即使把上面的fact(n)函数改成尾递归方式，也会导致栈溢出。
 function factorial1(n, total = 1) {
     if (n === 1) {
         return total;
@@ -85,13 +86,8 @@ const twoSum = function(nums, target) {
         map[nums[i]] = i
     }
 };
-
-// 2.合并两个有序数组
-// 给你两个有序整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。
-// 输入:
-// nums1 = [1,2,3,0,0,0], m = 3
-// nums2 = [2,5,6], n = 3
-// 输出: [1,2,2,3,5,6]
+// TODO
+// 滑动窗口
 
 // 3.三数求和问题
 // 给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。
@@ -158,11 +154,33 @@ var threeSum = function(nums) {
 // 4.定义一个函数，输入一个链表的头结点，反转该链表并输出反转后链表的头结点。
 // 输入: 1->2->3->4->5->NULL
 // 输出: 5->4->3->2->1->NULL
+function reverseList (ListNode) {
+    let pre = null
+    let cur = ListNode.Head
+    while (cur) {
+        let temp = cur.next
+        temp.next = pre
+        pre = cur
+        cur = cur.next
+    }
+    return pre
+}
 
 // 5.给定一个链表，判断链表中是否有环。
 // 输入：[3,2,0,4]（链表结构如下图） 输出：true
 // 解释：链表中存在一个环
-
+function cycleList (ListNode) {
+    let cur = ListNode.Head
+    const wp = new WeakMap()
+    while(cur) {
+        if (wp.has(cur)) {
+            return true
+        }
+        wp.set(cur, 1)
+        cur = cur.next
+    }
+    return false
+}
 
 /****************栈和队列****************/
 // 实现队列 栈
@@ -171,10 +189,6 @@ var threeSum = function(nums) {
 // 左括号必须用相同类型的右括号闭合。
 // 左括号必须以正确的顺序闭合。
 // 注意空字符串可被认为是有效字符串。
-
-// 滑动窗口问题
-// 2.给定一个数组 nums 和滑动窗口的大小 k，请找出所有滑动窗口里的最大值。
-// nums = [1,3,-1,-3,5,3,6,7], 和 k = 3 输出: [3,3,5,5,6,7]
 
 /****************树****************/
 // 判断平衡二叉树，最小深度，二叉搜索树，检测二叉树是否相同
@@ -213,6 +227,20 @@ function maxDeepth (node) {
     if (!node) return 0
     return Math.max(maxDeepth(node.left), maxDeepth(node.right)) + 1
 }
+// 最小深度
+function minDepth (node) {
+    if (!node) return 0
+    if (!node.left && !node.right) return 1
+    let min = Number.MAX_VALUE
+    if (node.left) {
+        min = Math.min(minDepth(node.left), min)
+    }
+    if (node.right) {
+        min = Math.min(minDepth(node.right), min)
+    }
+    return min + 1
+}
+
 // 二叉树题：二叉树遍历的姿势 深度优先
 // 先序，中序，后序 ｜ 广度优先
 function preorder(root) {
