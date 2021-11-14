@@ -53,14 +53,11 @@ var threeSumClosest = function(nums, target) {
     if (nums.length < 4) return nums.reduce((total, cur) => total + cur, 0)
     nums = nums.sort((a, b) => a - b)
     let min = nums[0] + nums[1] + nums[2]
-    // debugger
     for (let i = 0; i < nums.length; i++) {
         let L = i + 1, R = nums.length - 1
-        // debugger
         while (L < R) {
             const sumNew = nums[i] + nums[L] + nums[R]
             min = Math.abs(sumNew - target) < Math.abs(min - target) ? sumNew : min
-            debugger
             if (sumNew ===  target) { 
                 return sumNew
             } else if (sumNew > target) {

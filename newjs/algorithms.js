@@ -38,6 +38,31 @@ function minCoinChange (coins, amount) {
     makeChange(amount)
     return cache[amount]
 }
+// 53. 最大子序和 
+// 输入：nums = [-2,1,-3,4,-1,2,1,-5,4]
+// 输出：6
+// 解释：连续子数组 [4,-1,2,1] 的和最大，为 6 。
+// 输入：nums = [1]
+// 输出：1
+// 输入：nums = [0]
+// 输出：0
+// 输入：nums = [-1]
+// 输出：-1
+// 输入：nums = [-100000]
+// 输出：-100000
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maxSubArray = function(nums) {
+    const dp = [];
+    dp[0] = nums[0];
+    for (let i = 1; i < nums.length; i++) {
+        dp[i] = Math.max(dp[i - 1] + nums[i], nums[i]);
+        // debugger
+    }
+    return Math.max(...dp)
+};
 /***************回溯*****************/
 // 全排列
 // 输入: nums = [1,2,3]
