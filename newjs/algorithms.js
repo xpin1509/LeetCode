@@ -124,34 +124,34 @@ const twoSum = function(nums, target) {
  * @return {number[][]}
  */
 var threeSum = function(nums) {
-    nums = nums.sort((a, b) => a - b)
-
     if (nums.length < 3) return []
+    nums = nums.sort((a, b) => a - b)
     const result = []
-    for (let i = 0; i < nums.length; i++) {
-        if (nums[i] > 0) {
-            return result
-        }
 
-        if (i > 0 && nums[i] === nums[i - 1]) {
+    for (let i = 0; i < nums.length; i++) {
+        let L = i + 1, R = nums.length - 1
+
+        if (i >= 1 && nums[i] === nums[i - 1]) {
             continue
         }
-        
-        var L = i + 1, R = nums.length - 1
-        
+        if (nums[i] > 0) return result
+
         while (L < R) {
             const sum = nums[i] + nums[L] + nums[R]
             if (sum === 0) {
                 result.push([nums[i], nums[L], nums[R]])
-                while (nums[L] === nums[L+1] && L < R) L++;
-                while (nums[R] === nums[R-1] && L < R) R--;
-
-                L++
-                R--
-            } else if (sum < 0) {
+                while (nums[L] === nums[L + 1] && (L + 1) < R) {
+                    L++
+                }
+                while (nums[R] === nums[R - 1] && L < (R - 1)) {
+                    R--
+                }
                 L ++
+                R --
             } else if (sum > 0) {
-                R--
+                R = R - 1
+            } else if (sum < 0){
+                L = L + 1
             }
         }
     }
