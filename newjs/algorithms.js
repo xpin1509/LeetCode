@@ -1,3 +1,12 @@
+// 算法的复杂度分析。
+// 排序算法，以及他们的区别和优化。
+// 数组中的双指针、滑动窗口思想。
+// 利用 Map 和 Set 处理查找表问题。
+// 链表的各种问题。
+// 利用递归和迭代法解决二叉树问题。
+// 栈、队列、DFS、BFS。
+// 回溯法、贪心算法、动态规划。
+
 /********************************
  * 
  * 数据结构与算法
@@ -60,7 +69,6 @@ function factorial (n) {
     console.trace()
     return factorial(n - 1) * n;
 }
-
 // 尾调用优化
 // 递归函数在调用自身后直接传回其值，而不对其"运算"（return语句不能包含表达式）
 // 遗憾的是，大多数编程语言没有针对尾递归做优化，所以，即使把上面的fact(n)函数改成尾递归方式，也会导致栈溢出。
@@ -85,6 +93,25 @@ const twoSum = function(nums, target) {
         }
         map[nums[i]] = i
     }
+};
+// 350. 两个数组的交集 II
+// 给定两个数组，编写一个函数来计算它们的交集。
+// 输入：nums1 = [1,2,2,1], nums2 = [2,2]
+// 输出：[2,2]
+// 输入：nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+// 输出：[4,9]
+ var intersect = function(nums1, nums2) {
+    const result = [];
+    for (let i = 0; i < nums1.length; i++) {
+        for (let j = 0; j < nums2.length; j++) {
+            if (nums1[i] === nums2[j]) {
+                result.push(nums2[j])
+                nums1.splice(i--, 1)
+                nums2.splice(j--, 1)
+            }
+        }
+    }
+    return result
 };
 // TODO
 // 滑动窗口
