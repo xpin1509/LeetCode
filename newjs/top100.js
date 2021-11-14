@@ -50,25 +50,25 @@ var maxArea = function(height) {
  * @return {number}
  */
 var threeSumClosest = function(nums, target) {
-
+    if (nums.length < 4) return nums.reduce((total, cur) => total + cur, 0)
+    nums = nums.sort((a, b) => a - b)
+    let min = nums[0] + nums[1] + nums[2]
+    // debugger
+    for (let i = 0; i < nums.length; i++) {
+        let L = i + 1, R = nums.length - 1
+        // debugger
+        while (L < R) {
+            const sumNew = nums[i] + nums[L] + nums[R]
+            min = Math.abs(sumNew - target) < Math.abs(min - target) ? sumNew : min
+            debugger
+            if (sumNew ===  target) { 
+                return sumNew
+            } else if (sumNew > target) {
+                R--
+            } else {
+                L++
+            }
+        }
+    }
+    return min
 };
-
-
-// 3. 无重复字符的最长子串
-// 给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度。
-
-// 输入: s = "abcabcbb"
-// 输出: 3 
-// 解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
-
-// 输入: s = "bbbbb"
-// 输出: 1
-// 解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
-
-// 输入: s = "pwwkew"
-// 输出: 3
-// 解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
-//      请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
-
-// 输入: s = ""
-// 输出: 0

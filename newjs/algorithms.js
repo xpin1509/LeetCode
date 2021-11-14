@@ -16,31 +16,28 @@
 /***************动态规划DP*****************/
 // 最小硬币找零
 function minCoinChange (coins, amount) {
-    if (!amount) {
-        return []
-    }
-    const cache = [];
-    function minVal (val) {
-        let min = []
-        let newMin = [];
+    const cache = []
+    const makeChange = (value) => {
+        if (!value) return []
+        let min = [];
+        let newMin = []
+        let newAmount = 0
         for (let i = 0; i < coins.length; i++) {
-            const newAmount = val - coins[i];
+            newAmount = value - coins[i]
             if (newAmount >= 0) {
-                newMin = minVal(newAmount)
+                newMin = makeChange(newAmount)
             }
-            
             if (newAmount >= 0 && 
-                (newMin.length < min.length - 1 || !min.length) && 
-                (newMin.length || !newAmount)) {
-                min = [coins[i], ...newMin];
-            }
+                (newMin.length < (min.length - 1) || !min.length) &&
+                (!newAmount || newMin.length)) {
+                    min = [...newMin, coins[i]]
+                }
         }
-        return (cache[val] = min)
+        return (cache[value] = min)
     }
-
-    return minVal(amount)
+    makeChange(amount)
+    return cache[amount]
 }
-
 /***************回溯*****************/
 // 全排列
 // 输入: nums = [1,2,3]
@@ -157,9 +154,159 @@ var threeSum = function(nums) {
     }
     return result
 };
+// 11. 盛最多水的容器
+// 给你 n 个非负整数 a1，a2，...，an，每个数代表坐标中的一个点 (i, ai) 。在坐标内画 n 条垂直线，垂直线 i 的两个端点分别为 (i, ai) 和 (i, 0) 。找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
+
+// 输入：[1,8,6,2,5,4,8,3,7]
+// 输出：49 
+// 解释：图中垂直线代表输入数组 [1,8,6,2,5,4,8,3,7]。在此情况下，容器能够容纳水（表示为蓝色部分）的最大值为 49。
+// 示例 2：
+
+// 输入：height = [1,1]
+// 输出：1
+// 示例 3：
+
+// 输入：height = [4,3,2,1,4]
+// 输出：16
+// 示例 4：
+
+// 输入：height = [1,2,1]
+// 输出：2
+/**
+ * @param {number[]} height
+ * @return {number}
+ */
+var maxArea = function(height) {
+    let L = 0, R = height.length - 1, max = 0;
+    if (height[L] < height[R]) {
+        max = Math.max(height[L] * (R - L), max);
+        L++
+    } else {
+        max = Math.max(height[R] * (R - L), max);
+        R--
+    }
+    return max;
+ }
 
 /***************字符串*****************/
-// 检测回文
+// 14. 最长公共前缀
+// 编写一个函数来查找字符串数组中的最长公共前缀。
+// 如果不存在公共前缀，返回空字符串 ""。
+
+// 输入：strs = ["flower","flow","flight"]
+// 输出："fl"
+
+// 输入：strs = ["dog","racecar","car"]
+// 输出：""
+// 解释：输入不存在公共前缀。
+/**
+ * @param {string[]} strs
+ * @return {string}
+ */
+var longestCommonPrefix = function(strs) {
+    if (!strs.length) return ''
+    let res = strs[0];
+    for (let i = 1; i < strs.length; i++) {
+        let j = 0, str = strs[i];
+        let newRes = ''
+        while (res.charAt(j) && str.charAt(j)) {
+            if (res.charAt(j) === str.charAt(j)) {
+                newRes += res.charAt(j)
+                j++
+            } else {
+                break
+            }
+        }
+        res = newRes
+    }
+    return res
+};
+// 最长回文子串5
+// 给你一个字符串 s，找到 s 中最长的回文子串。
+// 输入：s = "babad"
+// 输出："bab"
+// 解释："aba" 同样是符合题意的答案。
+// 输入：s = "cbbd"
+// 输出："bb"
+// 输入：s = "a"
+// 输出："a"
+// 输入：s = "ac"
+// 输出："a"
+var longestPalindrome = function(s) {
+    if (s.length < 2) return s;
+    let max = s[0]
+    for (let i = 0; i < s.length; i++) {
+        for (let j = i + 1; j <= s.length; j ++) {
+            const temp = s.slice(i, j)
+            if (checkReverse(temp)) {
+                max = temp.length > max.length ? temp : max
+            }
+        }
+    }
+    return max
+    function checkReverse (s) {
+        for (let i = 0; i < s.length; i ++) {
+            if (s.charAt(i) !== s.charAt(s.length - 1 - i)) {
+                return false
+            }
+        }
+        return true
+    }
+};
+
+// 3. 无重复字符的最长子串
+// 给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度。
+// 输入: s = "abcabcbb"
+// 输出: 3 
+// 解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+// 输入: s = "bbbbb"
+// 输出: 1
+// 解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
+// 输入: s = "pwwkew"
+// 输出: 3
+// 解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
+//      请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
+// 输入: s = ""
+// 输出: 0
+var lengthOfLongestSubstring = function(s) {
+    // 超时
+    // if (s.length < 2) return s.length
+    // let max = 0
+    // for (let i = 0; i < s.length; i++) {
+    //     for (j = i + 1; j <= s.length; j++) {
+    //         const temp = s.slice(i, j);
+    //         if (checNoRepeat(temp) && temp.length > max) {
+    //             max = temp.length
+    //         }
+    //     }
+    // }
+    // return max
+    function checNoRepeat (s) {
+        const map = {}
+        for (let i = 0; i < s.length; i ++) {
+            const item = s[i]
+            if (map[item]) {
+                return false
+            } else {
+                map[item] = 1
+            }
+        }
+        return true
+    }
+    if (s.length < 2) return s.length
+    let max = 0
+    let L = 0, R = L + 1
+    while (L < s.length && R <= s.length && L < R) {
+        const temp = s.slice(L, R)
+        if (checNoRepeat(temp)) {
+            max = Math.max(max, temp.length)
+            R ++
+        } else {
+            L ++
+        }
+    }
+    return max
+};
 
 /**************链表******************/
 // 反转链表，合并两个有序链表，判断循环链表，删除倒数n个节点
