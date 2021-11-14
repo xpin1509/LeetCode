@@ -165,6 +165,26 @@ var threeSum = function(nums) {
 // 反转链表，合并两个有序链表，判断循环链表，删除倒数n个节点
 //  1.将两个有序链表合并为一个新的有序链表并返回。新链表是通过拼接给定的两个链表的所有结点组成的。 
 //  输入：1->2->4, 1->3->4 输出：1->1->2->3->4->4
+function mergeTwoLists(l1, l2) {
+    let head = l1.val > l2.val ? l2 : l1
+    let cur = head
+    while (l1 && l2) {
+        if (l1.val < l2.val) {
+            const l1Next = l1.next
+            l1.next = l2
+            cur = l2
+            l1 = l1Next
+        } else {
+            const l2Next = l2.next
+            l2.next = l1
+            cur = l1
+            l2 = l2Next
+        }
+    }
+    cur.next = l1 || l2
+
+    return head
+}
 
 // 2.真题描述：给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次。
 // 输入: 1->1->2
@@ -173,40 +193,81 @@ var threeSum = function(nums) {
 // 输入: 1->1->2->3->3
 // 输出: 1->2->3
 
+function deleteDuplicates (head) {
+    let cur = head
+    let next = cur.next
+    while (next) {
+        if (next.val === cur.val) {
+            cur.next = next.next
+        } else {
+            cur.next = next
+        }
+    }
+    return head
+}
+
 // 3.给定一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
 // 给定一个链表: 1->2->3->4->5, 和 n = 2.
 // 当删除了倒数第二个结点后，链表变为 1->2->3->5.
-
+function removeK (head, n) {
+    let q = 0
+    let s = 0
+    let cur = head
+    let solw = head
+    while (cur) {
+        cur = cur.next
+        q++
+        if (q - n > 0) {
+            s++
+            solw = solw.next
+        }
+    }
+    solw.next = solw.next.next
+    return head
+}
 
 // 4.定义一个函数，输入一个链表的头结点，反转该链表并输出反转后链表的头结点。
 // 输入: 1->2->3->4->5->NULL
 // 输出: 5->4->3->2->1->NULL
-function reverseList (ListNode) {
-    let pre = null
-    let cur = ListNode.Head
+function reverseList (head) {
+    let cur = head
     while (cur) {
-        let temp = cur.next
-        temp.next = pre
+        if (!cur.next) {
+            return cur
+        }
+        const temp = cur.next
+        cur.next = pre
         pre = cur
-        cur = cur.next
+        cur = temp
     }
-    return pre
+    return cur
 }
 
 // 5.给定一个链表，判断链表中是否有环。
 // 输入：[3,2,0,4]（链表结构如下图） 输出：true
 // 解释：链表中存在一个环
 function cycleList (ListNode) {
-    let cur = ListNode.Head
-    const wp = new WeakMap()
-    while(cur) {
-        if (wp.has(cur)) {
+    while (ListNode) {
+        if (ListNode.flag) {
             return true
+        } else {
+            ListNode.flag = true
+            ListNode = ListNode.next
         }
-        wp.set(cur, 1)
-        cur = cur.next
     }
     return false
+}
+// 6.判断环的起点
+function detectCycle (head) {
+    while (head) {
+        if (head.flag) {
+            return head
+        } else {
+            head.flag = true
+            head = head.next
+        }
+    }
+    return head
 }
 
 /****************栈和队列****************/
@@ -239,14 +300,13 @@ function cycleList (ListNode) {
   };
 //  1.翻转二叉树
 const invertTree = function(root) {
-    if (!root) return null
-    
-    const right = invertTree(root.right)
-    const left = invertTree(root.left)
-
+    if (!root) return root;
+    let left = invertTree(root.left)
+    let right = invertTree(root.right)
     root.left = right
-    root.right =left
-    return root
+    root.right = left
+
+    return root;
 }
 
 // 最大深度
@@ -257,8 +317,7 @@ function maxDeepth (node) {
 // 最小深度
 function minDepth (node) {
     if (!node) return 0
-    if (!node.left && !node.right) return 1
-    let min = Number.MAX_VALUE
+    let min = 0
     if (node.left) {
         min = Math.min(minDepth(node.left), min)
     }
