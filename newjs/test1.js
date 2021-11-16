@@ -369,7 +369,7 @@ function limitAsync (list, n) {
     }
 }
 
-// // 请实现plus(1)(2)(3)(4)等于10？
+// 请实现plus(1)(2)(3)(4)等于10？
 function add (n) {
     let result = n
     function fn (m) {
