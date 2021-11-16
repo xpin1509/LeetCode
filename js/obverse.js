@@ -63,20 +63,6 @@ const vm = new myVue({
 console.log(vm.name)
 vm.name = 'xiaoming'
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // class Watcher {
 //     update() {
 //         console.log('更新~');

@@ -27,18 +27,18 @@ const events = [
   
   // Sample Output:
   
-  const results = [
-     [
+const results = [
+    [
        {'start': '05:00 AM', 'end': '07:00 AM'},
        {'start': '05:30 AM', 'end': '08:00 AM'},
-     ],
-     [
+    ],
+    [
        {'start': '09:00 AM', 'end': '11:00 AM'},
-     ],
+    ],
    ]
   
   
-  function convertTime (half, time) {
+function convertTime (half, time) {
     const [hour, min] = time.split(':')
     
     if (half === 'PM' && hour !== '12') {
@@ -46,9 +46,9 @@ const events = [
     } else {
       return hour * 60 + min
     }
-  }
+}
   
-  function chgnge (events) {
+function chgnge (events) {
     // 'PM' ? 12 * 60 + changeHour(time) : changeHour(time)
     const result = []
     // events.forEach(item => {

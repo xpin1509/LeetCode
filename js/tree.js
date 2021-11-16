@@ -1,3 +1,109 @@
+// 搜索二叉树
+function BinaryTree () {
+    var Node = function (value) {
+        this.key = value
+        this.left = this.right = null
+    }
+    var root = null
+    var insertNode = function (node, newNode) {
+        if (newNode.key < node.key) {
+            if (node.left === null) {
+                node.left = newNode
+            } else {
+                insertNode(node.left, newNode)
+            }
+        } else if (newNode.key > node.key) {
+            if (node.right === null) {
+                node.right = newNode
+            } else {
+                insertNode(node.right, newNode)
+            }
+        }
+    }
+    this.insert = function (value) {
+        const node = new Node(value)
+        if (root == null) {
+            root = node
+        } else {
+            insertNode(root, node)
+        }
+    }
+    
+    var inOrdertraverse = function (node, callBack) {
+        if (node !== null) {
+            inOrdertraverse(node.left, callBack)
+            callBack(node.key)
+            inOrdertraverse(node.right, callBack)
+        }
+    }
+    // 中序遍历
+    // 用处：排序
+    this.inOrdertraverse = function (callBack) {
+        inOrdertraverse(root, callBack)
+    }
+    var preOrdertraverse = function (node, callBack) {
+        if (node !== null) {
+            callBack(node.key)
+            preOrdertraverse(node.left, callBack)
+            preOrdertraverse(node.right, callBack)
+        }
+    }
+    // 前序遍历
+    // 用途：拷贝二叉树
+    this.preOrdertraverse = function (callBack) {
+        preOrdertraverse(root, callBack)
+    }
+
+    var postOrdertraverse = function (node, callBack) {
+        if (node !== null) {
+            postOrdertraverse(node.left, callBack)
+            postOrdertraverse(node.right, callBack)
+            callBack(node.key)
+        }
+    }
+    // 后序遍历
+    // 用处：文件递归访问
+    this.postOrdertraverse = function (callBack) {
+        postOrdertraverse(root, callBack)
+    }
+
+    var minNode = function (node) {
+        if (node !== null) {
+            while (node && node.left) {
+                node = node.left
+            }
+            return node.key
+        }
+        return node.key
+    }
+    // 查找最小值
+    this.min = function () {
+        return minNode(root)
+    }
+
+    var maxNode = function (node) {
+        if (node !== null) {
+            while (node && node.right) {
+                node = node.right
+            }
+            return node.key
+        }
+        return node.key
+    }
+    // 查找最小值
+    this.max = function () {
+        return maxNode(root)
+    }
+}
+
+// const arr = [8,9,2,7,3,4,1,5,6]
+// const tree = new BinaryTree()
+// for (let i of arr) {
+//     tree.insert(i)
+// }
+// console.log(tree.max())
+
+
 // 94. 二叉树的中序遍历
 // 给定一个二叉树，返回它的中序 遍历。
 
@@ -362,3 +468,110 @@ var minDepth = function(root) {
     }
     return minDepthVal + 1
 }
+
+
+
+// 102. 二叉树的层序遍历
+// Definition for a binary tree node.
+function TreeNode(val) {
+    this.val = val;
+    this.left = this.right = null;
+}
+
+/**
+ * @param {TreeNode} root
+ * @return {number[][]}
+ */
+var levelOrder = function(root) {
+    if (!root) return []
+    const result = []
+
+    var queue = []
+    queue.push(root)
+    
+    while(queue.length) {
+        const resItem = []
+        const items = [...queue]
+        const leftLevel = []
+
+        while (items.length) {
+            const item = items.shift()
+            resItem.push(item.val)
+            if (item.left) {
+                leftLevel.push(item.left)
+            }
+            if (item.right) {
+                leftLevel.push(item.right)
+            }
+        }
+
+        result.push(resItem)
+        queue = leftLevel
+    }
+    return result
+};
+
+// 144. 二叉树的前序遍历
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var preorderTraversal = function(root) {
+    if (!root) return []
+    const queue = []
+    const result = []
+    queue.push(root)
+    while (queue.length) {
+        const item = queue.pop()
+        result.push(item.val)
+
+        if (item.right) queue.push(item.right)
+        if (item.left) queue.push(item.left)
+    }
+
+    return result
+};
+
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var inorderTraversal = function(root) {
+    const result = []
+    const traverse = root => {
+        if(root === null) return;
+        traverse(root.left)
+        result.push(root.val)
+        traverse(root.right)
+        
+    }
+
+    traverse(root)
+    return result
+};
+const node = new TreeNode(1)
+node.right = new TreeNode(2)
+node.right.left = new TreeNode(3)
+node.right.left.left = null
+node.right.left.right = null
+node.right.right = null
+
+console.log(inorderTraversal(node))
+
+/**145. 二叉树的后序遍历
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+ var postorderTraversal = function(root) {
+    const result = []
+    const traverse = root => {
+        if(root === null) return;
+        traverse(root.left)
+        
+        traverse(root.right)
+        result.push(root.val)
+    }
+
+    traverse(root)
+    return result
+};
