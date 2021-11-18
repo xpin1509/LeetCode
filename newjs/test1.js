@@ -447,6 +447,10 @@ function multiRequest (urls, maxNum) {
     })
 }
 
+function shuffle (start, end) {
+    return Math.floor(Math.random() * (end - start + 1)) + start 
+}
+
 // TODO
 // 模版解析
 // 背包问题
