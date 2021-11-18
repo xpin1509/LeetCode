@@ -404,3 +404,52 @@ function curry (fn, ...args) {
         return fn.apply(null, [...args, ...arg2])
     }
 }
+
+// 控制请求数量,并发请求fetchWithLimit
+// 实现一个批量请求函数 multiRequest(urls, maxNum)，要求如下：
+// • 要求最大并发数 maxNum
+// • 每当有一个请求返回，就留下一个空位，可以增加新的请求
+function request (url, idx) {
+    return new Promise(function (resolve, reject) {
+        // console.log('pedding =>' + url)
+        setTimeout(() => {
+            resolve({
+                res: url, 
+                idx: idx
+            })
+        }, (6 - +url) * 1000)
+    })
+}
+function multiRequest (urls, maxNum) {
+    return new Promise(function (resolve, reject) {
+        const result = []
+        const n = urls.length
+        let index = 0
+        function check () {
+            if (!urls.length) return 
+            const url = urls.shift()
+            request(url, index).then(({res, idx}) => {
+                result[idx] = res
+                if (result.filter(el => !!el).length === n) {
+                    resolve(result)
+                } else {
+                    check()
+                }
+            })
+            index = index + 1
+        }
+
+        for (let i = 0; i < maxNum; i++) {
+            check()
+        }
+    })
+}
+
+// multiRequest(['1', '2', '3', '4', '5', '6'], 3).then((res) => {
+//     console.log(res)
+// })
+
+// TODO
+// 并发请求用id计算返回的次数，避免多次filter
+// 模版解析
+// 背包问题
