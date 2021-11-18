@@ -132,9 +132,9 @@ function deepClone (target, map = new weakMap()) {
 }
 
 // 数组扁平化
-Array.prototype.myFlatten = function () {
+Array.prototype.myFlatten = function (n = Infinity) {
     const target = this
-    return target.reduce((total, cur) => total.concat(Array.isArray(cur) ? cur.myFlatten() : cur), [])
+    return target.reduce((total, cur) => total.concat(Array.isArray(cur) && n > 0 ? cur.myFlatten(n - 1) : cur), [])
 }
 
 // 实现一个队列
@@ -425,12 +425,14 @@ function multiRequest (urls, maxNum) {
         const result = []
         const n = urls.length
         let index = 0
+        let down = 0
         function check () {
             if (!urls.length) return 
             const url = urls.shift()
             request(url, index).then(({res, idx}) => {
                 result[idx] = res
-                if (result.filter(el => !!el).length === n) {
+                ++down
+                if (down === n) {
                     resolve(result)
                 } else {
                     check()
@@ -445,11 +447,6 @@ function multiRequest (urls, maxNum) {
     })
 }
 
-// multiRequest(['1', '2', '3', '4', '5', '6'], 3).then((res) => {
-//     console.log(res)
-// })
-
 // TODO
-// 并发请求用id计算返回的次数，避免多次filter
 // 模版解析
 // 背包问题
