@@ -18,3 +18,16 @@ type Pick1 = 'name'
 const xubin: Picker<Mock, Pick1> = {
     name: undefined
 } 
+
+// type anyProps = {
+//     [x: string]: any
+// }
+// const anyprops: anyProps = {}
+// anyprops.name = ''
+
+// let str = '' as any
+let str: unknown = ''
+str = 129
+str = {}
+
+// str.name = 'xpin'

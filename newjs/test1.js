@@ -15,7 +15,6 @@
 // 解析 URL Params 为对象
 // 转化为驼峰命名
 
-// TODO:
 // 并发请求限制
 // 请实现plus(1)(2)(3)(4)等于10？
 // 十大排序算法
@@ -24,6 +23,9 @@
 // 二叉树题：最大深度，最小深度，二叉搜索树，DFS，BFS
 // 链表题：反转链表，合并两个有序链表
 // 实现队列 栈 
+
+// TODO:
+// 背包问题
 
 function throttle (fn, time) {
     var timeid = null;
@@ -453,4 +455,98 @@ function shuffle (start, end) {
 
 // TODO
 // 模版解析
-// 背包问题
+const templates = 
+    '<div class="bar">' + 
+        '<span>hello world</span>' + 
+        '<span>hello world2</span>' + 
+        '<span>' + 
+            '<span id="spa">hello world</span>' + 
+        '</span>' + 
+    '</div>'
+// const vnode = {
+//     tag: 'div',
+//     attrs: {},
+//     children: [
+//         {
+//             tag: 'span',
+//             props: {
+//                 innerHTML: 'hello world'
+//             }
+//         },
+//         {
+//             tag: 'span',
+//             props: {
+//                 innerHTML: 'hello world2'
+//             }
+//         },
+//         {
+//             tag: 'span',
+//             children: [
+//                 {
+//                     tag: 'span',
+//                     props: {
+//                         id: 'spa',
+//                         innerHTML: 'hello world'
+//                     }
+//                 }
+//             ]
+//         }
+//     ]
+// }
+function renderStrToVDom (str) {
+    const startTagReg = /^\<[a-zA-Z]+/
+    const endTagReg = /^\<\/[a-zA-Z]+/
+    let lastNode = {}, node = lastNode
+    while (str) {
+        if (startTagReg.test(str)) {
+            const tempNode = {}
+            lastNode['children'] ? lastNode.children.push(tempNode) : lastNode.children = [tempNode]
+            tempNode.parent = lastNode
+            const lastIdx = str.indexOf('>')
+            const startTagStrs = str.substr(0, lastIdx + 1).replace(/\>/, '').replace(/\</, '')
+            const [tag, ...attrs] = startTagStrs.split(' ')
+            // 标签
+            tempNode.tag = tag
+            const attsMap = {}
+            attrs.forEach(el => {
+                const [key, value] = el.split('=')
+                attsMap[key] = /([a-zA-Z]+)/.exec(value)[0]
+            })
+            tempNode.attrs = attsMap
+            lastNode = tempNode
+            str = str.substr(lastIdx + 1)
+        } else if (endTagReg.test(str)){
+            const lastIdx = str.indexOf('>')
+            const endTag = str.substr(0, lastIdx + 1).replace(/\>/, '').replace(/\<\//, '')
+            if (endTag === lastNode.tag) {
+                const parent = lastNode.parent
+                delete lastNode.parent
+                lastNode = parent
+                str = str.substr(lastIdx + 1)
+            } else {
+                console.error(endTag)
+                break
+            }
+        } else {
+            // 文本节点
+            const lastIdx = str.indexOf('</')
+            lastNode.attrs = {
+                ...lastNode.attrs || {},
+                innerHTML: str.substr(0, lastIdx)
+            }
+            str = str.substr(lastIdx)
+        }
+    }
+    return node.children[0]
+}
+
+// https://q.shanyue.tech/fe/regexp/678.html
+// 实现一个 render/template 函数，可以用以渲染模板
+function renderTemp(template, data) {
+    const reg = /\{\{(\w|\[|\]|\s|\.|\")*\}\}/g
+    return template.replace(reg, function (world) {
+        const attr = world.replace(/((\{\{) | (\s)* | (\}\}))/g, '')
+        const str =  eval(`data.${attr}`)
+        return str
+    })
+}
