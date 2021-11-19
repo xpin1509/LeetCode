@@ -24,9 +24,6 @@
 // 链表题：反转链表，合并两个有序链表
 // 实现队列 栈 
 
-// TODO:
-// 背包问题
-
 function throttle (fn, time) {
     var timeid = null;
      return function (...arg) {
