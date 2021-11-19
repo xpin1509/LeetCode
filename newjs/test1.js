@@ -542,8 +542,21 @@ function renderStrToVDom (str) {
 function renderTemp(template, data) {
     const reg = /\{\{(\w|\[|\]|\s|\.|\")*\}\}/g
     return template.replace(reg, function (world) {
-        const attr = world.replace(/((\{\{) | (\s)* | (\}\}))/g, '')
-        const str =  eval(`data.${attr}`)
-        return str
+        // 简单实现，eval有安全隐患
+        // const attr = world.replace(/((\{\{) | (\s)* | (\}\}))/g, '')
+        // const str =  eval(`data.${attr}`)
+        // return str
+
+        let attr = world.replace(/((\{\{) | (\s)* | (\}\}))/g, '')
+        const attrResult = []
+        while (/\w+/.exec(attr)) {
+            attrResult.push(/\w+/.exec(attr)[0])
+            attr = attr.replace(/\w+/, '')
+        }
+        let result = data
+        attrResult.forEach(el => {
+            result = result[el]
+        })
+        return result
     })
 }
