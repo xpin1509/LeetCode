@@ -450,7 +450,6 @@ function shuffle (start, end) {
     return Math.floor(Math.random() * (end - start + 1)) + start 
 }
 
-// TODO
 // 模版解析
 const templates = 
     '<div class="bar">' + 
@@ -490,6 +489,7 @@ const templates =
 //         }
 //     ]
 // }
+// https://juejin.cn/post/6970706892632883213
 function renderStrToVDom (str) {
     const startTagReg = /^\<[a-zA-Z]+/
     const endTagReg = /^\<\/[a-zA-Z]+/
