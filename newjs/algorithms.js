@@ -153,6 +153,11 @@ function factorial (n) {
     console.trace()
     return factorial(n - 1) * n;
 }
+function addRecursive (n) {
+    if (n < 1) return 0
+    return n + add(n - 1)
+}
+
 // 尾调用优化
 // 递归函数在调用自身后直接传回其值，而不对其"运算"（return语句不能包含表达式）
 // 遗憾的是，大多数编程语言没有针对尾递归做优化，所以，即使把上面的fact(n)函数改成尾递归方式，也会导致栈溢出。

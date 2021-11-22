@@ -21,3 +21,19 @@
 // d1.appendChild(img);
 
 // new Promise((r, j) => j(1)).then(() => {})
+
+async function parent () {
+    try {
+        await parent_child()
+    } catch (e) {
+        console.log(e.message);
+    }
+}
+
+async function parent_child() {
+    try {
+        throw new Error("hh")
+    } catch (e) {
+        // throw e
+    }
+}
