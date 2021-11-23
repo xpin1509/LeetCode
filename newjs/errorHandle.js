@@ -37,3 +37,12 @@ async function parent_child() {
         // throw e
     }
 }
+
+// let i = 0
+// while (i < 1000000000) {
+//     i++
+// }
+
+// const EL = document.querySelector('#clientRact')
+
+// console.log(EL)

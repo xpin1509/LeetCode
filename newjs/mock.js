@@ -1,3 +1,4 @@
+// 高仙
 // We have a list of events going on for a single day, find events that overlap with other events and group them together. 
 
 // If event A overlaps with event B, event B overlaps with event C, these 3 events should be grouped together.
@@ -97,7 +98,48 @@ function chgnge (events) {
     return result
   }
   
-  const outputEvents = chgnge(events)
-  console.log(outputEvents)
   
+  // 数坤
+  function uniqe (arr, num = 1) {
+    const map = {}
+    const result = []
+    for (let i = 0; i < arr.length; i++) {
+        if (map[arr[i]]) {
+            if (map[arr[i]] >= num) {
+                continue
+            } else {
+                map[arr[i]] = map[arr[i]] + 1
+                result.push(arr[i])
+            }
+        } else {
+            map[arr[i]] = 1
+            result.push(arr[i])
+        }
+    }
+    return result
+}
+
+// const arr = [3,4, 3, 3,3]
+// 12,2,4,32,1,2,
+
+// console.log(uniqe(arr, 2))
+
+// splice的时间复杂度 O（n）
+
+// rgb(255, 255, 0), #fff 查找
+function findN (arr, key) {
+    if (arr.length < 2) return arr
+    let min = arr[0]
+    const [a, b, c] = key
+    for (let i = 1; i < arr.length; i++) {
+        const [a1,b1, c1] = arr[i]
+        const newMin = (Math.abs(a - a1) + Math.abs(b -b1) + Math.abs(c - c1))
+        const oriMin = (Math.abs(a - min[0]) + Math.abs(b - min[1]) + Math.abs(c - min[2]))
+        if (newMin < oriMin) {
+            min = arr[i]
+        }
+    }
+    return min
+}
+
   
