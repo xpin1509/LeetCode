@@ -142,4 +142,58 @@ function findN (arr, key) {
     return min
 }
 
-  
+//实现function transform， 将 item = 'a.b.c.d' 这样的字符串转换为形如 {a: {b: {c: {d: {}}}}} 的合法对象
+function transform(item) {
+
+  const arr = item.split('.')
+  let lastObj = {}
+  let cur = lastObj
+  while (arr.length) {
+    const item = arr.shift()
+    const newObj = {}
+    lastObj[item] = newObj
+    lastObj = newObj
+  }
+  return cur
+}
+
+// 实现function retry
+
+// const retry5Times = retry((...args) => {})
+function retry (fn, maxRetryCounts) {
+  return () => new Promise(async (resolve, reject) => {
+    let result, errMesg
+    for (let i = maxRetryCounts - 1; i >= 0; i--) {
+      try {
+        result = await fn()
+        break
+      } catch (e) {
+        if (i === 0) {
+          errMesg = e
+        }
+      }
+    }
+
+    if (result) {
+      return resolve(result)
+    } else {
+      return reject(errMesg)
+    }
+  })
+}
+
+const setReject = function () {
+  console.log('runing')
+  return new Promise((resolve, reject) => {
+    setTimeout(() => reject(1), 500)
+    // setTimeout(() => resolve(100), 500)
+  })
+}
+
+const retry5Times = retry(setReject, 8)
+
+// retry5Times().then(res => {
+//   console.log(res)
+// }).catch(err => {
+//   console.log(err)
+// });

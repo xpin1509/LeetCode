@@ -31,3 +31,10 @@ str = 129
 str = {}
 
 // str.name = 'xpin'
+
+type MyType = Exclude<Mock, 'sex'>
+
+const foo: MyType = {
+    name: "",
+    age: 0
+}
