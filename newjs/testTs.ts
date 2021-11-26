@@ -32,9 +32,14 @@ str = {}
 
 // str.name = 'xpin'
 
-type MyType = Exclude<Mock, 'sex'>
-
-const foo: MyType = {
-    name: "",
-    age: 0
+interface A {
+    content: string;
+    width: number;
+    height: number;
 }
+type MExclude<T, K extends keyof T> = {
+    // [V extends keyof K ? never : ]: T[]
+}
+type MyType = MExclude<A, 'width'>
+
+const foo: MyType = {}

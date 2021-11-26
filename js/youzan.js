@@ -231,3 +231,153 @@ function parser(str, start, end) {
     }
     return strList.join('')
 }
+
+
+
+// =====================================================
+// 欢迎参加有赞前端 Coding 面试
+// =====================================================
+// 界面介绍：
+//   上方设置按钮可以切换语言、字体大小、主题
+//   右侧控制台可以显示代码执行结果，可用于编码过程中的 DEBUG
+// =====================================================
+// Coding 须知：
+//   量力答题 选做两道
+// =====================================================
+
+
+/**
+ * ## 问题1
+ * 实现 getValue 函数，安全的获取目标对象指定 path 的值
+ * @params {object | array} value 指定对象
+ * @params {string} path
+ */
+
+ const object = { 'a': [{ 'b': { 'c': 3 } }] }; // path: 'a[0].b.c'
+ const array = [{ "a": { b: [1] } }]; // path: '[0].a.b[0]'
+ 
+ function getValue(obj, path) {
+   let lastObj = obj
+   while(path) {
+     const AlpStart = /^[a-z]/
+     const NumStart = /^\[(\d+)\]/
+     if (AlpStart.test(path)) {
+       const key = AlpStart.exec(path)[0]
+       path = path.replace(AlpStart, '')
+       lastObj = lastObj[key]
+     } else if (NumStart.test(path)){
+       const key = +NumStart.exec(path)[1]
+       path = path.replace(NumStart, '')
+       lastObj = lastObj[key]
+       // debugger
+     } else if (/^\./.test(path)){
+       path = path.replace(/^\./, '')
+     } else {
+       break
+     }
+   }
+   return lastObj
+ }
+ 
+ console.log(1, getValue(object, 'a[0].b.c')); // 3
+ console.log(2, getValue(array, '[0].a.b[0]')); // 1
+ console.log(3, getValue({ a: 1 }, 'a')); // 1
+ 
+ /**
+  * ## 问题2
+  * 将一个json数据的所有key从下划线改为驼峰
+  * @param {object | array} value 待处理对象或数组
+  * @returns {object | array} 处理后的对象或数组
+  */
+ 
+ const testData = {
+     a_bbb: 123, //aBbb
+     a_g: [1, 2, 3, 4],
+     a_d: {
+         s: 2,
+         s_d: 3
+     },
+     a_f: [1, 2, 3, {
+         a_g: 5
+     }],
+     a_d_s: 1
+ }
+ 
+ function mapKeysToCamelCase(data) {
+   if (typeof data !== 'object' || data === null) { return data}
+   const result = {}
+   for (let i in data) {
+     result[toCaml(i)] = data[i] instanceof Object ? mapKeysToCamelCase(data[i]) : data[i]
+   }
+ 
+   function toCaml (str) {
+     return str.replace(/(_\w)/g, function(world) {
+       return /[a-zA-Z]/.exec(world)[0].toUpperCase()
+     })
+   }
+ 
+   return result
+ }
+ 
+ // console.log(mapKeysToCamelCase(testData));
+ 
+ /**
+  * 问题3
+  * 将数组转化为 tree 结构
+ */
+ 
+ const arr111 = [
+     { id: 1, name: "第一", pid: 0 },
+     { id: 2, name: "第二", pid: 1 },
+     { id: 3, name: "第三", pid: 1 },
+     { id: 4, name: "第四", pid: 3 },
+     { id: 5, name: "第五", pid: 4 },
+ ];
+ function listToTree (list) {
+    for (let i = 0; i < list.length; i++) {
+        for (let j = 0; j < list.length; j ++) {
+            if (list[i].id === list[j].pid) {
+                if (list[i].children) {
+                    list[i].children.push(list[j])
+                } else {
+                    list[i].children = [list[j]]
+                }
+            }
+        }
+    }
+   return list.find(el => !el.pid)
+ }
+ // console.log(listToTree(arr111));
+ // 返回结果 example
+ // {
+ //   pid: 0,
+ //   id: 1,
+ //   name: "第一",
+ //   children: [
+ //     {
+ //       pid: 1,
+ //       id: 2,
+ //       name: "第二",
+ //       children: [],
+ //     },
+ //     {
+ //       pid: 1,
+ //       id: 3,
+ //       name: "第三",
+ //       children: [
+ //         {
+ //           pid: 3,
+ //           id: 4,
+ //           name: "第四",
+ //           children: [
+ //             {
+ //               pid: 4,
+ //               id: 5,
+ //               name: "第五",
+ //             },
+ //           ],
+ //         },
+ //       ],
+ //     },
+ //   ],
+ // };
