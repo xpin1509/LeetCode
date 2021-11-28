@@ -47,3 +47,5 @@ async function parent_child() {
 // const EL2 = document.querySelector('#clientRact1')
 // console.log(EL)
 // console.log(EL2)
+
+// 立刻执行函数

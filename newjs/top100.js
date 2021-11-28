@@ -864,7 +864,7 @@ function transform2 (num) {
  * @param {number[]} nums
  * @return {TreeNode}
  */
- var sortedArrayToBST = function(nums) {
+var sortedArrayToBST = function(nums) {
 
 };
 
@@ -907,7 +907,7 @@ var hasPathSum = function(root, targetSum) {
     return list1 || list2
 };
 
-// 160. 相交链表 TODO
+// 160. 相交链表 DONE
 /**
  * @param {ListNode} headA
  * @param {ListNode} headB
@@ -923,7 +923,7 @@ var hasPathSum = function(root, targetSum) {
      temp = headB
      while (temp) {
         if (set.has(temp)) {
-            return temp.val
+            return temp
         }
         temp = temp.next
      }

@@ -290,15 +290,34 @@ const listToTreeData = [
     {id: 7, parentId: 3, name: "7"},
     {id: 8, parentId: 2, name: "8"}
 ];
-function listToTree (data) {
-    for (let i = 0; i < data.length; i ++) {
-        for (let j = 0; j < data.length; j++) {
-            if (data[i].parentId === data[j].id) {
-                data[j].child ? data[j].child.push(data[i]) : (data[j].child = [data[i]])
+// function listToTree (data) {
+//     for (let i = 0; i < data.length; i ++) {
+//         for (let j = 0; j < data.length; j++) {
+//             if (data[i].parentId === data[j].id) {
+//                 data[j].child ? data[j].child.push(data[i]) : (data[j].child = [data[i]])
+//             }
+//         }
+//     }
+//     return data.filter(el => el.parentId === null)
+// }
+function listToTree2 (data) {
+    const map = {}, result = []
+    data.map(el => {
+        map[el.id] = el
+    })
+    for (let i = 0; i < data.length; i++) {
+        const parent = map[data[i].parentId]
+        if (parent) {
+            if (parent.children) {  
+                parent.children.push(data[i])
+            } else {
+                parent.children = [data[i]]
             }
+        } else {
+            result.push(data[i])
         }
     }
-    return data.filter(el => el.parentId === null)
+    return result
 }
 
 // 模拟Object.create
