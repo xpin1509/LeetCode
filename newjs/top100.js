@@ -1,3 +1,377 @@
+// 1. 两数之和
+// 输入：nums = [2,7,11,15], target = 9
+// 输出：[0,1]
+// 解释：因为 nums[0] + nums[1] == 9 ，返回 [0, 1] 。
+// 输入：nums = [3,2,4], target = 6
+// 输出：[1,2]
+// 输入：nums = [3,3], target = 6
+// 输出：[0,1]
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+ var twoSum1 = function(nums, target) {
+    const map = {};
+   for (var i = 0; i < nums.length; i++) {
+       if (map[nums[i]] != null) {
+           return [map[nums[i]], i]
+       } else {
+           map[target - nums[i]] = i
+       }
+   }
+};
+
+// 9. 回文数
+// 输入：x = 121
+// 输出：true
+// 输入：x = -121
+// 输出：false
+// 输入：x = 10
+// 输出：false
+// 输入：x = -101
+// 输出：false
+/**
+* @param {number} x
+* @return {boolean}
+*/
+var isPalindrome = function(x) {
+   x = x + ''
+   let L = 0, R = (x).length - 1
+   while (L < R) {
+       if (x.charAt(L) === x.charAt(R)) {
+           L++;
+           R--
+       } else {
+           return false
+       }
+   }
+   return true
+};
+
+// 20. 有效的括号
+// 输入：s = "()"
+// 输出：true
+// 输入：s = "()[]{}"
+// 输出：true
+// 输入：s = "(]"
+// 输出：false
+// 输入：s = "([)]"
+// 输出：false
+// 输入：s = "{[]}"
+// 输出：true
+/**
+* @param {string} s
+* @return {boolean}
+*/
+var isValid = function(s) {
+    const left = {
+        '{': 1,
+        '(': 1,
+        '[': 1
+    }
+    const map = {
+        '}': '{',
+        ')': '(',
+        ']': '['
+    }
+    const stack = []
+    for (let i = 0; i < s.length; i++) {
+        const cur = s.charAt(i)
+        if (left[cur]) {
+            stack.push(cur)
+        } else {
+            const lastleft = stack.pop()
+            if (map[cur] !== lastleft) {
+                return false
+            }
+        }
+    }
+    return stack.length ? false : true
+ };
+
+
+// 26. 删除有序数组中的重复项
+// 输入：nums = [1,1,2]
+// 输出：2, nums = [1,2]
+// 输入：nums = [0,0,1,1,1,2,2,3,3,4]
+// 输出：5, nums = [0,1,2,3,4]
+/**
+* @param {number[]} nums
+* @return {number}
+*/
+var removeDuplicates = function(nums) {
+   let last = nums[0]
+   for (let i = 1; i < nums.length; i++) {
+       if (nums[i] === last) {
+           nums.splice(i--, 1)
+       } else {
+           last = nums[i]
+       }
+   }
+   return nums.length
+};
+
+// 27. 移除元素
+// 输入：nums = [3,2,2,3], val = 3
+// 输出：2, nums = [2,2]
+// 输入：nums = [0,1,2,2,3,0,4,2], val = 2
+// 输出：5, nums = [0,1,4,0,3]
+/**
+* @param {number[]} nums
+* @param {number} val
+* @return {number}
+*/
+var removeElement = function(nums, val) {
+   for (let i = 0; i < nums.length; i ++) {
+       if (nums[i] === val) {
+           nums.splice(i, 1)
+           i--
+       }
+   }
+};
+
+
+// 28. 实现 strStr()
+// 输入：haystack = "hello", needle = "ll"
+// 输出：2
+// 输入：haystack = "aaaaa", needle = "bba"
+// 输出：-1
+// 输入：haystack = "", needle = ""
+// 输出：0
+/**
+* @param {string} haystack
+* @param {string} needle
+* @return {number}
+*/
+var strStr = function(haystack, needle) {
+   return haystack.indexOf(needle)
+};
+
+// 58. 最后一个单词的长度
+// 输入：s = "Hello World"
+// 输出：5
+// 输入：s = "   fly me   to   the moon  "
+// 输出：4
+// 示例 3：
+/**
+* @param {string} s
+* @return {number}
+*/
+var lengthOfLastWord = function(s) {
+   return (s.match(/(\w)+/g) || []).pop().length
+};
+
+// 66. 加一
+// 输入：digits = [1,2,3]
+// 输出：[1,2,4]
+// 解释：输入数组表示数字 123。
+// 输入：digits = [4,3,2,1]
+// 输出：[4,3,2,2]
+// 解释：输入数组表示数字 4321。
+// 输入：digits = [0]
+// 输出：[1]
+/**
+* @param {number[]} digits
+* @return {number[]}
+*/
+var plusOne = function(digits) {
+   let tenNum = 1
+   let i = digits.length - 1
+   while (i >= 0) {
+       if (digits[i] + tenNum > 9) {
+           digits[i] = digits[i] + tenNum - 10
+           tenNum = 1
+       } else {
+           digits[i] = digits[i] + tenNum
+           tenNum = 0
+       }
+       i--
+   }
+   if (tenNum) digits.unshift(tenNum)
+   return digits
+};
+
+// 67. 二进制求和
+// 给你两个二进制字符串，返回它们的和（用二进制表示）。
+// 输入为 非空 字符串且只包含数字 1 和 0。
+// 输入: a = "11", b = "1"
+// 输出: "100"
+// 输入: a = "1010", b = "1011"
+// 输出: "10101"
+/**
+* @param {string} a
+* @param {string} b
+* @return {string}
+*/
+var addBinary = function(a, b) {
+    a = a.split('')
+    b = b.split('')
+    const result = []
+    let last = 0
+   while (a.length || b.length) {
+       const aL = a.pop() || 0
+       const bL = b.pop() || 0
+       const sum = (+aL) + (+bL) + last
+       if (sum > 1) {
+           result.unshift(sum - 2)
+           last = 1
+       } else {
+           result.unshift(sum)
+           last = 0
+       }
+   }
+   if (last) result.unshift(last)
+   return result.join('')
+};
+
+// 69. Sqrt(x)
+// 输入：x = 4
+// 输出：2
+// 示例 2：
+// 输入：x = 8
+// 输出：2
+/**
+* @param {number} x
+* @return {number}
+*/
+var mySqrt = function(x) {
+   let i = 0, last = 0
+   while (i <= x) {
+       if (i * i > x) {
+           break
+       }
+       last = i
+       i++
+   }
+   return last
+};
+
+// 70. 爬楼梯
+// 输入： 2
+// 输出： 2
+// 输入： 3
+// 输出： 3
+/**
+* @param {number} n
+* @return {number}
+*/
+var climbStairs = function(n) {
+    const result = [1, 2, 3]
+    for (let i = 3; i < n; i++) {
+       result[i] = result[i -1] + result[i-2]
+    }
+    return result[n-1]
+};
+
+
+// 125. 验证回文串
+// 给定一个字符串，验证它是否是回文串，只考虑字母和数字字符，可以忽略字母的大小写。
+
+// 说明：本题中，我们将空字符串定义为有效的回文串。
+
+var isPalindrome = function(x) {
+   x = (x.match(/[a-zA-Z0-9]/g) || []).join('').toLowerCase()
+let L = 0, R = (x).length - 1
+   while (L < R) {
+       if (x.charAt(L) === x.charAt(R)) {
+           L++;
+           R--
+       } else {
+           return false
+       }
+   }
+   return true
+};
+
+
+// 100. 相同的树
+/**
+* Definition for a binary tree node.
+* function TreeNode(val, left, right) {
+*     this.val = (val===undefined ? 0 : val)
+*     this.left = (left===undefined ? null : left)
+*     this.right = (right===undefined ? null : right)
+* }
+*/
+/**
+* @param {TreeNode} p
+* @param {TreeNode} q
+* @return {boolean}
+*/
+var isSameTree = function(p, q) {
+    if (!p && !q) return true;
+   if (!p || !q) return false;
+
+   if (p.val !== q.val) return false
+
+   return isSameTree(p.left, q.left) && isSameTree(p.right, q.right)
+};
+
+// 118. 杨辉三角
+// 给定一个非负整数 numRows，生成「杨辉三角」的前 numRows 行。
+// 在「杨辉三角」中，每个数是它左上方和右上方的数的和。
+// 输入: numRows = 5
+// 输出: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
+// 输入: numRows = 1
+// 输出: [[1]]
+/**
+* @param {number} numRows
+* @return {number[][]}
+*/
+var generate = function(numRows) {
+   if (numRows === 1) return [[1]]
+   if (numRows === 2) return [[1], [1, 1]]
+   const result = [[1], [1, 1]]
+   for (let i = 2; i < numRows; i++) {
+       const rL = [1]
+       for (let j = 0; j < result[i - 1].length - 1; j++) {
+           rL.push(result[i - 1][j] + result[i - 1][j+1])
+       }
+       rL.push(1)
+       result.push(rL)
+   }
+   return result
+};
+
+// 141. 环形链表
+/**
+* @param {ListNode} head
+* @return {boolean}
+*/
+var hasCycle = function(head) {
+    if (!head) return head
+    let cur = head
+   while (cur) {
+       if (cur.linked) {
+           return true
+       } else {
+           cur.linked = true
+       }
+       cur = cur.next
+   }
+   return false
+};
+
+// 144. 二叉树的前序遍历
+/**
+* @param {TreeNode} root
+* @return {number[]}
+*/
+var preorderTraversal = function(root) {
+    const result = [];
+   function Traversal(root) {
+       if (!root) return root
+
+       result.push(root.val)
+       Traversal(root.left)
+
+       Traversal(root.right)
+   }
+   Traversal(root)
+   return result
+};
+
 // 283.给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序 
 // 输入: [0,1,0,3,12] 
 // 输出: [1,3,12,0,0] 
@@ -167,9 +541,6 @@ var uniquePaths = function(m, n) {
     return result[m-1][n-1]
 };
 // 2. 两数相加
-// 给你两个 非空 的链表，表示两个非负的整数。它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储 一位 数字。
-// 请你将两个数相加，并以相同形式返回一个表示和的链表。
-// 你可以假设除了数字 0 之外，这两个数都不会以 0 开头。
 // 输入：l1 = [2,4,3], l2 = [5,6,4]
 // 输出：[7,0,8]
 // 解释：342 + 465 = 807.
@@ -307,7 +678,6 @@ var longestConsecutive = function(nums) {
     let step = 1, last = nums[0]
     const resultStep = []
     for (let i = 1; i < nums.length; i++) {
-        // debugger
         while(nums[i] === nums[i-1]) i++
         if (nums[i] === last + 1) {
             step ++
@@ -344,10 +714,240 @@ var longestConsecutive = function(nums) {
             dp[i] = 1
         }
     }
-    // debugger
     return Math.max(...dp)
 };
-// 121. 买卖股票的最佳时机
+
+
+/***********TODOs*********
+ * 
+ * 
+ * 再刷几遍
+ *
+ * 
+ ********************************/
+// 35. 搜索插入位置 DONE
+// 请必须使用时间复杂度为 O(log n) 的算法
+// 输入: nums = [1,3,5,6], target = 5
+// 输出: 2
+// 输入: nums = [1,3,5,6], target = 2
+// 输出: 1
+// 输入: nums = [1,3,5,6], target = 7
+// 输出: 4
+// 输入: nums = [1,3,5,6], target = 0
+// 输出: 0
+// 输入: nums = [1], target = 0
+// 输出: 0
+/**
+* @param {number[]} nums
+* @param {number} target
+* @return {number}
+*/
+var searchInsert = function(nums, target) {
+    if (target <= nums[0]) return 0
+    if (target > nums[nums.length - 1]) return nums.length
+    let L = 0, R = nums.length - 1
+    while (L < R - 1) {
+        let center = Math.ceil((R + L) / 2)
+        if (nums[center] === target) {
+            return center
+        } else if (nums[center] > target) {
+            R = center
+        } else if (nums[center] < target) {
+            L = center
+        }
+    }
+    return R
+ };
+
+ // 88. 合并两个有序数组
+// 输入：nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
+// 输出：[1,2,2,3,5,6]
+// 输入：nums1 = [1], m = 1, nums2 = [], n = 0
+// 输出：[1]
+// 输入：nums1 = [0], m = 0, nums2 = [1], n = 1
+// 输出：[1]
+// 进阶：你可以设计实现一个时间复杂度为 O(m + n) 的算法解决此问题吗？未实现
+/**
+* @param {number[]} nums1
+* @param {number} m
+* @param {number[]} nums2
+* @param {number} n
+* @return {void} Do not return anything, modify nums1 in-place instead.
+*/
+var merge = function(nums1, m, nums2, n) {
+    for (let i = m; i < nums1.length; i++) {
+        nums1[i] = nums2.shift()
+    }
+    return nums1.sort((a, b) => a - b)
+};
+
+// 136. 只出现一次的数字 DONE 位运算符
+// 输入: [2,2,1]
+// 输出: 1
+// 输入: [4,1,2,1,2]
+// 输出: 4
+// 你的算法应该具有线性时间复杂度。 你可以不使用额外空间来实现吗？
+/**
+* @param {number[]} nums
+* @return {number}
+*/
+var singleNumber = function(nums) {
+    let num = 0
+    for (let e of nums) {
+        num ^= e
+    }
+    return num
+};
+
+// 155. 最小栈 DONE
+// 设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。
+// push(x) —— 将元素 x 推入栈中。
+// pop() —— 删除栈顶的元素。
+// top() —— 获取栈顶元素。
+// getMin() —— 检索栈中的最小元素。
+var MinStack = function() {
+    this.stack = []
+    this.minStack = []
+ };
+ MinStack.prototype.push = function(val) {
+    if (val <= this.getMin() || !this.stack.length) {
+        this.minStack.push(val)
+    }
+    this.stack.push(val)
+ };
+ MinStack.prototype.pop = function() {
+    const popR = this.stack.pop()
+    if (popR === this.getMin()) {
+        this.minStack.pop()
+    }
+    return popR
+ };
+ MinStack.prototype.top = function() {
+    return this.stack.length ? this.stack[this.stack.length - 1] : null;
+ };
+ MinStack.prototype.getMin = function() {
+    const min = this.minStack.length ? this.minStack[this.minStack.length - 1] : null
+    console.log('getMin=', min)
+    return min
+ };
+
+// 168. Excel表列名称 DONE
+/**
+* @param {number} columnNumber
+* @return {string}
+*/
+var convertToTitle = function(columnNumber) {
+    const str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    const statck = []
+    while (columnNumber) {
+        columnNumber = columnNumber - 1 < 0 ? 25 : columnNumber - 1
+        const left = columnNumber % 26
+        columnNumber = Math.floor(columnNumber / 26) 
+        statck.push(str.charAt(left))
+    }
+    return statck.reverse().join('')
+};
+
+function transform2 (num) {
+    const stack = []
+    if (num === 0 ) return 0
+    while(num) {
+        const left = num % 2
+        num = Math.floor(num / 2)
+        stack.push(left)
+    }
+    return stack.reverse().join('')
+}
+
+// 108. 将有序数组转换为二叉搜索树 TODO
+/**
+ * @param {number[]} nums
+ * @return {TreeNode}
+ */
+ var sortedArrayToBST = function(nums) {
+
+};
+
+// 110. 平衡二叉树 TODO
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+ var isBalanced = function(root) {
+
+};
+// 111. 二叉树的最小深度 TODO
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var minDepth = function(root) {
+
+};
+// 112. 路径总和 TODO
+/**
+ * @param {TreeNode} root
+ * @param {number} targetSum
+ * @return {boolean}
+ */
+var hasPathSum = function(root, targetSum) {
+
+};
+// 21. 合并两个有序链表 TODO
+/**
+ * @param {ListNode} list1
+ * @param {ListNode} list2
+ * @return {ListNode}
+ */
+ var mergeTwoLists = function(list1, list2) {
+    while (list1 && list2) {
+        if (list1.val < l2.val) {
+        }
+    }
+    return list1 || list2
+};
+
+// 160. 相交链表 TODO
+/**
+ * @param {ListNode} headA
+ * @param {ListNode} headB
+ * @return {ListNode}
+ */
+ var getIntersectionNode = function(headA, headB) {
+     const set = new Set();
+     let temp = headA
+     while (temp) {
+        set.add(temp)
+        temp = temp.next
+     }
+     temp = headB
+     while (temp) {
+        if (set.has(temp)) {
+            return temp.val
+        }
+        temp = temp.next
+     }
+     return null
+};
+
+// 94. 二叉树的中序遍历 TODO
+/**
+* Definition for a binary tree node.
+* function TreeNode(val, left, right) {
+*     this.val = (val===undefined ? 0 : val)
+*     this.left = (left===undefined ? null : left)
+*     this.right = (right===undefined ? null : right)
+* }
+*/
+/**
+* @param {TreeNode} root
+* @return {number[]}
+*/
+var inorderTraversal = function(root) {
+
+};
+
+// 121. 买卖股票的最佳时机 TODO 超时
 // 给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。
 // 你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。
 // 返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 0 。
@@ -361,9 +961,9 @@ var longestConsecutive = function(nums) {
 // 输出：0
 // 解释：在这种情况下, 没有交易完成, 所以最大利润为 0。
 /**
- * @param {number[]} prices
- * @return {number}
- */
+* @param {number[]} prices
+* @return {number}
+*/
 var maxProfit = function(prices) {
     // 超时
     // 需要降低到O(n)
@@ -377,11 +977,21 @@ var maxProfit = function(prices) {
         }
     }
     return result
-};
+ };
 
-// 控制请求数量,并发请求fetchWithLimit
-// 模版解析
-// 背包问题
-// ---------今日洗完----------
-// 实现一个二叉搜索树转链表的方法 ？中序遍历
-// 堆，图的最小路经
+ // 83. 删除排序链表中的重复元素 TODO
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+ var deleteDuplicates = function(head) {
+
+};
+// 101. 对称二叉树
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+var isSymmetric = function(root) {
+
+};
