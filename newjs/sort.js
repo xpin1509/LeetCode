@@ -1,5 +1,5 @@
 // 十大排序算法
-const SortArr = [ 22, 34, 3, 32, 82, 55, 89, 50, 37, 5, 64, 35, 9, 70]
+const SortArr = [ 22, 34, 3, 32, 82, 55, 89, 50, 37, 5, 35, 9, 70]
 // 冒泡排序
 // 选择排序
 function selecttionSort (arr) {
@@ -89,3 +89,26 @@ function quickSort (arr) {
 // 桶排序
 // 二叉堆排序
 // 基数排序
+
+// 奇数排在前面，偶数排在后面
+
+function sortFn111 (arr) {
+    let L = 0, R = arr.length - 1
+    while (L < R) {
+        if (arr[L] % 2 === 0 && arr[R] % 2 == 0) {
+            R--
+        } else if (arr[L] % 2 === 0 && arr[R] % 2 == 1){
+            [arr[L], arr[R]] = [arr[R], arr[L]]
+            R--;
+            L++;
+        } else if (arr[L] % 2 === 1 && arr[R] % 2 == 0) {
+            R--;
+            L++;
+        } else if (arr[L] % 2 === 1 && arr[R] % 2 == 1) {
+            L++;
+        }
+    }
+}
+sortFn111(SortArr)
+console.log(SortArr)
+

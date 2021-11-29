@@ -46,3 +46,6 @@ type MExclude<T, K extends keyof T> = {
 type MyType = MExclude<A, 'width'>
 
 const foo: MyType = {}
+
+
+// type ReturnType1212 <T> = T extends ([]: any) => infer P ? P : any

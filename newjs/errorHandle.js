@@ -67,8 +67,32 @@ async function parent_child() {
 // console.log(12121)
 // -----输出-----
 // 1111
-// errorHandle.js:61 12121
-// errorHandle.js:57 MessageEvent {isTrusted: true, data: 'hello words1', origin: 'null', lastEventId: '', source: Window, …}
-// errorHandle.js:57 MessageEvent {isTrusted: true, data: 'hello words2', origin: 'null', lastEventId: '', source: Window, …}
-// errorHandle.js:55 ste1
-// errorHandle.js:60 ste1
+// 12121
+// MessageEvent {isTrusted: true, data: 'hello words1' …}
+// MessageEvent {isTrusted: true, data: 'hello words2' …}
+// ste1
+// ste1
+
+
+// 异步函数的执行顺序
+// https://www.cnblogs.com/AFu-1993/p/12319673.html
+// dom.click()直接触发，所以立即执行。
+
+// setTimeout(() => {
+//     console.log(121212)
+// })
+// new Promise((re, rej) => {
+//     console.log('promise start')
+//     re()
+// }).then(() => {
+//     console.log('dddd')
+// })
+// window.addEventListener('click', function(e) {
+//     let i = 0
+//     while (i < 1000000000) {
+//         i++
+//     }
+//     console.log(e)
+// }, true)
+
+// document.getElementById('obverseDom').click() // 这里是同步触发的
