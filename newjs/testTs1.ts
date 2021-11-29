@@ -1,33 +1,33 @@
-interface Person {
-    name: string;
-    age: number;
-    sex?: string;
+type Picker11 <T, E extends keyof T> = {
+    [P in E]: T[P]
 }
 
-type Picker1 <T, K extends keyof T> = {
-    [P in K]: T[P]
-} 
-
-type Partical <T> = {
-    [P in keyof T] ?: T[P]
-}
-
-type MockRequired1 <T> = {
+type RequireKey1 <T> = {
     [P in keyof T] -?: T[P]
 }
 
-type Son = Picker1<Person, 'name' | 'age'>
-const son: Son = {
-    name: undefined,
-    age: undefined
+type Partical11<T> = {
+    [P in keyof T] ?: T[P]
 }
 
-type Son2 = Partial<Person>
-const son2: Son2 = {}
+type ReturnType1 <T> = T extends (param: any) => infer P ? P : any
 
-type Son3 = MockRequired1<Person>
-const son3: Son3 = {
-    name: undefined,
-    age: undefined,
-    sex: undefined
+type DeepReadOnly1 <T> = {
+    [P in keyof T] ?: DeepReadOnly1<T[P]>
 }
+
+type Exclude1212 <T, E extends keyof T> = {
+   [P in Exclude<keyof T, E>]: T[P]
+}
+
+type Exclude121212 <T, E> = T extends E ? never: T
+
+// interface A1 {
+//     width: 'string';
+//     height: 'string'
+// }
+// type aaA = Exclude1212<A1, 'width'>
+
+// const aaaaaa: aaA = {
+//     height: undefined
+// }

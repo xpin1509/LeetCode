@@ -1,4 +1,7 @@
 // Picker, MockRequired, Partial
+// 实现ReturnType
+// 实现DeepReadOnly
+
 type Picker<T, K extends keyof T> = {
     [P in K]: T[P]
   }

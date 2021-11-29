@@ -48,6 +48,10 @@ async function parent_child() {
 // console.log(EL)
 // console.log(EL2)
 
+// const EL2 = document.querySelector('#obverseDom')
+// console.log(EL2)
+
+
 // 立刻执行函数
 
 
