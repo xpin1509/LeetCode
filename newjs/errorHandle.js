@@ -22,21 +22,21 @@
 
 // new Promise((r, j) => j(1)).then(() => {})
 
-async function parent () {
-    try {
-        await parent_child()
-    } catch (e) {
-        console.log(e.message);
-    }
-}
+// async function parent () {
+//     try {
+//         await parent_child()
+//     } catch (e) {
+//         console.log(e.message);
+//     }
+// }
 
-async function parent_child() {
-    try {
-        throw new Error("hh")
-    } catch (e) {
-        // throw e
-    }
-}
+// async function parent_child() {
+//     try {
+//         throw new Error("hh")
+//     } catch (e) {
+//         // throw e
+//     }
+// }
 
 // let i = 0
 // while (i < 1000000000) {
@@ -96,3 +96,11 @@ async function parent_child() {
 // }, true)
 
 // document.getElementById('obverseDom').click() // 这里是同步触发的
+
+
+// 使用es5实现es6的let关键字
+// (function() {
+//     var a = 1
+//     console.log(a)
+// })()
+// console.log(a)

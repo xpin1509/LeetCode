@@ -91,7 +91,6 @@ function quickSort (arr) {
 // 基数排序
 
 // 奇数排在前面，偶数排在后面
-
 function sortFn111 (arr) {
     let L = 0, R = arr.length - 1
     while (L < R) {
@@ -109,6 +108,4 @@ function sortFn111 (arr) {
         }
     }
 }
-sortFn111(SortArr)
-console.log(SortArr)
 

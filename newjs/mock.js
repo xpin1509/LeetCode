@@ -471,3 +471,70 @@ function listToTree (list) {
 // 寄生组合继承和class的差别
 // 微信小程序setData后续处理
 // 虚拟dom跟wxml的差异
+
+
+const obj1212121 = {
+
+	id: 123,
+
+	name:'Bill',
+
+	video_game_consoles: [
+
+		{
+
+			name:'PlayStation 4',
+
+			buy_at:'2014-10-10',
+
+			games: {
+
+			1001: {
+
+				name:'Devil May Cry 5',
+
+				type_name:'Action',
+
+				is_finished: false,
+
+				},
+
+				1002: {
+
+					name:`Assassin's Creed`,
+
+					type_name: 'Action',
+
+					is_finished: true,
+
+				}
+
+			},
+
+		},
+
+	]
+
+}
+
+function toCamle(obj) {
+	const result = {}
+  if (Array.isArray(obj)) {
+    const arr = []
+    for (let i = 0; i < obj.length; i++) {
+      arr.push(toCamle(obj[i]))
+    }
+    return arr
+  }
+	for (let i in obj) {
+		const key = change(i)
+		result[key] = typeof obj[i] === 'object' ? toCamle(obj[i]) : obj[i]
+	}
+	return result
+	
+	function change (str) {
+		return str.replace(/(_\w)/g, function(w) {
+			return w.replace('_', '').toUpperCase()
+		})
+	}
+}
