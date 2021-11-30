@@ -1,4 +1,4 @@
-.scrollTop{
+/* .scrollTop{
     position: fixed;
     bottom: 50px;
     right: 50px;
@@ -12,13 +12,6 @@
 }
 
 .reflow{
-    /* width: 0;
-    border-width: 10px;
-    border-style: solid;
-    border-bottom-width: 17.3px;
-    border-color: transparent;
-    border-bottom-color: blue; */
-    /* display: none; */
     width: 600px;
     height: 600px;
     background: red;
@@ -37,12 +30,10 @@ p {
     padding-bottom: 30%;
     background-color: yellow;
 }
-/* 图片懒加载 */
 .lazy-ui li{
     height: 400px;
 }
 
-/* trainsform重合问题 */
 .trainsform {
     width: 300px;
     height: 300px;
@@ -59,4 +50,28 @@ p {
 
 #obverseDom p {
     color: red;
+} */
+
+
+/* float布局 */
+.container {
+}
+.container .left-c{
+    position: absolute;
+    width: 200px;
+    left: 0;
+    background: yellow
+}
+.container .right-c{
+    position: absolute;
+    width: 200px;
+    right: 0;
+    width: 200px;
+    background: blue;
+}
+.container .center-c{
+    background: red;
+    position: absolute;
+    left: 200px;
+    right: 200px
 }
