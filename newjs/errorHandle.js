@@ -104,3 +104,23 @@
 //     console.log(a)
 // })()
 // console.log(a)
+
+// es6 proxy
+// const girl = {
+//     name: 'xiaohong',
+//     age: '28'
+// }
+// var obj = new Proxy(girl, {
+//     get: function (target, propKey) {
+//         return target[propKey]
+//     },
+//     set: function (target, propKey, value) {
+//         // if (!target[propKey]) return
+//         console.log(value)
+//         target[propKey] = value
+//     }
+// });
+// obj.books = 'js'
+// obj.name
+
+// console.log( obj)
