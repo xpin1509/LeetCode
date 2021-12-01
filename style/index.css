@@ -54,7 +54,7 @@ p {
 
 
 /* float布局 */
-.container {
+/* .container {
 }
 .container .left-c{
     position: absolute;
@@ -74,4 +74,17 @@ p {
     position: absolute;
     left: 200px;
     right: 200px
+} */
+
+.container {
+}
+.container .left-c{
+    float: left;
+    width: 200px;
+    background: yellow
+}
+.container .right-c{
+    float: left;
+    background: blue;
+    width: 100%
 }
