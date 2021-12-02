@@ -480,41 +480,23 @@ const obj1212121 = {
 	name:'Bill',
 
 	video_game_consoles: [
-
 		{
-
 			name:'PlayStation 4',
-
 			buy_at:'2014-10-10',
-
 			games: {
-
 			1001: {
-
 				name:'Devil May Cry 5',
-
 				type_name:'Action',
-
 				is_finished: false,
-
 				},
-
 				1002: {
-
 					name:`Assassin's Creed`,
-
 					type_name: 'Action',
-
 					is_finished: true,
-
 				}
-
 			},
-
 		},
-
 	]
-
 }
 
 function toCamle(obj) {
