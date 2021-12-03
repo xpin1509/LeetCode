@@ -520,3 +520,166 @@ function toCamle(obj) {
 		})
 	}
 }
+
+// The TestCase is shown below
+// Input : 1 2
+// Output : 3
+
+function checkNum1 (num) {
+	const res = [num]
+	
+	while (true) {
+		
+		const r = sq(num)
+		if (r !== 1) {
+      if (res.indexOf(r) !== -1){
+        return false
+      } else {
+        res.push(r)
+        num = r
+      }
+    } else {
+      return true
+    }
+   
+	}
+	
+	function sq (n) {
+    
+		const res = (n + '').split('').reduce((total, cur) => total + (+cur * +cur), 0)
+    console.log(res)
+    return res
+	}
+}
+
+// 题目一：实现 `stringToArray` 函数，支持中英文逗号分隔。
+// 如：
+// ```js
+// console.log(stringToArray(true)) // => ['1']
+ // => ['1', '2', '3', '4'] // 英文逗号
+
+// stringToArray('1，2,3,4') // => ['1', '2', '3', '4'] // 中文逗号
+ // => ['1', '2', '3', '4'] // 多个逗号
+ // => ['1', '2', '3', '4'] // 空格
+//  // => []
+// stringToArray() // => []
+// stringToArray(true) // => []
+// ```
+function stringToArray(arr) {
+  //你的实现
+  const str = typeof arr === 'string' ? arr : (arr + '')
+  return str.split(/\D/g).filter(el => !!el)
+}
+
+// 题目二：编写一个函数，实现输入任意一个JSON对象，返回这个对象中所有 Number 类型值之和
+// 如： 
+// ```
+// const jsonObj = {
+//     a: 1,
+//     b: {
+//         c: 2,
+//         d: "abc",
+//         e: [1,2]
+//     },
+//     e: {
+//         f: {
+//             g: 3
+//         }
+//     }
+// }
+
+// getSum(jsonObj);
+// // 返回结果 9
+// ```
+// const jsonObj = {
+//   a: 1,
+//   b: {
+//       c: 2,
+//       d: "abc",
+//       e: [1,2]
+//   },
+//   e: {
+//       f: {
+//           g: 3
+//       }
+//   }
+// }
+function getSum(obj){
+  let res = 0
+  //你的实现
+  for (let i in obj) {
+    if (typeof obj[i] === 'number') {
+      res += obj[i]
+    } else if (typeof obj[i] === 'object') {
+      res += getSum(obj[i])
+    }
+  }
+  return res
+}
+
+// 题目三：给定一个模板和一个对象，利用对象中的数据渲染模板，并返回最终结果。
+// 如：
+// ```
+//  let template = '你好，我们公司是{{ company }}，我们属于{{group.name}}业务线，我们在招聘各种方向的人才，包括{{group.jobs[0]}}等。'
+
+//  let obj = {
+//    group: {
+//    name: '天猫',
+//    jobs: ['前端']
+//  },
+//    company: '阿里'
+//  }
+
+//  console.log(render(template, obj))
+// => 你好，我们公司是阿里，我们属于天猫业务线，我们在招聘各种方向的人才，包括前端等。
+// ```’
+function render1212(template, data){
+  //你的实现
+  const reg = /\{\{(\w|\[|\]|\s|\.|\")*\}\}/g
+    return template.replace(reg, function (world) {
+
+        let attr = world.replace(/((\{\{) | (\s)* | (\}\}))/g, '')
+        const attrResult = []
+        while (/\w+/.exec(attr)) {
+            attrResult.push(/\w+/.exec(attr)[0])
+            attr = attr.replace(/\w+/, '')
+        }
+        let result = data
+        attrResult.forEach(el => {
+            result = result[el]
+        })
+        return result
+    })
+}
+
+// 题目四：请将下面代码编译成ES5版本
+// ```
+// class Car {
+//     constructor(brand) {
+//         this.brand = brand;
+//     }
+//     start() {
+//         console.log(`brand is ${this.brand}`);
+//     }
+//     startDelay(time) {
+//         setTimeout(() => {
+//             console.log(`brand is ${this.brand}`);
+//         }, time);
+//     }
+// }
+// ```
+// // 你的实现
+
+function Car (brand) {
+  this.brand = brand;
+}
+
+Car.prototype.start = function () {
+  console.log(`brand is ${this.brand}`);
+}
+
+Car.prototype.startDelay = function (time) {
+  setTimeout(() => {
+      console.log(`brand is ${this.brand}`);
+  }, time);
+}

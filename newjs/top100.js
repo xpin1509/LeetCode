@@ -1,3 +1,13 @@
+function ListNode(val, next) {
+    this.val = (val===undefined ? 0 : val)
+    this.next = (next===undefined ? null : next)
+}
+function TreeNode(val, left, right) {
+    this.val = (val===undefined ? 0 : val)
+    this.left = (left===undefined ? null : left)
+    this.right = (right===undefined ? null : right)
+}
+
 // 1. 两数之和
 // 输入：nums = [2,7,11,15], target = 9
 // 输出：[0,1]
@@ -873,8 +883,15 @@ var sortedArrayToBST = function(nums) {
  * @param {TreeNode} root
  * @return {boolean}
  */
- var isBalanced = function(root) {
+var isBalanced = function(root) {
+    if (!root) return false
 
+    // Math.abs(maxDeepth(node.left) - maxDeepth(node.right)) <= 1
+    function maxDeepth (node) {
+        if (!node) return 0
+
+        return Math.max(maxDeepth(node.left), maxDeepth(node.right)) + 1
+    }
 };
 // 111. 二叉树的最小深度 TODO
 /**
@@ -882,30 +899,64 @@ var sortedArrayToBST = function(nums) {
  * @return {number}
  */
 var minDepth = function(root) {
+    if (!root) return 0;
 
+    if (!root.left || !root.right) return 1
+    let min = Infinity
+    if (root.left) {
+        min = Math.min(minDepth(root.left), min)
+    }
+    if (root.right) {
+        min = Math.min(minDepth(root.right), min)
+    }
+
+    return min + 1
 };
-// 112. 路径总和 TODO
+
+// 112. 路径总和 DONE
 /**
  * @param {TreeNode} root
  * @param {number} targetSum
  * @return {boolean}
  */
 var hasPathSum = function(root, targetSum) {
+    if (!root) return false
 
+    if (!root.left && !root.right) return targetSum === root.val
+
+    return hasPathSum(root.left, targetSum - root.val) || hasPathSum(root.right, targetSum - root.val)
 };
-// 21. 合并两个有序链表 TODO
+
+// 21. 合并两个有序链表 DONE
 /**
  * @param {ListNode} list1
  * @param {ListNode} list2
  * @return {ListNode}
  */
  var mergeTwoLists = function(list1, list2) {
+    const head = new ListNode()
+    let cur = head
     while (list1 && list2) {
-        if (list1.val < l2.val) {
+        if (list1.val < list2.val) {
+            cur.next = list1
+            list1 = list1.next
+            cur = cur.next
+        } else {
+            cur.next = list2
+            list2 = list2.next
+            cur = cur.next
         }
     }
-    return list1 || list2
+    cur.next = list1 || list2
+    return head.next
 };
+// [1,2,4]
+// [1,3,4]
+
+// const list2 = new ListNode(1)
+// list2.next = new ListNode(3)
+// list2.next.next = new ListNode(4)
+// console.log(mergeTwoLists(list1, list2))
 
 // 160. 相交链表 DONE
 /**
@@ -979,22 +1030,44 @@ var maxProfit = function(prices) {
     return result
  };
 
- // 83. 删除排序链表中的重复元素 TODO
+ // 83. 删除排序链表中的重复元素 DONE
 /**
  * @param {ListNode} head
  * @return {ListNode}
  */
- var deleteDuplicates = function(head) {
-
+var deleteDuplicates = function(head) {
+    if (!head) return head
+    let pre = head
+    let cur = head.next
+    while (cur) {
+        if (cur.val === pre.val) {
+            cur = cur.next
+        } else {
+            pre.next = cur
+            pre = pre.next
+        }
+    }
+    pre.next = cur
+    return head
 };
-// 101. 对称二叉树
+
+// 101. 对称二叉树 DONE
 /**
  * @param {TreeNode} root
  * @return {boolean}
  */
 var isSymmetric = function(root) {
 
+    function check (left, right) {
+        if (!left && !right) return true
+        if (!left || !right) return false
+
+        return left.val === right.val && check(left.left, right.right) && check(left.right, right.left)
+    }
+
+    return check(root, root)
 };
+
 
 
 // 102. 二叉树的层序遍历
