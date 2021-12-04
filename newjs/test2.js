@@ -302,36 +302,41 @@ var maxSlidingWindow = function(nums, k) {
 };
 // console.log(maxSlidingWindow([1,3,-1,-3,5,3,6,7], 3))
 
-
-// 栈和队列：// 如何用栈实现一个对列 最小栈，
-// 链表题：反转链表，合并两个有序链表，链表节点的删除重复，删除倒数第N个节点，局部反转链表， // 判断环形链表，返回环的起点
-// 二叉树：最小深度，二叉搜索树，DFS（迭代法），BFS，层序遍历，二叉搜索树，平衡二叉树的判断 // 最大深度 反转二叉树，
-// 动态规划：最少硬币数
-// 数组：三数之和
-// 最长上升子序列模型 ...
-// 滑动窗口：滑动窗口问题
-// 函数柯里化实现
-// promise
-// 并发请求限制
-// 千分位
-// compose
-// test1的DONE 和algorithms所有
-// 遍历的迭代实现 https://juejin.cn/book/6844733800300150797/section/6844733800363065352
-
-
-// 真题描述：给你一个包含 n 个整数的数组 nums，
-// 判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？
-// 请你找出所有满足条件且不重复的三元组。
-
-
 // 二叉树公共祖先 
 // https://juejin.cn/book/6844733800300150797/section/6844733800375648264
+var lowestCommonAncestor = function(root, p, q) {
+    const parent = new Map(); 
+    const visited = new Set();
+    function dfs (root) {
+        if (root.left !== null) {
+            parent.set(root.left.val, root)
+            dfs(root.left)
+        }
+        if (root.right !== null) {
+            parent.set(root.right.val, root)
+            dfs(root.right)
+        }
+    }
+
+    dfs(root)
+
+    while (p !== null) {
+        visited.add(p.val);
+        p = parent.get(p.val);
+    }
+    while (q != null) {
+        if (visited.has(q.val)) {
+            return q;
+        }
+        q = parent.get(q.val);
+    }
+    return null;
+};
 
 // 寻找两个正序数组的中位数
 // nums1 = [1, 3]
 // nums2 = [2]
 // 则中位数是 2.0
-
 // nums1 = [1, 2]
 // nums2 = [3, 4]
 // 则中位数是 (2 + 3)/2 = 2.5
@@ -346,7 +351,25 @@ function getMidNum (left, right) {
     }
 }
 
-// 反转局部链表
-// https://juejin.cn/book/6844733800300150797/section/6844733800375648269
+// 栈和队列：// 如何用栈实现一个对列 最小栈，
+// 链表题：反转链表，合并两个有序链表，链表节点的删除重复，删除倒数第N个节点，// 局部反转链表，判断环形链表，返回环的起点
+// 二叉树：最小深度，二叉搜索树，DFS（迭代法 // BFS，层序遍历 二叉搜索树，平衡二叉树的判断 最大深度 反转二叉树，
+// 动态规划：最少硬币数
+// 数组：三数之和
+// 最长上升子序列模型 ...
+// 滑动窗口：滑动窗口问题
+// 函数柯里化实现
+// promise
+// 并发请求限制
+// 千分位
+// compose
+// test1的DONE 和algorithms所有
+// 遍历的迭代实现 https://juejin.cn/book/6844733800300150797/section/6844733800363065352
+// “接雨水”问题 // https://juejin.cn/book/6844733800300150797/section/6844733800375648269
 
-// “接雨水”问题
+// 真题描述：给你一个包含 n 个整数的数组 nums，
+// 判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？
+// 请你找出所有满足条件且不重复的三元组。
+
+
+
