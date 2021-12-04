@@ -875,7 +875,17 @@ function transform2 (num) {
  * @return {TreeNode}
  */
 var sortedArrayToBST = function(nums) {
+    const root = helper(nums, 0, nums.length - 1)
+    function helper(nums, left, right) {
+        if (left > right) return null;
+        const mid = Math.floor((left + right) / 2)
 
+        const root = new TreeNode(nums[mid])
+        root.left = helper(nums, left, mid - 1)
+        root.right = helper(nums, mid + 1, right)
+        return root
+    }
+    return root
 };
 
 // 110. 平衡二叉树 TODO
@@ -884,9 +894,9 @@ var sortedArrayToBST = function(nums) {
  * @return {boolean}
  */
 var isBalanced = function(root) {
-    if (!root) return false
+    if (!root) return true
 
-    // Math.abs(maxDeepth(node.left) - maxDeepth(node.right)) <= 1
+    return Math.abs(maxDeepth(root.left) - maxDeepth(root.right)) <= 1 && isBalanced(root.left) && isBalanced(root.right)
     function maxDeepth (node) {
         if (!node) return 0
 

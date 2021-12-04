@@ -582,41 +582,22 @@ function renderTemp(template, data) {
     })
 }
 
-
 // 22 手写-setTimeout 模拟实现 setInterval
-
-
-
-// class Timer {
-//     constructor() { 
-//         this.id = null
-//     }
-//     setIn (fn, delay) {
-//         this.id = setTimeout(() => {
-//             fn.call(null)
-//             this.replay = true
-//             this.setIn(fn, delay)
-//         }, delay)
-//     }
-//     clearId () {
-//         clearTimeout(this.id)
-//     }
-// }
-
-// const time = new Timer()
-
-// time.setIn(() => {
-//     console.log('12121212')
-// }, 1000)
-
-
-// setTimeout(() => {
-//     time.clearId()
-// }, 10000)
-
-
-// setTimeout(() => {
-//     time.setIn(() => {
-//         console.log('4444444444')
-//     }, 1000)
-// }, 20000)
+function setInterval1 (fn, timeDelay = 1000) {
+    let timeId = 1
+    function setTimeout1 (timeDelay) {
+        if (!timeDelay) return
+        timeId = setTimeout(() => {
+            fn.call()
+            setTimeout1(timeDelay)
+        }, timeDelay)
+    }
+    setTimeout1(timeDelay)
+    return () => {
+        clearTimeout(timeId)
+        timeId = null
+    }
+}
+// const fnfff = setInterval1(() => {
+//     console.log(1111)
+// })
