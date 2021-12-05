@@ -3,16 +3,23 @@ const rootTreeTempalte = {
     left: {
       val: "B",
       left: {
-        val: "D"
+        val: "D",
+        left: null,
+        right: null
       },
       right: {
-        val: "E"
+        val: "E",
+        left: null,
+        right: null
       }
     },
     right: {
       val: "C",
+      left: null,
       right: {
-        val: "F"
+        val: "F",
+        left: null,
+        right: null
       }
     }
   };
@@ -351,28 +358,6 @@ function getMidNum (left, right) {
     }
 }
 
-// 栈和队列：// 如何用栈实现一个对列 最小栈，
-// 链表题：反转链表，合并两个有序链表，链表节点的删除重复，删除倒数第N个节点，// 局部反转链表，判断环形链表，返回环的起点
-// 二叉树：最小深度，二叉搜索树，DFS（迭代法 // BFS，层序遍历 二叉搜索树，平衡二叉树的判断 最大深度 反转二叉树，
-// 动态规划：最少硬币数
-// 数组：三数之和
-// 最长上升子序列模型 ...
-// 滑动窗口：滑动窗口问题
-// 函数柯里化实现
-// promise
-// 并发请求限制
-// 千分位
-// compose
-// test1的DONE 和algorithms所有
-// 遍历的迭代实现 https://juejin.cn/book/6844733800300150797/section/6844733800363065352
-// “接雨水”问题 // https://juejin.cn/book/6844733800300150797/section/6844733800375648269
-
-// 真题描述：给你一个包含 n 个整数的数组 nums，
-// 判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？
-// 请你找出所有满足条件且不重复的三元组。
-
-
-
 // 柯里化
 // 第一版
 // function sub_curry(fn) {
@@ -404,6 +389,74 @@ function getMidNum (left, right) {
 //             ? fn(...args)
 //             : (arg) => judge(...args, arg)
 
+// 遍历的迭代实现 https://juejin.cn/book/6844733800300150797/section/6844733800363065352
+// 中序遍历
+var inorderTraversal = function(root) {
+    const stack = []
+    const result = []
+    while (root || stack.length) {
+        while (root) {
+            stack.push(root)
+            root = root.left
+        }
+        root = stack.pop()
+        if (root) {
+            result.push(root.val)
+            root = root.right
+        }
+    }
+    return result
+};
+// 先序遍历
+var inorderTraversal2 = function(root) {
+    const stack = [root]
+    const result = []
+    while (stack.length) {
+        root = stack.pop(root)
+        result.push(root.val)
 
+        if (root.right) {
+            stack.push(root.right)
+        }
+        if (root.left) {
+            stack.push(root.left)
+        }
+    }
+    return result
+};
+var inorderTraversal3 = function(root) {
+    const stack = [root]
+    const result = []
+    while (stack.length) {
+        root = stack.pop(root)
+        result.push(root.val)
 
+        if (root.left) {
+            stack.push(root.left)
+        }
+        if (root.right) {
+            stack.push(root.right)
+        }
+    }
+    return result.reverse
+};
+
+// 栈和队列：// 如何用栈实现一个对列 最小栈，
+// 链表题：反转链表，合并两个有序链表，链表节点的删除重复，删除倒数第N个节点，// 局部反转链表，判断环形链表，返回环的起点
+// 二叉树：最小深度，二叉搜索树，DFS（迭代法 // BFS，层序遍历 二叉搜索树，平衡二叉树的判断 最大深度 反转二叉树，
+// 动态规划：最少硬币数
+// 数组：三数之和
+// 最长上升子序列模型 ...
+// 滑动窗口：滑动窗口问题
+// promise
+// 并发请求限制
+// 千分位
+// compose
+// test1的DONE 和algorithms所有
+
+// “接雨水”问题 // https://juejin.cn/book/6844733800300150797/section/6844733800375648269
+
+// 真题描述：给你一个包含 n 个整数的数组 nums，
+// 判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？
+// 请你找出所有满足条件且不重复的三元组。
 

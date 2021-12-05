@@ -1005,7 +1005,18 @@ var hasPathSum = function(root, targetSum) {
 * @return {number[]}
 */
 var inorderTraversal = function(root) {
-
+    const stack = []
+    const result = []
+    while (!stack.length || root) {
+        while (root) {
+            stack.unshift(root)
+            root = root.left
+        }
+        const item = stack.pop()
+        result.push(item.val)
+        root = root.right
+    }
+    return result
 };
 
 // 121. 买卖股票的最佳时机 TODO 超时
