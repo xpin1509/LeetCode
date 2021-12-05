@@ -373,3 +373,37 @@ function getMidNum (left, right) {
 
 
 
+// 柯里化
+// 第一版
+// function sub_curry(fn) {
+//     var args = [].slice.call(arguments, 1);
+//     return function() {
+//         return fn.apply(this, args.concat([].slice.call(arguments)));
+//     };
+// }
+// 第二版
+// function curry11(fn, ...arg1) {
+//     return function(...arg2) {
+//         const arg = [...arg1, ...arg2]
+//         if (arg.length < fn.length) {
+//             return curry11(fn, ...arg);
+//         } else {
+//             return fn.apply(this, arg);
+//         }
+//     };
+// }
+// var fn = curry11(function(a, b, c) {
+//     return a+b+c
+// });
+// console.log(fn(1)(2)(3))
+ // ["a", "b", "c"]
+// 第三版
+// var curry11 = fn =>
+//     judge = (...args) =>
+//         args.length === fn.length
+//             ? fn(...args)
+//             : (arg) => judge(...args, arg)
+
+
+
+

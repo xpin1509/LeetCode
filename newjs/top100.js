@@ -815,27 +815,27 @@ var singleNumber = function(nums) {
 // pop() —— 删除栈顶的元素。
 // top() —— 获取栈顶元素。
 // getMin() —— 检索栈中的最小元素。
-var MinStack = function() {
+var MinStack1 = function() {
     this.stack = []
     this.minStack = []
  };
- MinStack.prototype.push = function(val) {
+ MinStack1.prototype.push = function(val) {
     if (val <= this.getMin() || !this.stack.length) {
         this.minStack.push(val)
     }
     this.stack.push(val)
  };
- MinStack.prototype.pop = function() {
+ MinStack1.prototype.pop = function() {
     const popR = this.stack.pop()
     if (popR === this.getMin()) {
         this.minStack.pop()
     }
     return popR
  };
- MinStack.prototype.top = function() {
+ MinStack1.prototype.top = function() {
     return this.stack.length ? this.stack[this.stack.length - 1] : null;
  };
- MinStack.prototype.getMin = function() {
+ MinStack1.prototype.getMin = function() {
     const min = this.minStack.length ? this.minStack[this.minStack.length - 1] : null
     console.log('getMin=', min)
     return min
