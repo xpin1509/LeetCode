@@ -55,10 +55,3 @@ function maxLength( arr ) {
     // }
     // return Math.max(...result)
 }
-
-console.log(maxLength(
-    [2,3,4,5]))
-console.log(maxLength([2,2,3,4,3]))
-console.log(maxLength([1,2,3,1,2,3,2,2]))
-console.log(maxLength(
-    [2,2,3,4,8,99,3]))

@@ -53,9 +53,9 @@ function debounce (fn, time) {
 function myNew (fn, ...arg) {
     const result = Object.create(fn.prototype)
 
-    fn.apply(result, arg)
+    const res = fn.apply(result, arg)
 
-    return result
+    return typeof res === 'object' ? res : result
 }
 
 // call、bind、apply实现
