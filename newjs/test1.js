@@ -601,3 +601,79 @@ function setInterval1 (fn, timeDelay = 1000) {
 // const fnfff = setInterval1(() => {
 //     console.log(1111)
 // })
+
+
+var mergeTwoLists = function(list1, list2) {
+    let pre = new ListNode();
+    let cur = pre
+    while (list1 && list2) {
+      // debugger
+      if (list1.val <= list2.val) {
+        cur.next = list1
+        list1 = list1.next
+      } else {
+        cur.next = list2
+        list2 = list2.next
+      }
+      cur = cur.next
+    }
+    cur.next = list1 || list2
+    return pre.next
+  };
+  // const l1 = new ListNode(1)
+  // l1.next = new ListNode(1)
+  // l1.next.next = new ListNode(1)
+  // l1.next.next.next = new ListNode(2)
+  // l1.next.next.next.next = new ListNode(3)
+  // l1.next.next.next.next.next = null
+  // const l2 = new ListNode(1)
+  // l2.next = new ListNode(3)
+  // l2.next.next = new ListNode(4)
+  
+  // __esModule
+  // umd,commonjs
+  // amd ,cmd
+  // umd,
+  // esmodule
+  
+  // redux的中间件原理
+  
+  // ts范型
+  
+  // @ts-igonre
+  // @ts-check
+  // ts里引用js
+  // 类型断言 as  <>
+  
+  // cors 判断结果// allow-origin: * ，204，son/ withCredetion。 简单请求，非简单请求
+  // node代理
+  // jsonp
+  // postMessage
+  
+  // 推荐算法，推荐内容
+  // 联通，
+  // react，rn，原生，Java
+  
+  
+  // function jsonp(req, callback) {
+  //   const script = document.createElement('script');
+  //   const cbName = 'jsonpCallback' + Date.now()
+  //   script.src = req + '?callback=' + cbName
+  
+  //   console.log(cbName)
+  
+  //   document.body.appendChild(script)
+  
+  //   return new Promise((resolve, reject) => {
+  //     window[cbName] = function (data) {
+  //       resolve(data)
+  //     }
+  //   }).finally(() => {
+  //     document.body.removeChild(script)
+  //     window[cbName] = null
+  //   })
+  // }
+  
+  // jsonp('http://xx').then(res => {
+  //   console.log(res)
+  // })

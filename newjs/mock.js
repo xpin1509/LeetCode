@@ -683,3 +683,42 @@ Car.prototype.startDelay = function (time) {
       console.log(`brand is ${this.brand}`);
   }, time);
 }
+
+// import { useRef } from 'React'
+const usePrevious = function ( obj ) {
+  const ref = useRef(obj)
+
+  useEffect(() => {
+    const source = ref.current
+    const newObject = obj
+    let flag = false
+    for (let e in newObject) {
+      if (source[e] !== newObject[e]) {
+        flag = true
+      }
+    }
+    flag = flag || Object.keys(obj).length !== Object.keys(source).length
+    ref.current = flag ? newObject : source
+  }, [obj])
+
+  return ref.current
+}
+function ListNode(val, next) {
+  this.val = (val===undefined ? 0 : val)
+  this.next = (next===undefined ? null : next)
+}
+
+function reverseLinkNode (head) {
+  let pre = null
+  let cur = head
+  while (cur) {
+    const temp = cur.next
+    cur.next = pre
+
+    pre = cur
+    cur = temp
+  }
+  return pre
+}
+
+// 检验顺子，检查是否成立两两不一样的数组，双击怎么实现，反转链表，反转二叉树
