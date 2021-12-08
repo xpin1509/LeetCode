@@ -508,10 +508,12 @@ function deepclone (data, hash = new WeakMap()) {
     let reslut = new data.__proto__.constructor()
     hash.set(data, reslut)
     for (let i in data) {
-        if (typeof data[i] === 'object') {
-            reslut[i] = deepclone(data[i], hash)
-        } else {
-            reslut[i] = data[i]
+        if (data.hasOwnProperty(i)) {
+            if (typeof data[i] === 'object') {
+                reslut[i] = deepclone(data[i], hash)
+            } else {
+                reslut[i] = data[i]
+            }
         }
     }
     return reslut

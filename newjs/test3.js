@@ -1,3 +1,33 @@
+function TreeNode(val, left, right) {
+    this.val = (val===undefined ? 0 : val)
+    this.left = (left===undefined ? null : left)
+    this.right = (right===undefined ? null : right)
+}
+const rootTreeTempalte = {
+    val: "A",
+    left: {
+      val: "B",
+      left: {
+        val: "D",
+        left: null,
+        right: null
+      },
+      right: {
+        val: "E",
+        left: null,
+        right: null
+      }
+    },
+    right: {
+      val: "C",
+      left: null,
+      right: {
+        val: "F",
+        left: null,
+        right: null
+      }
+    }
+};
 // 55. 跳跃游戏 TODO
 var canJump = function(nums) {
     let reach = 0;
@@ -189,18 +219,159 @@ function compose1(mid) {
 // console.log(composed)
 
 // 平衡二叉树
-
+function isBalance (root) {
+    if (!root) return true
+    return Math.abs(maxDeepth(root.left) - minDeepth(root.right)) && isBalance(root.left) && isBalanced(root.right)
+    function maxDeepth () {
+        if (!root) return root
+        return Math.max(maxDeepth(root.left), maxDeepth(root.right)) + 1
+    }
+}
 // 对称二叉树
+function isSymmetricTree (root) {
+    function helper (left, right) {
+        if (!left && !right) return true
+        if (!left || !right) return false
+
+        return left.val === right.val && helper(left.left, right.right) && helper(left.right, right.left)
+    }
+    return helper(root, root)
+}
+
 // 将有序数组转换为二叉搜索树
+function bst (nums) {
+    function traverse (nums, left, right) {
+        if (left > right) return null
+        const mid = Math.floor((left + right) / 2)
+        const root = new TreeNode(nums[mid])
+        root.left = traverse(nums, left, mid - 1)
+        root.right = traverse(nums, mid + 1, right)
+        return root
+    }
+    return traverse(nums, 0, nums.length - 1)
+}
+
+// 反转链表
+function reverseLinked (head) {
+    let pre = null
+    let cur = head
+    while (cur) {
+        const temp = cur.next
+        cur.next = pre
+        pre = cur
+        cur = temp
+    }
+    return pre
+}
+
+
 // 前序遍历，后续遍历，中序遍历 迭代
+function intervalsTravese (root) {
+    const stack = [root]
+    const result = []
+    while (stack.length) {
+        const item = stack.pop()
+        if (!item) continue
+        result.push(item.val)
+        if (item.right) {
+            stack.push(item.right)
+        }
+        if (item.left) {
+            stack.push(item.left)
+        }
+    }
+    return result
+}
+function afterTravese (root) {
+    const stack = [root]
+    const result = []
+    while (stack.length) {
+        const item = stack.pop()
+        if (!item) continue
+        result.push(item.val)
+        if (item.left) {
+            stack.push(item.left)
+        }
+        if (item.right) {
+            stack.push(item.right)
+        }
+    }
+    return result.reverse()
+}
+function orderTravese (root) {
+    const stack = []
+    const result = []
+    while (stack.length || root) {
+        while (root) {
+            stack.push(root)
+            root = root.left
+        }
+        const item = stack.pop()
+        if (!item) continue
+        result.push(item.val)
 
-// 三数求和问题
+        root = item.right
+    }
+    return result
+}
 
-// 将有序数组转换为二叉搜索树 TODO
+// 3.三数求和问题
+// 给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。
+// 给定数组 nums = [-1, 0, 1, 2, -1, -4]， 满足要求的三元组集合为： [ [-1, 0, 1], [-1, -1, 2] ]
+const threenum = function (nums) {
+    if (nums.length < 3) return nums
+    const result = []
+    nums.sort((a, b) => a - b)
+    for (let i = 0; i < nums.length - 3; i++) {
+        let L = i+1, R = nums.length - 1
+        if (i > 0 && nums[i] === nums[i - 1]) continue
+        while (L < R) {
+            const sum = nums[i] + nums[L] + nums[R]
+            if (sum === 0) {
+                result.push([nums[i], nums[L], nums[R]])
+                while (L + 1 < R && nums[L+ 1] === nums[L]) L++
+                while (R - 1 > L && nums[R - 1] === nums[R]) R--
+                L++; R--;
+            } else if (sum > 0) {
+                R--
+            } else if (sum < 0) {
+                L++
+            }
+        }
+    }
+    return result
+}
 
 // 下一个排列 TODO 一些次数
 var nextPermutation1 = function(nums) {
+    if (nums.length < 2) return nums
+    let i = nums.length - 2
+    while (nums[i] >= nums[i + 1]) {
+        i--
+    }
+    if (i >= 0) {
+        let j = nums.length - 1
+        while (nums[j] <= nums[i]) {
+            j--
+        }
+        [nums[i], nums[j]] = [nums[j], nums[i]]
+    }
+    return reverse(nums, i +1, nums.length - 1)
+
+    function reverse (nums, left, right) {
+        while (left < right) {
+            [nums[left], nums[right]] = [nums[right], nums[left]]
+            left++
+            right--
+        }
+        return nums
+    }
 };
+// console.log(nextPermutation1([1,2,3]))
+// console.log(nextPermutation1([3,2,1]))
+// console.log(nextPermutation1([1,1,5]))
+// console.log(nextPermutation1([1]))
+
 
 // 买卖股票简单题
 // “接雨水”问题 // https://juejin.cn/book/6844733800300150797/section/6844733800375648269
