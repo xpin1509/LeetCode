@@ -720,3 +720,18 @@ function reverseLinkNode (head) {
   }
   return pre
 }
+
+// const o = {
+//   say () {
+//     console.log(this)
+//   },
+//   say1: () => {
+//     console.log(this)
+//   }
+// }
+// o.say()
+// o.say1()
+// const p = o.say
+// p()
+// const q = o.say1
+// q()

@@ -342,7 +342,7 @@ const threenum = function (nums) {
     return result
 }
 
-// 下一个排列 TODO 一些次数
+// 下一个排列 
 var nextPermutation1 = function(nums) {
     if (nums.length < 2) return nums
     let i = nums.length - 2
