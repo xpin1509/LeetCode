@@ -720,5 +720,3 @@ function reverseLinkNode (head) {
   }
   return pre
 }
-
-// 检验顺子，检查是否成立两两不一样的数组，双击怎么实现，反转链表，反转二叉树
