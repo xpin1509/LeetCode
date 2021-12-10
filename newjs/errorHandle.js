@@ -124,3 +124,42 @@
 // obj.name
 
 // console.log( obj)
+
+// const o = {
+//   say () {
+//     console.log(this)
+//   },
+//   say1: () => {
+//     console.log(this)
+//   }
+// }
+// o.say()
+// o.say1()
+// const p = o.say
+// p()
+// const q = o.say1
+// q()
+
+// function race(pList) {
+//   return new Promise(function(resolve, reject) {
+//       pList.forEach(p => {
+//         console.log('1')
+//         p.then((res) => {
+//           resolve(res)
+//         }).catch(err => {
+//           reject(err)
+//         })
+//       })  
+//   })
+// }
+
+// const p11111 = () => {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       resolve(1212)
+//     }, Math.floor(Math.random() * 10))
+//   })
+// }
+// race([p11111(), p11111(), p11111()]).then(() => {
+//   console.log('done')
+// })
