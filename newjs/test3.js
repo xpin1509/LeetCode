@@ -367,11 +367,8 @@ var nextPermutation1 = function(nums) {
         return nums
     }
 };
-// console.log(nextPermutation1([1,2,3]))
-// console.log(nextPermutation1([3,2,1]))
-// console.log(nextPermutation1([1,1,5]))
-// console.log(nextPermutation1([1]))
 
 
 // 买卖股票简单题
 // “接雨水”问题 // https://juejin.cn/book/6844733800300150797/section/6844733800375648269
+// 给定一个数N 如23121 给定一组数字A如{2,4,9}； 求由A中元素组成的、小于N的最大数，如小于23121的最大数为22999

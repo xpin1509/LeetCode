@@ -61,3 +61,8 @@ const deepReadOnly: DeepReadOnly2<Part3> = {
         width: undefined
     }
 }
+
+// type TestReapeat = 'name'| 'age'
+// type TestReapeat =  'seg'
+
+// const xxxx: TestReapeat = 'name'
