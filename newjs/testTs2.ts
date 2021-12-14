@@ -66,3 +66,7 @@ const deepReadOnly: DeepReadOnly2<Part3> = {
 // type TestReapeat =  'seg'
 
 // const xxxx: TestReapeat = 'name'
+
+// typescript 实现一个字符串类型去左侧空格
+// type A = "   Hello world!   ";
+// type B = LeftTrim<A>; //  'Hello world!   '

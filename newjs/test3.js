@@ -369,6 +369,57 @@ var nextPermutation1 = function(nums) {
 };
 
 
+
+// const data1 = {"a.b.c": 1, "a.b.d": 2}
+// const data2 = {"a.b.e": 3, "a.b.f": 4}
+// // 把如上两个对象合并成一个JSON，其中的.需要处理成对应的层级
+
+// // 编写一个方法，判断一个字符串是否是合法的 XML
+// const str1 = "<html><div>123</div></html>"; // true
+// const str2 = "<div><div>123</div><div></div></div>"; // true
+// const str2 = "<html><div>123</html></div>"; // false
+
+// 在一个矩阵中查找一个字符串，可以上下左右移动，但是不能回头，如果能找到这个字符串返回 true
+// const str = "abcde";
+// const matrix = [
+//   ["0", "0", "0", "0", "0", "0"],
+//   ["0", "0", "a", "b", "0", "0"],
+//   ["0", "0", "0", "c", "d", "0"],
+//   ["0", "0", "0", "0", "e", "0"],
+// ];
+
+// ["a","b","c","d"] => {a: {b: {c: {d: null}}}}
+
+function transformDta (arr) {
+    let last = null
+    for (let i = arr.length - 1; i >= 0; i--) {
+        last = {
+            [arr[i]]: last
+        }
+    }
+    return last
+}
+
+// 计算一个矩阵内，所有 1 覆盖的区域（岛屿问题）
+// https://leetcode-cn.com/problems/number-of-islands/
+
+// 对一个树形结构遍历，输出所有叶子节点
+
+// https://leetcode-cn.com/problems/longest-increasing-subsequence/
+// https://leetcode-cn.com/problems/longest-continuous-increasing-subsequence/
+// https://leetcode-cn.com/problems/search-in-rotated-sorted-array/
+// https://leetcode-cn.com/problems/merge-sorted-array/
+// 合并多个有序数组（这题里我解答完之后自认为时间复杂度是O(n2)，循环中用到了shift这个方法，面试官问我这个的时间复杂度是多少，我说是O(n)，面试官说有什么办法可以解决这个么，我说可以基于原有的方式倒着循环，这样就可以用pop代替shift了，面试官问我为什么pop时间复杂度是O(1)，我说不知道，面试官让我有时间可以去了解一下均摊算法）
+// https://leetcode-cn.com/problems/lru-cache/
+// 这个题我最开始用Map做的，面试官跟我说如果不用Map，如何实现每次查询和删除都能做到O(1)，我没思路，面试官问我查询O(1)用什么，我说用哈希，问我插入删除O(1)用什么，我说用链表，可我不知道怎么结合到一起，面试官提示我可以用双向链表，然后我才做出来的
+// https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/
+
+
+// 二分查找的时间复杂度是多少，简要描述一下过程，O(logN)是怎么算出来的，TopK 的时间复杂度是多少，快排的时间复杂度是多少
+// 接触过哪些排序算法，归并排序的思路是什么，一个数组做归并排序的话，一共经历了多少次合并
+
 // 买卖股票简单题
 // “接雨水”问题 // https://juejin.cn/book/6844733800300150797/section/6844733800375648269
 // 给定一个数N 如23121 给定一组数字A如{2,4,9}； 求由A中元素组成的、小于N的最大数，如小于23121的最大数为22999
+// 大数相乘
+// map版本lru

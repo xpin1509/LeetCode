@@ -727,3 +727,82 @@ function reverseLinkNode (head) {
 // 2 4 6 8
 // 3 7 11 13
 // 9 10 14 15
+function checkNumberIn (arr, target) {
+  if (!(arr.length && arr[0].length)) return false
+  let row = arr.length - 1, len = arr[0].length - 1
+  let i = row, j = 0
+  while (i >= 0 && j <= len) {
+    if (arr[i][j] === target) {
+      return true
+    } else if (arr[i][j] > target) {
+      j--
+    } else if (arr[i][j] < target){
+      i++
+    }
+  }
+  return false
+}
+
+/**
+  * 
+  * @param A int整型一维数组 
+  * @param target int整型 
+  * @return int整型
+  */
+function searchInsert(A, target) {
+  // write code here
+  for (let i = 0; i < A.length; i++) {
+      if (A[i] === target) {
+          return i
+      } else if (A[i] > target){
+          return i
+      }
+  }
+  return A.length
+}
+
+
+// 给定一个字符串 A(B(,),C(D(,),))，写一个函数，解析为如下结构：
+// {
+// Val: A’,
+// Left: { Val: ‘B’ }
+// Right: { Val: ‘C’, Left: { Val: ‘D’ } }
+// }
+
+function transfor (str) {
+  // const result = {}
+  // let i = 0
+  // while (i < str.length) {
+  //   str
+  // }
+  // const result = {}
+  // const item = /^\w\((.+)\)$/.exec(str)[1]
+  // result.val = str[0]
+  // const [left, ...right] = item.split('),')
+  // result.left = transfor(left + ')')
+  // result.right = transfor(right.join(''))
+  // return result
+  // let last = {}
+  // while (str.length) {
+  //   const valReg = /^\w/
+  //   const leftReg = /^\(/
+  //   if (str.indexOf(valReg) === 0) {
+  //     const val = str.exec(valReg)[0]
+  //     const result = {}
+  //     last[val] = {}
+  //     last = result
+  //     str = str.replace(valReg, '')
+  //   } else if (leftReg.indexOf(leftReg) === 0) {
+  //     const result = {}
+  //     last['left'] = result
+  //     last = result
+  //     str = str.replace(leftReg, '')
+  //   } else if ()
+    
+  // }
+}
+// console.log(transfor('A(B(,),C(D(,),))'))
+// B(,),C(D(,),)
+// B(,)
+// C(D(,),)
+// ),
