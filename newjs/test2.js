@@ -166,7 +166,7 @@ const flatten_obj = {
     },
     b: [1, 3, {a: 2, b: 3}],
     c: 3
-   }
+}
 
 function flatten(obj) {
     const map = {}

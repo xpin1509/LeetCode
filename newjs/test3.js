@@ -368,16 +368,89 @@ var nextPermutation1 = function(nums) {
     }
 };
 
-
+// map版本lru
+// LRU 缓存
+var LRUCache = function(capacity) {
+    this.len = capacity
+    this.map = new Map()
+};
+LRUCache.prototype.get = function(key) {
+    if (this.map.has(key)) {
+        const result = this.map.get(key)
+        this.map.delete(key, result)
+        this.map.set(key, result)
+        return result
+    } else {
+        return -1
+    }
+};
+LRUCache.prototype.put = function(key, value) {
+    if (this.map.has(key)) this.map.delete(key)
+    if (this.map.size === this.len) this.map.delete(this.map.keys().next().value)
+    this.map.set(key, value)
+};
 
 // const data1 = {"a.b.c": 1, "a.b.d": 2}
 // const data2 = {"a.b.e": 3, "a.b.f": 4}
-// // 把如上两个对象合并成一个JSON，其中的.需要处理成对应的层级
+// '{"a":{"b":{"c":1,"d":2,"e":3,"f":4}}}'
+// 把如上两个对象合并成一个JSON，其中的.需要处理成对应的层级
+function transformToJson (dataList) {
+    const result = {}
+    for (let i of dataList) {
+        for (let j of Object.entries(i)) {
+            const [key, value] = j
+            change(result, key, value)
+        }
+    }
+    function change (obj, str, value) {
+        const keyList = str.split('.')
+        let last = obj
+        while (keyList.length) {
+            const item = keyList.shift()
+            if (!!keyList.length) {
+                if (last[item]) {
+                    last = last[item]
+                } else {
+                    const newObj = {}
+                    last[item] = newObj
+                    last = newObj
+                }
+            } else {
+                last[item] = value
+            }
+        }
+    }
+    return JSON.stringify(result)
+}
 
-// // 编写一个方法，判断一个字符串是否是合法的 XML
+// 编写一个方法，判断一个字符串是否是合法的 XML
 // const str1 = "<html><div>123</div></html>"; // true
 // const str2 = "<div><div>123</div><div></div></div>"; // true
 // const str2 = "<html><div>123</html></div>"; // false
+function checkHtml (str) {
+    const statck = []
+    const tagMap = {
+        'div': 1,
+        'html': 2
+    }
+    while (str.length) {
+        if (str.indexOf('<') === -1) break
+        const start = str.indexOf('<')
+        const end = str.indexOf('>') + 1
+        const tag = /\w+/.exec(str.slice(start, end))[0]
+        if (str.charAt(start + 1) === '/') {
+            const left = statck.pop()
+            if (left !== tagMap[tag]) {
+                return false
+            }
+        } else {
+            statck.push(tagMap[tag])
+        }
+        str = str.slice(end)
+    }
+    if (statck.length || str.length) return false
+    return true
+}
 
 // 在一个矩阵中查找一个字符串，可以上下左右移动，但是不能回头，如果能找到这个字符串返回 true
 // const str = "abcde";
@@ -387,18 +460,6 @@ var nextPermutation1 = function(nums) {
 //   ["0", "0", "0", "c", "d", "0"],
 //   ["0", "0", "0", "0", "e", "0"],
 // ];
-
-// ["a","b","c","d"] => {a: {b: {c: {d: null}}}}
-
-function transformDta (arr) {
-    let last = null
-    for (let i = arr.length - 1; i >= 0; i--) {
-        last = {
-            [arr[i]]: last
-        }
-    }
-    return last
-}
 
 // 计算一个矩阵内，所有 1 覆盖的区域（岛屿问题）
 // https://leetcode-cn.com/problems/number-of-islands/
@@ -422,4 +483,3 @@ function transformDta (arr) {
 // “接雨水”问题 // https://juejin.cn/book/6844733800300150797/section/6844733800375648269
 // 给定一个数N 如23121 给定一组数字A如{2,4,9}； 求由A中元素组成的、小于N的最大数，如小于23121的最大数为22999
 // 大数相乘
-// map版本lru
