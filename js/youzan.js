@@ -186,33 +186,32 @@ function deepCopy(obj, wp = new WeakMap()) {
  * 2. 实现 getValue 函数来获取path对应的值
  */
 
-var object = { 'a': [{ 'b': { 'c': 3 } }] }; // path: 'a[0].b.c'
-var array = [{ "a": { 'b': [1] } }]; // path: '[0].a.b[0]'
+// var object = { 'a': [{ 'b': { 'c': 3 } }] }; // path: 'a[0].b.c'
+// var array = [{ "a": { 'b': [1] } }]; // path: '[0].a.b[0]'
 
-function getValue(obj, path, defaultValue) {
-    const arr = path.split('.')
-    let result = defaultValue
-    while (arr.length) {
-        let item = arr.pop()
+// function getValue(obj, path, defaultValue) {
+//     const arr = path.split('.')
+//     let result = defaultValue
+//     while (arr.length) {
+//         let item = arr.pop()
 
-        const reg = /(\w)(\[\d+\])/.test(item)
+//         const reg = /(\w)(\[\d+\])/.test(item)
 
-        if (reg) {
+//         if (reg) {
             
-            item = item.replace(/(\w)\[(\d+)\]/, '$1-$2')
+//             item = item.replace(/(\w)\[(\d+)\]/, '$1-$2')
 
-            const [alp, index] = item.split('-')
+//             const [alp, index] = item.split('-')
 
-            result = item[alp][index]
-        } else {
-            result = obj[item]
-        }
+//             result = item[alp][index]
+//         } else {
+//             result = obj[item]
+//         }
         
-    }
-    return result
-}
-
-console.log(getValue(object, 'a[0].b.c', 0));  // 输出3
+//     }
+//     return result
+// }
+// console.log(getValue(object, 'a[0].b.c', 0));  // 输出3
 // console.log(getValue(array, '[0].a.b[0]', 12)); // 输出 1
 // console.log(getValue(array, '[0].a.b[0].c', 12));  // 输出 12
 
